@@ -1,8 +1,29 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
+
 
 
 
         {% block body %}
+            <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+            <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+            <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+            <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+            <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+            <!-- GOOGLE WEB FONT -->
+            <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
+
+            <!-- BASE CSS -->
+            <link href="./css/bootstrap.min.css" rel="stylesheet">
+            <link href="./css/style.css" rel="stylesheet">
+            <link href="./css/vendors.css" rel="stylesheet">
+
+            <!-- YOUR CUSTOM CSS -->
+            <link href="./css/custom.css" rel="stylesheet">
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css">
+            <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
 
 
             <div id="page" class="theia-exception">
@@ -306,39 +327,40 @@
                                             <span>45$ <small>person</small></span>
                                             <div class="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div>
                                         </div>
+                                        {{ form_start(form) }}
+
 
                                         <div class="form-group">
+                                            <label>Date début</label>
+                                        {{ form_widget(form.date_debut, {'attr': {'id': 'date_deb'}}) }}
 
-
-                                            <i class="icon_calendar"></i>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Date fin</label>
+                                            {{ form_widget(form.date_fin) }}
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Nombre Personne</label>
+                                            {{ form_widget(form.nb_personne) }}
+
+                                        </div>
+                                        <button type="submit" class=" add_top_30 btn_1 full-width purchase" >Reserver</button>
+                                        {{ form_end(form) }}
 
                                         <div class="panel-dropdown">
                                             <a href="#">Guests <span class="qtyTotal">1</span></a>
                                             <div class="panel-dropdown-content right">
                                                 <div class="qtyButtons">
                                                     <label>Adults</label>
-                                                    <input type="text" name="qtyInput" value="1">
+                                                    <input type="text" name="saif" value="1">
                                                 </div>
-                                                <div class="qtyButtons">
-                                                    <label>Childrens</label>
-                                                    <input type="text" name="qtyInput" value="0">
-                                                </div>
+
                                             </div>
                                         </div>
 
-                                        <div class="form-group clearfix">
-                                            <div class="custom-select-form">
-                                                <select class="wide">
-                                                    <option>Room Type</option>
-                                                    <option>Single Room</option>
-                                                    <option>Double Room</option>
-                                                    <option>Suite Room</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <a href="cart-1.html" class=" add_top_30 btn_1 full-width purchase">Purchase</a>
-                                        <a href="wishlist.html" class="btn_1 full-width outline wishlist"><i class="icon_heart"></i> Add to wishlist</a>
+
+
                                         <div class="text-center"><small>No money charged in this step</small></div>
                                     </div>
                                     <ul class="share-buttons">
@@ -354,7 +376,20 @@
                     </div>
                     <!-- /bg_color_1 -->
 
+                    <script  type="text/javascript">
+                        function store(){
+                            var date_debut = $('#{{ form.date_debut.vars.id }}').val();
+                            var date_fin = $('#{{ form.date_fin.vars.id }}').val();
+                            var nbpers = $('#{{ form.nb_personne.vars.id }}').val();
 
+
+                            localStorage.setItem("date_debut", date_debut);
+                            localStorage.setItem("date_fin", date_fin);
+                            localStorage.setItem("nb_personne", nbpers);
+
+
+                        }
+                    </script>
                 </main>
                 <!--/main-->
 
@@ -413,57 +448,7 @@
 
             <div id="toTop"></div><!-- Back to top button -->
 
-            <!-- COMMON SCRIPTS -->
-            <script src="{{ asset('../../js/jquery-2.2.4.min.js') }}"></script>
-            <script src="{{ asset('../../js/common_scripts.js') }}"></script>
-            <script src="{{ asset('../../js/main.js') }}"></script>
-            <script src="{{ asset('../../assets/validate.js') }}"></script>
 
-            <!-- Map -->
-            <script src="http://maps.googleapis.com/maps/api/js"></script>
-            <script src="{{ asset('../../js/map_single_hotel.js') }}"></script>
-            <script src="{{ asset('../../js/infobox.js') }}"></script>
 
-            <!-- DATEPICKER  -->
-            <script>
-                $(function() {
-                    $('input[name="dates"]').daterangepicker({
-                        autoUpdateInput: false,
-                        opens: 'left',
-                        locale: {
-                            cancelLabel: 'Clear'
-                        }
-                    });
-                    $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
-                        $(this).val(picker.startDate.format('MM-DD-YY') + ' > ' + picker.endDate.format('MM-DD-YY'));
-                    });
-                    $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
-                        $(this).val('');
-                    });
-                });
-            </script>
-
-            <!-- INPUT QUANTITY  -->
-            <script src="{{ asset('../../js/input_qty.js') }}"></script>
-
-            <!-- INSTAGRAM FEED  -->
-            <script>
-                $(window).on('load', function(){
-                    "use strict";
-                    $.instagramFeed({
-                        'username': 'hotelwailea',
-                        'container': "#instagram-feed-hotel",
-                        'display_profile': false,
-                        'display_biography': false,
-                        'display_gallery': true,
-                        'get_raw_json': false,
-                        'callback': null,
-                        'styling': true,
-                        'items': 12,
-                        'items_per_row': 6,
-                        'margin': 1
-                    });
-                });
-            </script>
         {% endblock %}
 
