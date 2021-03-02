@@ -19,6 +19,30 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
+    public function showReservationInpayement($db,$df,$nb){
+        return $this->createQueryBuilder('s')
+
+            ->where('s.date_debut like :db')
+            ->andWhere('s.date_fin like :df')
+            ->andWhere('s.nb_personne like :nb')
+
+
+            ->setParameter('db',$db)
+            ->setParameter('db',$df)
+            ->setParameter('nb',$nb)
+
+
+
+            ->getQuery()
+            ->getResult();
+
+        //  $em=$this->getEntityManager();
+        //$query=$em->createQuery(
+        //  "select c from App\Entity\Classroom c "
+        //);
+        //return $query->getResult();
+    }
+
     // /**
     //  * @return Reservation[] Returns an array of Reservation objects
     //  */

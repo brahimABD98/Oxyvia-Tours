@@ -1,9 +1,16 @@
 <?php
 
 namespace App\Controller;
-
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
+use App\Entity\Client;
+use App\Entity\Hotel;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
+use App\Repository\ClassroomRepository;
+use App\Repository\ClientRepository;
+use App\Repository\HotelRepository;
 use App\Repository\ReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ReservationController extends AbstractController
 {
+    public $res;
     /**
      * @Route("/", name="reservation_index", methods={"GET"})
      */
@@ -28,23 +36,40 @@ class ReservationController extends AbstractController
     /**
      * @Route("/new", name="reservation_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,ReservationRepository $resRepo): Response
     {
+
+//relation bin client w hotel => reservation
+      //  $client= $clRepo->find(1);
+       //$hotel=$hotRepo->find(1);
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $var = $form->get('date_debut')->getData();
+
+
+        if ($form->isSubmitted() && $form->isValid() ) {
             $entityManager = $this->getDoctrine()->getManager();
+            $reservation->setType("hotel");
+            $reservation->setPrix(20*$reservation->getNbPersonne());//i need prix nuit fel hotel *nb de nuit*nbpersonne
+$reservation->setCheckPayement("paye");
+
             $entityManager->persist($reservation);
             $entityManager->flush();
 
-            return $this->redirectToRoute('reservation_index');
+            $data = $request->request->get('date_debut');
+            var_dump($data['name']);
+
+            return $this->RedirectToRoute('paiement1', array(
+                'id' => $reservation->getId()
+            ));
         }
 
         return $this->render('reservation/new.html.twig', [
             'reservation' => $reservation,
             'form' => $form->createView(),
+
         ]);
     }
 
@@ -57,6 +82,26 @@ class ReservationController extends AbstractController
             'reservation' => $reservation,
         ]);
     }
+
+
+    /**
+     * @Route("Hotel/paiement/{id}", name="paiement1")
+     */
+    public function paiement1( $id ,ReservationRepository  $resRepo): Response
+    {
+        $res=$resRepo->find($id);
+
+
+        return $this->render('cart1/index.html.twig', [
+'id'=>$id,
+'res'=>$res
+        ]);
+    }
+
+    public function __construct()
+    {
+    }
+
 
     /**
      * @Route("/{id}/edit", name="reservation_edit", methods={"GET","POST"})

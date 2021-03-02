@@ -42,6 +42,15 @@ class Reservation
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $checkPayement;
+
+
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,4 +115,42 @@ class Reservation
 
         return $this;
     }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getHotel(): ?hotel
+    {
+        return $this->hotel;
+    }
+
+    public function setHotel(?hotel $hotel): self
+    {
+        $this->hotel = $hotel;
+
+        return $this;
+    }
+
+    public function getCheckPayement(): ?string
+    {
+        return $this->checkPayement;
+    }
+
+    public function setCheckPayement(string $checkPayement): self
+    {
+        $this->checkPayement = $checkPayement;
+
+        return $this;
+    }
+
+
 }
