@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\VoyageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VoyageRepository::class)
@@ -19,36 +20,56 @@ class Voyage
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="veuillez remplir le nom")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="veuillez remplir la ville")
      */
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="veuillez remplir la description")
      */
     private $description;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date",nullable=true)
+
+     * @Assert\NotBlank (message="eerr")
+     *
+
      */
     private $date_debut;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date",nullable=true)
+     * @Assert\NotBlank (message="eerr")
+
+     *  @Assert\Expression(
+     *     "this.getDateFin() >= this.getDateDebut()",
+     *     message="date fin doit etre sup a date debut"
+     * )
+     *
+     *
      */
     private $date_fin;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="veuillez remplir prix d'un personne")
+
      */
     private $prix_personne;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="veuillez remplir le nombre de personne ")
+     *
+     *
      */
     private $nb_personne;
 

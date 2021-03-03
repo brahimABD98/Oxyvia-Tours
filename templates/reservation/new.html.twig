@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
 
 
 
@@ -327,22 +327,27 @@
                                             <span>45$ <small>person</small></span>
                                             <div class="score"><span>Good<em>350 Reviews</em></span><strong>7.0</strong></div>
                                         </div>
-                                        {{ form_start(form) }}
+                                        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
 
 
                                         <div class="form-group">
                                             <label>Date début</label>
                                         {{ form_widget(form.date_debut, {'attr': {'id': 'date_deb'}}) }}
+                                            {{ form_errors(form.date_debut) }}
 
                                         </div>
                                         <div class="form-group">
                                             <label>Date fin</label>
                                             {{ form_widget(form.date_fin) }}
+                                            {{ form_errors(form.date_fin) }}
+
 
                                         </div>
                                         <div class="form-group">
                                             <label>Nombre Personne</label>
                                             {{ form_widget(form.nb_personne) }}
+                                            {{ form_errors(form.nb_personne) }}
+
 
                                         </div>
                                         <button type="submit" class=" add_top_30 btn_1 full-width purchase" >Reserver</button>
@@ -376,20 +381,7 @@
                     </div>
                     <!-- /bg_color_1 -->
 
-                    <script  type="text/javascript">
-                        function store(){
-                            var date_debut = $('#{{ form.date_debut.vars.id }}').val();
-                            var date_fin = $('#{{ form.date_fin.vars.id }}').val();
-                            var nbpers = $('#{{ form.nb_personne.vars.id }}').val();
 
-
-                            localStorage.setItem("date_debut", date_debut);
-                            localStorage.setItem("date_fin", date_fin);
-                            localStorage.setItem("nb_personne", nbpers);
-
-
-                        }
-                    </script>
                 </main>
                 <!--/main-->
 

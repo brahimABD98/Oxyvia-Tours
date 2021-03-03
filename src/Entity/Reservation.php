@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
@@ -19,11 +20,20 @@ class Reservation
 
     /**
      * @ORM\Column(type="date")
+     *    @Assert\NotBlank (message="eerr")
+
+     *
      */
     private $date_debut;
 
     /**
      * @ORM\Column(type="date")
+     *    @Assert\NotBlank (message="eerr")
+
+     *  @Assert\Expression(
+     *     "this.getDateFin() >= this.getDateDebut()",
+     *     message="date fin doit etre sup a date debut"
+     * )
      */
     private $date_fin;
 
@@ -34,6 +44,7 @@ class Reservation
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="veuillez remplir le nom")
      */
     private $nb_personne;
 

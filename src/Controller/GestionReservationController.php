@@ -31,6 +31,20 @@ class GestionReservationController extends AbstractController
     }
 
     /**
+     * @Route("/gestion/ToutReservations", name="Toutreservations")
+     */
+
+
+    public function AfficheToutReservation(ReservationRepository $ResRepository): Response
+    {
+        return $this->render('reservation/indexAllReservation.html.twig', [
+
+            'reservations' => $ResRepository->findAll(),//find res pour client qui a id=1
+        ]);
+    }
+
+
+    /**
      * @Route("/reservation/{id}", name="reservation_show1", methods={"GET"})
      */
     public function show(Reservation $reservation): Response

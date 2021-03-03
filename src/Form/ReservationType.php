@@ -20,6 +20,7 @@ class ReservationType extends AbstractType
             ->add('date_debut', DateType::class, [
                 'widget'=>'single_text',
                 'attr' => ['class' => 'js-datepicker'],
+                'data'          => new \DateTime(),
 
 
 
@@ -28,6 +29,7 @@ class ReservationType extends AbstractType
             ->add('date_fin', DateType::class, [
                 'widget'=>'single_text',
                 'attr' => ['class' => 'js-datepicker'],
+                'data'          => new \DateTime(),
 
             ])
 

@@ -22,7 +22,7 @@ class VoyageType extends AbstractType
             ->add('date_debut', DateType::class, [
                 'widget'=>'single_text',
                 'attr' => ['class' => 'js-datepicker'],
-
+                'data'          => new \DateTime(),
 
 
             ])
@@ -30,7 +30,7 @@ class VoyageType extends AbstractType
             ->add('date_fin', DateType::class, [
                 'widget'=>'single_text',
                 'attr' => ['class' => 'js-datepicker'],
-
+                'data'          => new \DateTime(),
             ])
             ->add('nb_personne')
             ->add('prixPersonne')
