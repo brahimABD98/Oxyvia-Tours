@@ -38,14 +38,14 @@ class Voyage
     private $date_debut;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="date")
      */
     private $date_fin;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      */
-    private $prixPersonne;
+    private $prix_personne;
 
     /**
      * @ORM\Column(type="integer")
@@ -105,26 +105,26 @@ class Voyage
         return $this;
     }
 
-    public function getDateFin(): ?string
+    public function getDateFin(): ?\DateTimeInterface
     {
         return $this->date_fin;
     }
 
-    public function setDateFin(string $date_fin): self
+    public function setDateFin(\DateTimeInterface $date_fin): self
     {
         $this->date_fin = $date_fin;
 
         return $this;
     }
 
-    public function getPrixPersonne(): ?string
+    public function getPrixPersonne(): ?int
     {
-        return $this->prixPersonne;
+        return $this->prix_personne;
     }
 
-    public function setPrixPersonne(string $prixPersonne): self
+    public function setPrixPersonne(int $prix_personne): self
     {
-        $this->prixPersonne = $prixPersonne;
+        $this->prix_personne = $prix_personne;
 
         return $this;
     }
