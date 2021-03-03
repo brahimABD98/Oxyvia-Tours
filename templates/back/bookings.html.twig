@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bookings!{% endblock %}
+{% block body %}
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Tables</li>
+        </ol>
+        <!-- Example DataTables Card-->
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-table"></i> Hotel table</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Pays</th>
+                            <th>Adresse</th>
+                            <th>Nbetoile</th>
+                            <th>Num</th>
+                            <th>Email</th>
+                            <th>Image</th>
+                            <th>actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for hotel in hotels %}
+                            <tr>
+                                <td>{{ hotel.id }}</td>
+                                <td>{{ hotel.name }}</td>
+                                <td>{{ hotel.pays }}</td>
+                                <td>{{ hotel.adresse }}</td>
+                                <td>{{ hotel.nbetoile }}</td>
+                                <td>{{ hotel.num }}</td>
+                                <td>{{ hotel.email }}</td>
+                                <td><img src="{{ asset('picture/' ~ hotel.image) }}"width="130" height="130"></td>
+                                <form action="{{ path('deletehotel',{'id':hotel.id}) }}">
+
+                                    <td><button class="btn">Delete</button></td>
+                                </form>
+
+                                <td>
+
+                                    <a href="{{ path('hotel_edit', {'id': hotel.id}) }}">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="8">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div><a href="{{ path('hotel_new') }}">Create new</a></div>
+
+
+
+                <table class="table">
+                    <div class="card-header">
+                        <i class="fa fa-table"></i>Transport table</div>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Type</th>
+                        <th>Matricule</th>
+                        <th>Image</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for transport in transports %}
+                        <tr>
+                            <td>{{ transport.id }}</td>
+                            <td>{{ transport.nom }}</td>
+                            <td>{{ transport.type }}</td>
+                            <td>{{ transport.matricule }}</td>
+                            <td><img src="{{ asset('picture/' ~ transport.image) }}" width="130" height="130"></td>
+                            <form action="{{ path('deletetransport',{'id':transport.id}) }}">
+                                <td><button class="btn">Delete</button></td></form>
+
+                            <td>
+
+                                <a href="{{ path('transport_edit', {'id': transport.id}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                    <div><a href="{{ path('transport_new') }}">Create new</a></div>
+                </div>
+            </div>
+
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+        <!-- /tables-->
+    </div>
+    <!-- /container-fluid-->
+</div>
+
+
+
+
+<!-- /container-wrapper-->
+{% endblock %}

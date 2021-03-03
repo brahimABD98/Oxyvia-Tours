@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit Transport{% endblock %}
+
+{% block body %}
+    <h1>Edit Transport</h1>
+
+    {{ include('transport/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('bookings') }}">back to list</a>
+
+
+{% endblock %}
