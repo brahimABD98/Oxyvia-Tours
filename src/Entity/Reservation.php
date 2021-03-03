@@ -47,6 +47,16 @@ class Reservation
      */
     private $checkPayement;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $client_id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $hotel_id;
+
 
 
 
@@ -116,29 +126,6 @@ class Reservation
         return $this;
     }
 
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
-    public function getHotel(): ?hotel
-    {
-        return $this->hotel;
-    }
-
-    public function setHotel(?hotel $hotel): self
-    {
-        $this->hotel = $hotel;
-
-        return $this;
-    }
 
     public function getCheckPayement(): ?string
     {
@@ -148,6 +135,30 @@ class Reservation
     public function setCheckPayement(string $checkPayement): self
     {
         $this->checkPayement = $checkPayement;
+
+        return $this;
+    }
+
+    public function getClientId(): ?int
+    {
+        return $this->client_id;
+    }
+
+    public function setClientId(int $client_id): self
+    {
+        $this->client_id = $client_id;
+
+        return $this;
+    }
+
+    public function getHotelId(): ?int
+    {
+        return $this->hotel_id;
+    }
+
+    public function setHotelId(int $hotel_id): self
+    {
+        $this->hotel_id = $hotel_id;
 
         return $this;
     }

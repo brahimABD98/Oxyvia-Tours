@@ -53,8 +53,9 @@ class ReservationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $reservation->setType("hotel");
             $reservation->setPrix(20*$reservation->getNbPersonne());//i need prix nuit fel hotel *nb de nuit*nbpersonne
-$reservation->setCheckPayement("paye");
-
+            $reservation->setCheckPayement("paye");
+            $reservation->setClientId(1);
+            $reservation->setHotelId(1);
             $entityManager->persist($reservation);
             $entityManager->flush();
 
@@ -74,7 +75,7 @@ $reservation->setCheckPayement("paye");
     }
 
     /**
-     * @Route("/{id}", name="reservation_show", methods={"GET"})
+     * @Route("/wiw/{id}", name="reservation_show", methods={"GET"})
      */
     public function show(Reservation $reservation): Response
     {
