@@ -34,7 +34,7 @@ class Reponse
 
     /**
      * @ORM\ManyToOne(targetEntity=Reclamation::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="rec",referencedColumnName="id",onDelete="CASCADE")
      */
     private $rec;
 
@@ -79,15 +79,21 @@ class Reponse
         return $this;
     }
 
-    public function getRec(): ?Reclamation
+
+    /**
+     * @return mixed
+     */
+    public function getRec()
     {
         return $this->rec;
     }
 
-    public function setRec(?Reclamation $rec): self
+    /**
+     * @param mixed $rec
+     */
+    public function setRec($rec): void
     {
         $this->rec = $rec;
-
-        return $this;
     }
+
 }

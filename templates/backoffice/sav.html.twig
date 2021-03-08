@@ -1,0 +1,50 @@
+{% extends 'backoffice.html.twig' %}
+{% block body %}
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Reclamation</li>
+            </ol>
+            <div class="box_general">
+                <div class="header_box">
+                    <h2 class="d-inline-block">Liste reclamation </h2>
+                    <div class="filter">
+                        <select name="orderby" class="selectbox">
+                            <option value="Any time">Any time</option>
+                            <option value="Latest">Latest</option>
+                            <option value="Oldest">Oldest</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="list_general reviews">
+                    <ul>
+                        <li>
+                            {% for reclamation in reclamations %}
+                                <span> {{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}</span>
+                                <h4>{{ reclamation.nomCLient }} <small>{{ reclamation.type }}</small></h4>
+
+
+
+
+
+
+                                        <a href="{{ path('reclamation_show', {'id': reclamation.id}) }}">show</a>
+                                        <p class="inline-popups"><a href="{{ path('reclamation_show', {'id': reclamation.id}) }}" data-effect="mfp-zoom-in" class="btn_1 gray"><i class="fa fa-fw fa-reply"></i> Reply to this review</a></p>
+
+
+                            {% else %}
+                                <tr>
+                                    <td colspan="7">no records found</td>
+                                </tr>
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
