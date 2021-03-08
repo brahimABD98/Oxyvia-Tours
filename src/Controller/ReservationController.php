@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+use App\Repository\ChambreRepository;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
@@ -16,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * @Route("/reservation")
@@ -34,45 +37,145 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="reservation_new", methods={"GET","POST"})
+     * @Route("/new/{hotel_id}", name="reservation_new", methods={"GET","POST"})
      */
-    public function new(Request $request,ReservationRepository $resRepo): Response
+    public function new(Request $request,$hotel_id): Response
     {
 
-//relation bin client w hotel => reservation
-      //  $client= $clRepo->find(1);
-       //$hotel=$hotRepo->find(1);
-        $reservation = new Reservation();
-        $form = $this->createForm(ReservationType::class, $reservation);
+        $defaultData = ['message' => 'Type your message here'];
+        $form = $this->createFormBuilder($defaultData)
+            ->add('date_debut', DateType::class, [
+                'widget'=>'single_text',
+                'attr' => ['class' => 'js-datepicker'],
+                'data'          => new \DateTime(),
+            ])
+
+            ->add('date_fin', DateType::class, [
+                'widget'=>'single_text',
+                'attr' => ['class' => 'js-datepicker'],
+                'data'          => new \DateTime(),
+            ])
+            ->add('nb_adulte')
+            ->add('nb_enfants')
+            ->getForm();
+
         $form->handleRequest($request);
-
-        $var = $form->get('date_debut')->getData();
-
-
         if ($form->isSubmitted() && $form->isValid() ) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $reservation->setType("hotel");
-            $reservation->setPrix(20*$reservation->getNbPersonne());//i need prix nuit fel hotel *nb de nuit*nbpersonne
-            $reservation->setCheckPayement("paye");
-            $reservation->setClientId(1);
-            $reservation->setHotelId(1);
-            $entityManager->persist($reservation);
-            $entityManager->flush();
 
-            $data = $request->request->get('date_debut');
-            var_dump($data['name']);
 
-            return $this->RedirectToRoute('paiement1', array(
-                'id' => $reservation->getId()
+            $date_debut = $form["date_debut"]->getData()->format('Y-m-d');
+            $date_fin = $form["date_fin"]->getData()->format('Y-m-d');
+            $nbadultes = $form["nb_adulte"]->getData();
+            $nbenfants = $form["nb_enfants"]->getData();
+
+            $name = $request->request->get("date_debut");
+            return $this->RedirectToRoute('reservation_check', array(
+                'hotel_id'=>$hotel_id,
+                'date_debut' =>$date_debut,
+                'date_fin' =>$date_fin,
+                'nbadultes' =>$nbadultes,
+                'nbenfants' =>$nbenfants,
+
             ));
         }
 
         return $this->render('reservation/new.html.twig', [
-            'reservation' => $reservation,
+
             'form' => $form->createView(),
 
         ]);
     }
+
+
+    /**
+     * @Route("/wiw/{date_debut}/{date_fin}/{nbadultes}/{nbenfants}", name="reservation_check")
+     */
+    public function ReservationCheck(HotelRepository $hotelRepository,ClientRepository $clientRepository,Request $request,$date_debut,$date_fin,$nbadultes,$nbenfants,ChambreRepository $chambreRepository): Response
+    {
+        $hotel_id = $_GET['hotel_id'];
+        $reservation=new Reservation();
+        $hotel=new Hotel();
+        $nbchambreSingleDispo= $chambreRepository->NbChambreSingleDispo($hotel_id);
+        $nbchambreDoubleDispo= $chambreRepository->NbChambreDoubleDispo($hotel_id);
+        $client=$clientRepository->find(1);
+        $hotel=$hotelRepository->find($hotel_id);
+        $defaultData = ['message' => 'Type your message here'];
+        $diff = date_diff(\DateTime::createFromFormat('Y-m-d', $date_debut),  \DateTime::createFromFormat('Y-m-d', $date_fin));
+        $date_debut = $date_debut;
+        $date_fin = $date_fin;
+        $nbadultes = $nbadultes;
+        $nbenfants = $nbenfants;
+        $form = $this->createFormBuilder($defaultData)
+        ->add('NbChambreSingleReserve')
+        ->getForm();
+
+        $form->handleRequest($request);
+
+        //form 2 pour reservation room double
+        $defaultData = ['message' => 'Type your message here'];
+        $form2 = $this->createFormBuilder($defaultData)
+            ->add('nbChambreDoubleReserve')
+            ->getForm();
+        $form2->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid() ) {
+            $nbchambre = $form["NbChambreSingleReserve"]->getData();
+
+            $reservation->setCheckPayement("checked");
+            $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
+            $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
+            $reservation->setNbAdulte($nbadultes);
+            $reservation->setNbEnfants($nbenfants);
+            $reservation->setHotel($hotel);
+            $reservation->setClient($client);
+            $reservation->setType("reservation hotel");
+            $reservation->setPrix($diff->d*$nbchambreSingleDispo['0']['0']->getPrix()*$nbchambre*($nbadultes+$nbenfants));
+            $reservation->setNbChambreSingleReserve($nbchambre);
+            $reservation->setNbChambreDoubleReserve(0);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('reservation_index');
+        }
+
+        else    if ($form2->isSubmitted() && $form2->isValid() ) {//form de double room
+            $nbchambre = $form2["nbChambreDoubleReserve"]->getData();
+
+            $reservation->setCheckPayement("checked");
+            $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
+            $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
+            $reservation->setNbAdulte($nbadultes);
+            $reservation->setNbEnfants($nbenfants);
+            $reservation->setHotel($hotel);
+            $reservation->setClient($client);
+            $reservation->setType("reservation hotel");
+            $reservation->setPrix($diff->d*$nbchambreDoubleDispo['0']['0']->getPrix()*$nbchambre*($nbadultes+$nbenfants));
+            $reservation->setNbChambreSingleReserve(0);
+            $reservation->setNbChambreDoubleReserve($nbchambre);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('reservation_index');
+        }
+        return $this->render('reservation/checkAvaibility.html.twig', [
+            'hotel_id'=>$hotel_id,
+            'nbchambreSingleDispo'=>$nbchambreSingleDispo,
+            'nbchambreDoubleDispo'=>$nbchambreDoubleDispo,
+            'form' => $form->createView(),
+            'date_debut'=>$date_debut,
+            'date_fin'=>$date_fin,
+            'form2' => $form2->createView(),
+            'nbadultes' => $nbadultes,
+             'nbenfants' => $nbenfants
+
+        ]);
+    }
+
+
+
 
     /**
      * @Route("/wiw/{id}", name="reservation_show", methods={"GET"})

@@ -46,7 +46,7 @@ class Reservation
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="veuillez remplir le nom")
      */
-    private $nb_personne;
+    private $nb_adulte;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -63,10 +63,36 @@ class Reservation
      */
     private $client_id;
 
+
+
+
     /**
      * @ORM\Column(type="integer")
      */
-    private $hotel_id;
+    private $nb_enfants;
+
+
+
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $NbChambreSingleReserve;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="reservation")
+     */
+    private $client;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Hotel::class, inversedBy="reservation")
+     */
+    private $hotel;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nbChambreDoubleReserve;
 
 
 
@@ -113,14 +139,14 @@ class Reservation
         return $this;
     }
 
-    public function getNbPersonne(): ?int
+    public function getNbAdulte(): ?int
     {
-        return $this->nb_personne;
+        return $this->nb_adulte;
     }
 
-    public function setNbPersonne(int $nb_personne): self
+    public function setNbAdulte(int $nb_adulte): self
     {
-        $this->nb_personne = $nb_personne;
+        $this->nb_adulte = $nb_adulte;
 
         return $this;
     }
@@ -150,26 +176,68 @@ class Reservation
         return $this;
     }
 
-    public function getClientId(): ?int
+
+
+
+    public function getNbEnfants(): ?int
     {
-        return $this->client_id;
+        return $this->nb_enfants;
     }
 
-    public function setClientId(int $client_id): self
+    public function setNbEnfants(int $nb_enfants): self
     {
-        $this->client_id = $client_id;
+        $this->nb_enfants = $nb_enfants;
 
         return $this;
     }
 
-    public function getHotelId(): ?int
+    public function getClient(): ?Client
     {
-        return $this->hotel_id;
+        return $this->client;
     }
 
-    public function setHotelId(int $hotel_id): self
+    public function setClient(?Client $client): self
     {
-        $this->hotel_id = $hotel_id;
+        $this->client = $client;
+
+        return $this;
+    }
+
+
+
+
+    public function getNbChambreSingleReserve(): ?int
+    {
+        return $this->NbChambreSingleReserve;
+    }
+
+    public function setNbChambreSingleReserve(int $NbChambreSingleReserve): self
+    {
+        $this->NbChambreSingleReserve = $NbChambreSingleReserve;
+
+        return $this;
+    }
+
+    public function getHotel(): ?Hotel
+    {
+        return $this->hotel;
+    }
+
+    public function setHotel(?Hotel $hotel): self
+    {
+        $this->hotel = $hotel;
+
+        return $this;
+    }
+
+    public function getNbChambreDoubleReserve(): ?int
+    {
+        return $this->nbChambreDoubleReserve;
+    }
+
+    public function setNbChambreDoubleReserve(int $nbChambreDoubleReserve): self
+    {
+        $this->nbChambreDoubleReserve = $nbChambreDoubleReserve;
 
         return $this;
     }

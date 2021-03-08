@@ -23,14 +23,7 @@ class ReservationRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('s')
 
             ->where('s.client_id like :db')
-
-
-
             ->setParameter('db',$db)
-
-
-
-
             ->getQuery()
             ->getResult();
 
@@ -40,6 +33,8 @@ class ReservationRepository extends ServiceEntityRepository
         //);
         //return $query->getResult();
     }
+
+
 
     // /**
     //  * @return Reservation[] Returns an array of Reservation objects
