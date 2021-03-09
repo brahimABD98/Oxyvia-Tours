@@ -106,8 +106,8 @@ class ReservationController extends AbstractController
         $nbadultes = $nbadultes;
         $nbenfants = $nbenfants;
         $form = $this->createFormBuilder($defaultData)
-        ->add('NbChambreSingleReserve')
-        ->getForm();
+            ->add('NbChambreSingleReserve')
+            ->getForm();
 
         $form->handleRequest($request);
 
@@ -121,44 +121,68 @@ class ReservationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid() ) {
             $nbchambre = $form["NbChambreSingleReserve"]->getData();
+            if ($nbchambre <= $nbchambreSingleDispo[0][1]) {
+                $reservation->setCheckPayement("checked");
+                $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
+                $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
+                $reservation->setNbAdulte($nbadultes);
+                $reservation->setNbEnfants($nbenfants);
+                $reservation->setHotel($hotel);
+                $reservation->setClient($client);
+                $reservation->setType("reservation hotel");
+                $reservation->setPrix($diff->d * $nbchambreSingleDispo['0']['0']->getPrix() * $nbchambre * ($nbadultes + $nbenfants));
+                $reservation->setNbChambreSingleReserve($nbchambre);
+                $reservation->setNbChambreDoubleReserve(0);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($reservation);
+                $entityManager->flush();
+                $chambreAaffecteRes= $chambreRepository->getChambresSingleWithLimit($hotel_id,$nbchambre);
+                foreach ($chambreAaffecteRes as $res){
+                    $room=$chambreRepository->find($res->getId());
+                    $room->setReservation($reservation);
+                    $room->setOccupe('occupe');
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($room);
+                    $entityManager->flush();
 
-            $reservation->setCheckPayement("checked");
-            $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
-            $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
-            $reservation->setNbAdulte($nbadultes);
-            $reservation->setNbEnfants($nbenfants);
-            $reservation->setHotel($hotel);
-            $reservation->setClient($client);
-            $reservation->setType("reservation hotel");
-            $reservation->setPrix($diff->d*$nbchambreSingleDispo['0']['0']->getPrix()*$nbchambre*($nbadultes+$nbenfants));
-            $reservation->setNbChambreSingleReserve($nbchambre);
-            $reservation->setNbChambreDoubleReserve(0);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reservation);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('reservation_index');
+                }
+                return $this->redirectToRoute('reservation_index');
+            }
         }
 
+
         else    if ($form2->isSubmitted() && $form2->isValid() ) {//form de double room
-            $nbchambre = $form2["nbChambreDoubleReserve"]->getData();
+            $nbchambre2 = $form2["nbChambreDoubleReserve"]->getData();
+            if($nbchambre2<=$nbchambreDoubleDispo[0][1]){
+                $reservation->setCheckPayement("checked");
+                $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
+                $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
+                $reservation->setNbAdulte($nbadultes);
+                $reservation->setNbEnfants($nbenfants);
+                $reservation->setHotel($hotel);
+                $reservation->setClient($client);
+                $reservation->setType("reservation hotel");
+                $reservation->setPrix($diff->d * $nbchambreDoubleDispo['0']['0']->getPrix() * $nbchambre2 * ($nbadultes + $nbenfants));
+                $reservation->setNbChambreSingleReserve(0);
+                $reservation->setNbChambreDoubleReserve($nbchambre2);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($reservation);
+                $entityManager->flush();
 
-            $reservation->setCheckPayement("checked");
-            $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
-            $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
-            $reservation->setNbAdulte($nbadultes);
-            $reservation->setNbEnfants($nbenfants);
-            $reservation->setHotel($hotel);
-            $reservation->setClient($client);
-            $reservation->setType("reservation hotel");
-            $reservation->setPrix($diff->d*$nbchambreDoubleDispo['0']['0']->getPrix()*$nbchambre*($nbadultes+$nbenfants));
-            $reservation->setNbChambreSingleReserve(0);
-            $reservation->setNbChambreDoubleReserve($nbchambre);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($reservation);
-            $entityManager->flush();
+               $chambreAaffecteRes= $chambreRepository->getChambresDoubleWithLimit($hotel_id,$nbchambre2);
+               foreach ($chambreAaffecteRes as $res){
+                   $room=$chambreRepository->find($res->getId());
+                   $room->setReservation($reservation);
+                   $room->setOccupe('occupe');
+                   $entityManager = $this->getDoctrine()->getManager();
+                   $entityManager->persist($room);
+                   $entityManager->flush();
 
-            return $this->redirectToRoute('reservation_index');
+               }
+                return $this->redirectToRoute('reservation_index');
+
+            }
+
         }
         return $this->render('reservation/checkAvaibility.html.twig', [
             'hotel_id'=>$hotel_id,
@@ -169,7 +193,7 @@ class ReservationController extends AbstractController
             'date_fin'=>$date_fin,
             'form2' => $form2->createView(),
             'nbadultes' => $nbadultes,
-             'nbenfants' => $nbenfants
+            'nbenfants' => $nbenfants
 
         ]);
     }
@@ -197,8 +221,8 @@ class ReservationController extends AbstractController
 
 
         return $this->render('cart1/index.html.twig', [
-'id'=>$id,
-'res'=>$res
+            'id'=>$id,
+            'res'=>$res
         ]);
     }
 

@@ -112,7 +112,12 @@
 
                                         {{ form_start(form2,{'attr': {'novalidate': 'novalidate'}} ) }}
 
+                                        {% if nbchambreDoubleDispo|length<1  %}
+                                        pas de chambre disponible
+                                        {% else %}
                                         <li>Prix : {{nbchambreDoubleDispo[0][0].prix}}</li>
+                                        {% endif %}>
+
                                         <div class="form-group">
                                             <label>Nombre de chambre Double à réserver</label>
                                             {{ form_widget(form2.nbChambreDoubleReserve) }}

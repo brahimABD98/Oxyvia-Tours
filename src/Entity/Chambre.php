@@ -39,6 +39,11 @@ class Chambre
      */
     private $hotel;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="chambres")
+     */
+    private $reservation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +95,18 @@ class Chambre
     public function setHotel(?Hotel $hotel): self
     {
         $this->hotel = $hotel;
+
+        return $this;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
 
         return $this;
     }

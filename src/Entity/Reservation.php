@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -44,17 +46,19 @@ class Reservation
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotBlank(message="veuillez remplir le nom")
+     * @Assert\NotBlank(message="veuillez remplir le nombre d'adultes")
      */
     private $nb_adulte;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Assert\NotBlank (message="eerr")
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *  @Assert\NotBlank (message="eerr")
      */
     private $checkPayement;
 
@@ -68,6 +72,7 @@ class Reservation
 
     /**
      * @ORM\Column(type="integer")
+     *  @Assert\NotBlank (message="veuillez remplir le nombre d'enfants")
      */
     private $nb_enfants;
 
@@ -76,6 +81,7 @@ class Reservation
 
     /**
      * @ORM\Column(type="integer")
+     *  @Assert\NotBlank (message="eerr")
      */
     private $NbChambreSingleReserve;
 
@@ -91,8 +97,19 @@ class Reservation
 
     /**
      * @ORM\Column(type="integer")
+     *  @Assert\NotBlank (message="eerr")
      */
     private $nbChambreDoubleReserve;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Chambre::class, mappedBy="reservation")
+     */
+    private $chambres;
+
+    public function __construct()
+    {
+        $this->chambres = new ArrayCollection();
+    }
 
 
 
@@ -238,6 +255,36 @@ class Reservation
     public function setNbChambreDoubleReserve(int $nbChambreDoubleReserve): self
     {
         $this->nbChambreDoubleReserve = $nbChambreDoubleReserve;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Chambre[]
+     */
+    public function getChambres(): Collection
+    {
+        return $this->chambres;
+    }
+
+    public function addChambre(Chambre $chambre): self
+    {
+        if (!$this->chambres->contains($chambre)) {
+            $this->chambres[] = $chambre;
+            $chambre->setReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChambre(Chambre $chambre): self
+    {
+        if ($this->chambres->removeElement($chambre)) {
+            // set the owning side to null (unless already changed)
+            if ($chambre->getReservation() === $this) {
+                $chambre->setReservation(null);
+            }
+        }
 
         return $this;
     }

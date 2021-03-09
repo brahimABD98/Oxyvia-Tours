@@ -47,7 +47,7 @@ class ReservationType extends AbstractType
             ->getForm();
 
 
-        ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

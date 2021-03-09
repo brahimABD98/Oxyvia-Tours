@@ -32,6 +32,37 @@ class ChambreRepository extends ServiceEntityRepository
             ->getResult();
 
     }
+
+    public function getChambresDoubleWithLimit($db,$nb){
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->setMaxResults($nb)
+            ->where(' IDENTITY(s.hotel) like :db')
+            ->andWhere('s.occupe like :occ')
+            ->andWhere('s.type like :typeroom')
+            ->setParameter('db',$db)
+            ->setParameter('occ','non occupe')
+            ->setParameter('typeroom','double room')
+            ->getQuery()
+            ->getResult();
+
+    }
+
+    public function getChambresSingleWithLimit($db,$nb){
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->setMaxResults($nb)
+            ->where(' IDENTITY(s.hotel) like :db')
+            ->andWhere('s.occupe like :occ')
+            ->andWhere('s.type like :typeroom')
+            ->setParameter('db',$db)
+            ->setParameter('occ','non occupe')
+            ->setParameter('typeroom','single room')
+            ->getQuery()
+            ->getResult();
+
+    }
+
     public function NbChambreDoubleDispo($db){
 
         return $this->createQueryBuilder('s')
