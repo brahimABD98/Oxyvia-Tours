@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use App\Entity\Client;
 use App\Entity\Hotel;
 use App\Entity\Reservation;
-use App\Form\ReservationType;
+use App\Form\ReservationType0;
 use App\Repository\ClassroomRepository;
 use App\Repository\ClientRepository;
 use App\Repository\HotelRepository;
@@ -236,7 +236,7 @@ class ReservationController extends AbstractController
      */
     public function edit(Request $request, Reservation $reservation): Response
     {
-        $form = $this->createForm(ReservationType::class, $reservation);
+        $form = $this->createForm(ReservationType0::class, $reservation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

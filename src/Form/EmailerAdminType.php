@@ -2,24 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Reservation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ReservationType extends AbstractType
+class EmailerAdminType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date_debut')
-            ->add('date_fin')
+            ->add('nom')
+            ->add('email')
 
-            ->add('nb_adulte')
 
-            ->add('nb_enfants')
-            ->add('NbChambreSingleReserve')
-            ->add('nbChambreDoubleReserve')
 
         ;
     }
@@ -27,7 +22,7 @@ class ReservationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Reservation::class,
+            // Configure your form options here
         ]);
     }
 }

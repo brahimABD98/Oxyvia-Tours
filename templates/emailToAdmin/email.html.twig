@@ -1,0 +1,28 @@
+
+
+<h3>Bonjour Admin </h3>
+
+
+
+<table border="1px solid black">
+    <tr>
+        <td>hotel </td>
+        <td>id chambre</td>
+        <td>type de chambre</td>
+        <td>prix de chambre</td>
+    </tr>
+    <tr>
+        {% for key in chambreExpire %}
+        <td>{{ key.hotel.nom }}</td>
+        <td>{{ key.id }}</td>
+        <td> {{ key.type }}</td>
+        <td>{{ key.prix }}</td>
+
+
+
+    </tr>
+    {%  endfor %}
+</table>
+
+<p>{{ nom }} </p>
+<p>cordialment</p>

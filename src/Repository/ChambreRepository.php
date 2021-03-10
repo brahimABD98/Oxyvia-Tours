@@ -63,6 +63,8 @@ class ChambreRepository extends ServiceEntityRepository
 
     }
 
+
+
     public function NbChambreDoubleDispo($db){
 
         return $this->createQueryBuilder('s')
@@ -77,6 +79,29 @@ class ChambreRepository extends ServiceEntityRepository
             ->getResult();
 
     }
+
+
+
+    public function showChambreExpire(){
+        return $this->createQueryBuilder('s')
+            ->join('s.reservation','c')
+            ->addSelect('c')
+            ->where('c.date_fin<:today')
+            ->andWhere('s.occupe like :occ')
+
+            ->setParameter('today',new \DateTime())
+            ->setParameter('occ','occupe')
+
+            ->getQuery()
+            ->getResult();
+
+        //  $em=$this->getEntityManager();
+        //$query=$em->createQuery(
+        //  "select c from App\Entity\Classroom c "
+        //);
+        //return $query->getResult();
+    }
+
 
 
     // /**

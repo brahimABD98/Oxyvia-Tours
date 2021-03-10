@@ -3,14 +3,28 @@
 namespace App\Controller;
 
 use App\Entity\Reservation;
+use App\Form\EmailerAdminType;
+use App\Form\ReservationType;
 use App\Form\ReservationTypeNbSingleRoom;
+use App\Repository\ChambreRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\VoyageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Validator\Mapping\Loader\LoaderInterface;
 
+
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+
+use Symfony\Component\Mailer\Bridge\Google\Smtp\GmailTransport;
+use Symfony\Component\Mailer\Mailer;
 /**
  * @Route("dashboard")
  */
@@ -62,7 +76,7 @@ class GestionReservationController extends AbstractController
      */
     public function edit(Request $request, Reservation $reservation): Response
     {
-        $form = $this->createForm(ReservationTypeNbSingleRoom::class, $reservation);
+        $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -76,4 +90,58 @@ class GestionReservationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/gestion/emailAdmin", name="emailerAdmin", methods={"GET","POST"})
+     */
+    public function EmailerAdmin(ChambreRepository $chambreRepository,Request $request ,MailerInterface $mailer)
+    {
+        $form = $this->createForm(EmailerAdminType::class);
+        $form->handleRequest($request);
+        $chambreExpire=$chambreRepository->showChambreExpire();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $contact=$form->getData();
+            $email = (new TemplatedEmail())
+                ->from('saieftaher1@gmail.com')
+                ->to($contact['email'])
+                ->subject('Liste des Chambres vides!')
+
+                // path of the Twig template to render
+                ->html($this->renderView(
+                    'emailToAdmin/email.html.twig',
+                    [
+
+                        'chambreExpire'          => $chambreExpire,
+                        'nom'          => $contact['nom'],
+
+
+                    ]
+                ),
+                    'text/html');
+
+
+
+            $transport = new GmailSmtpTransport('saieftaher1','saief1998');
+            $mailer = new Mailer($transport);
+            $mailer->send($email);
+            $this->addFlash('message','le message est envoyé');
+
+            foreach ($chambreExpire as $res){
+                $entityManager = $this->getDoctrine()->getManager();
+                $chambre=$chambreRepository->find($res->getID());
+                $chambre->setOccupe('non occupe');
+                $chambre->setReservation(null);
+                $entityManager->persist($res);
+                $entityManager->flush();
+            }
+
+        }
+
+        return $this->render('reservation/EmailerAdmin.html.twig', [
+            'form' => $form->createView(),
+            'ch'=>$chambreExpire
+        ]);
+    }
+
 }

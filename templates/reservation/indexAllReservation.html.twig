@@ -25,13 +25,14 @@
                         {% for i in reservations %}
                             <li>
                                 <figure><img src="img/item_1.jpg" alt=""></figure>
-                                <h4>Hotel {{ i.hotelid}} </h4>
+                                <h4>Hotel {{ i.hotel.id}} </h4>
                                 <ul class="booking_list">
                                     <li><strong>date debut</strong> {{ i.datedebut|date('d-m-Y') }}</li>
                                     <li><strong>datefin</strong> {{ i.datefin|date('d-m-Y')}} </li>
                                     <li><strong>prix</strong> {{ i.prix }}</li>
-                                    <li><strong>nb personne</strong> {{ i.nbpersonne }}</li>
-                                    <li><strong>client</strong> {{ i.clientid }}</li>
+                                    <li><strong>nb adultes</strong> {{ i.nbadulte }}</li>
+                                    <li><strong>nb enfants</strong> {{ i.nbenfants }}</li>
+                                    <li><strong>client</strong> {{ i.client.nom }} {{ i.client.prenom }}</li>
 
                                 </ul>
                                 <ul class="buttons">

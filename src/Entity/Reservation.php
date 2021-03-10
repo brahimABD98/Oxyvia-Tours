@@ -62,10 +62,6 @@ class Reservation
      */
     private $checkPayement;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $client_id;
 
 
 

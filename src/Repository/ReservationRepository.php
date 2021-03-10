@@ -21,9 +21,11 @@ class ReservationRepository extends ServiceEntityRepository
 
     public function showReservationParClient($db){
         return $this->createQueryBuilder('s')
+            ->join('s.client','c')
+            ->addSelect('c')
+            ->where('c.id=:id')
 
-            ->where('s.client_id like :db')
-            ->setParameter('db',$db)
+            ->setParameter('id',$db)
             ->getQuery()
             ->getResult();
 
