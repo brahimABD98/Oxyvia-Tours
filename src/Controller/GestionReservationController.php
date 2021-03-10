@@ -7,6 +7,7 @@ use App\Form\EmailerAdminType;
 use App\Form\ReservationType;
 use App\Form\ReservationTypeNbSingleRoom;
 use App\Repository\ChambreRepository;
+use App\Repository\HotelRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\VoyageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -143,5 +144,28 @@ class GestionReservationController extends AbstractController
             'ch'=>$chambreExpire
         ]);
     }
+
+
+    /**
+     * @Route("/gestion/reservation/stats", name="hotelstats", methods={"GET","POST"})
+     */
+    public function hotelStats(Request $request,HotelRepository  $hotelRepository): Response
+    {
+        $lstRes=$hotelRepository->findAll();
+
+        $hotelNom=[];
+        $resCount=[];
+        foreach ($lstRes as $res){
+            $hotelNom[]=$res->getNom();
+            $resCount[]=count($res->getReservation());
+        }
+
+        return $this->render('reservation/MostResHotelStats.html.twig', [
+            'hotelNom' => json_encode($hotelNom),
+            'resCount' =>json_encode($resCount),
+        ]);
+    }
+
+
 
 }

@@ -17,6 +17,7 @@
     <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" >
 
     <!-- GOOGLE WEB FONT -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
@@ -83,6 +84,13 @@
                     <span class="nav-link-text">Notifier Admin</span>
                 </a>
             </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
+                <a class="nav-link" href="{{ path('hotelstats') }}">
+                    <i class="fa fa-fw fa-user"></i>
+                    <span class="nav-link-text">Hotels Stats</span>
+                </a>
+            </li>
+
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#Components">
                     <i class="fa fa-fw fa-gear"></i>
@@ -340,7 +348,7 @@
 <!-- Custom scripts for all pages-->
 <script src="back_office/js/admin.js"></script>
 <!-- Custom scripts for this page-->
-<script src="back_office/js/admin-charts.js"></script>
+<script src="back_office/js/admin-charts.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
 {% endblock %}
 </body>
 </html>

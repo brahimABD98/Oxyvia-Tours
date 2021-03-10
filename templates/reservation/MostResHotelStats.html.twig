@@ -1,0 +1,53 @@
+
+
+
+{% extends 'backoffice.html.twig' %}
+{% block title %}Hotel STATS  {% endblock %}
+
+
+
+{% block body %}
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Bookings list</li>
+            </ol>
+            <div class="box_general">
+                <div class="header_box">
+                    <h2 class="d-inline-block">Stats sur les hotels les plus réservés  </h2>
+
+                </div>
+                <div class="list_general">
+                    <canvas id="categories" width="400" height="100"></canvas>
+
+                </div>
+            </div>
+            <!-- /box_general-->
+
+            <!-- /pagination-->
+        </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+    <script>
+        let categories = document.querySelector("#categories")
+        let categGraph = new Chart(categories, {
+            type: "pie",
+            data: {
+                labels: {{ hotelNom|raw }},
+                datasets: [{
+                    label: "Répartition des reservations",
+                    data: {{ resCount|raw }},
+                    backgroundColor: ['red','green','blue']
+                }]
+            }
+        })
+
+    </script>
+
+{% endblock %}
