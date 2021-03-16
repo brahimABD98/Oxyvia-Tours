@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Voyage;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,6 +35,11 @@ class VoyageType extends AbstractType
             ])
             ->add('nb_personne')
             ->add('prixPersonne')
+            ->add('image', FileType::class,[
+                'mapped'=>false,
+                'label'=>'Affiche de voyage'
+            ]);
+
         ;
     }
 

@@ -6,6 +6,8 @@
 {% block title %}Liste Des Reservations pour CLient {% endblock %}
 
 {% block body %}
+{% set queryParams = app.request.query.all %}
+
     <div class="content-wrapper">
         <div class="container-fluid">
             <!-- Breadcrumbs-->
@@ -18,51 +20,69 @@
             <div class="box_general">
                 <div class="header_box">
                     <h2 class="d-inline-block">Liste des Reservation effecuté par vous </h2>
-
+                    <form id="filters">
+                        {% if queryParams is not empty and queryParams.hotel is defined %}
+                            {% set checked =  queryParams.hotel %}
+                        {% else %}
+                            {% set checked = "" %}
+                        {% endif %}
+                        <label>Rechercher Par Hotel :</label>
+                        <p><input type="text" id="hotel" name="hotel" value="{{ checked }}"></p>
+                        <input type="hidden" name="page" value="{{page}}">
+                    </form>
                 </div>
-                <div class="list_general">
-                    <ul>
-                        {% for i in reservations %}
-                            <li>
-                                <figure><img src="img/item_1.jpg" alt=""></figure>
-                                <h4>Hotel  </h4>
-                                <ul class="booking_list">
-                                    <li><strong>date debut</strong> {{ i.datedebut|date('d-m-Y') }}</li>
-                                    <li><strong>datefin</strong> {{ i.datefin|date('d-m-Y')}} </li>
-                                    <li><strong>prix</strong> {{ i.prix }}</li>
-                                    <li><strong>nb adultes</strong> {{ i.nbadulte }}</li>
-                                    <li><strong>nb enfants</strong> {{ i.nbenfants }}</li>
-
-                                </ul>
-                                <ul class="buttons">
-
-                                    <li><a href="{{ path('reservation_show1', {'id': i.id}) }}" class="btn_1 gray approve"><i class="fa fa-fw fa-check-circle-o"></i> Consulter</a></li>
-                                    <li><a href="{{ path('reservation_edit1', {'id': i.id}) }}"  class="btn_1 gray delete"><i class="fa fa-fw fa-times-circle-o"></i> Modifier</a></li>
-
-                                </ul>
-                            </li>
-                        {%  endfor %}
-
-
-                    </ul>
+                <div id="content">
+                    {% include "reservation/contentResPerClient.html.twig" %}
                 </div>
-            </div>
-            <!-- /box_general-->
-            <nav aria-label="...">
-                <ul class="pagination pagination-sm add_bottom_30">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
             <!-- /pagination-->
         </div>
         <!-- /container-fluid-->
     </div>
+
+
+        <script>
+            window.onload = () => {
+                const FiltersForm = document.querySelector("#filters");
+
+                // On boucle sur les input
+                document.querySelectorAll("#filters input").forEach(input => {
+                    input.addEventListener("keyup", () =>
+                    {
+                        console.log("key")
+                        // Ici on intercepte les clics
+                        // On récupère les données du formulaire
+                        const Form = new FormData(FiltersForm);
+                        const Params = new URLSearchParams();
+
+                        Form.forEach((value, key) => {
+                            Params.append(key, value);
+                        });
+                        const Url = new URL(window.location.href);
+                        // On lance la requête ajax
+                        fetch(Url.pathname + "?" + Params.toString() + "&ajax=1", {
+                            headers: {
+                                "X-Requested-With": "XMLHttpRequest"
+                            }
+                        }).then(response =>
+                            response.json()
+
+                        ).then(data => {
+                            // On va chercher la zone de contenu
+                            const content = document.querySelector("#content");
+
+                            // On remplace le contenu
+                            content.innerHTML = data.content;
+
+                            // On met à jour l'url
+                            history.pushState({}, null, Url.pathname + "?" + Params.toString());
+                        }).catch(e => alert(e),
+                            console.log("tets")
+                        );
+
+                    });
+                });
+
+
+            }
+        </script>
 {% endblock %}

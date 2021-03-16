@@ -1,0 +1,56 @@
+
+<div class="list_general">
+    <ul>
+        {% for i in reservations %}
+            <li>
+                <figure><img src="img/item_1.jpg" alt=""></figure>
+                <h4>Hotel {{ i.hotel.nom}} </h4>
+                <ul class="booking_list">
+                    <li><strong>date debut</strong> {{ i.datedebut|date('d-m-Y') }}</li>
+                    <li><strong>datefin</strong> {{ i.datefin|date('d-m-Y')}} </li>
+                    <li><strong>prix</strong> {{ i.prix }}</li>
+                    <li><strong>nb adultes</strong> {{ i.nbadulte }}</li>
+                    <li><strong>nb enfants</strong> {{ i.nbenfants }}</li>
+                    <li><strong>client</strong> {{ i.client.nom }} {{ i.client.prenom }}</li>
+
+                </ul>
+                <ul class="buttons">
+
+                    <li><a href="{{ path('reservation_show1', {'id': i.id}) }}" class="btn_1 gray approve"><i class="fa fa-fw fa-check-circle-o"></i> Consulter</a></li>
+                    <li><a href="{{ path('reservation_edit1', {'id': i.id}) }}"  class="btn_1 gray delete"><i class="fa fa-fw fa-times-circle-o"></i> Modifier</a></li>
+
+                </ul>
+            </li>
+        {%  endfor %}
+
+
+    </ul>
+</div>
+<!-- /box_general-->
+{% set queryParams = app.request.query.all %}
+    {% set queryString = queryParams|filter((v, k) => k != "page" and k != "ajax")|url_encode %}
+<nav aria-label="...">
+    <ul class="pagination pagination-sm add_bottom_30">
+
+
+        <li class="{{ (page==1)? 'disabled' : '' }}">
+            <a class="page-link" href="{{ (page>1)? '?page=' ~ (page-1):''}}&{{queryString}}">
+                Previous
+            </a>
+
+        </li>
+        {% set pages=(total/limit)|round(0,'ceil') %}
+        {% for item in 1..pages %}
+            <li class="{{ (page==item)? 'active' :'' }}">
+
+                <a class="page-link" href="?page={{ item }}&{{queryString}}">{{ item }}</a></li>
+        {%  endfor %}
+
+        <li class="{{ (page==pages)? 'disabled' : '' }}">
+            <a class="page-link" href="{{ (page<pages)? '?page=' ~ (page+1):''}}&{{queryString}}">
+                Next
+            </a>
+
+        </li>
+    </ul>
+</nav>

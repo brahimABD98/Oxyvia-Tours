@@ -102,7 +102,18 @@ class ChambreRepository extends ServiceEntityRepository
         //return $query->getResult();
     }
 
+//// delete res ->ses chambers vont etre non occupe
+    public function deleteResFromChambre($idres){
+        return $this->createQueryBuilder('s')
 
+            ->where('s.reservation =:idres')
+            ->setParameter('idres',$idres)
+
+            ->getQuery()
+            ->getResult();
+
+
+    }
 
     // /**
     //  * @return Chambre[] Returns an array of Chambre objects

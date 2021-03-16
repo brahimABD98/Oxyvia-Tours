@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dea7de16c10dec809d5a31e42ce14972",
+    "content-hash": "ef14c4de70a39c8a9574545a0721f205",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -912,16 +912,16 @@
         },
         {
             "name": "doctrine/migrations",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "260991be753a38aa25b6f2d13dbb7f113f8dbf8f"
+                "reference": "e543224170a61ffe49fcadb8e7339c345df1baa2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/260991be753a38aa25b6f2d13dbb7f113f8dbf8f",
-                "reference": "260991be753a38aa25b6f2d13dbb7f113f8dbf8f",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/e543224170a61ffe49fcadb8e7339c345df1baa2",
+                "reference": "e543224170a61ffe49fcadb8e7339c345df1baa2",
                 "shasum": ""
             },
             "require": {
@@ -997,11 +997,7 @@
                 "dbal",
                 "migrations"
             ],
-            "support": {
-                "issues": "https://github.com/doctrine/migrations/issues",
-                "source": "https://github.com/doctrine/migrations/tree/3.1.0"
-            },
-            "time": "2021-02-07T21:16:17+00:00"
+            "time": "2021-03-14T11:10:58+00:00"
         },
         {
             "name": "doctrine/orm",
@@ -1616,6 +1612,53 @@
                 "source": "https://github.com/Seldaek/monolog/tree/1.26.0"
             },
             "time": "2020-12-14T12:56:38+00:00"
+        },
+        {
+            "name": "padam87/cron-bundle",
+            "version": "v2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Padam87/CronBundle.git",
+                "reference": "f53f87e255b9e68b0ec886c650e351c7089603f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Padam87/CronBundle/zipball/f53f87e255b9e68b0ec886c650e351c7089603f1",
+                "reference": "f53f87e255b9e68b0ec886c650e351c7089603f1",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "~1.0",
+                "php": "^7.1",
+                "symfony/config": "^4.0|^5.0",
+                "symfony/console": "^4.0|^5.0",
+                "symfony/dependency-injection": "^4.0|^5.0",
+                "symfony/process": "^4.0|^5.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Padam87\\CronBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Prager",
+                    "email": "prager.adam87@gmail.com"
+                }
+            ],
+            "description": "A cron job manager for symfony console.",
+            "homepage": "https://github.com/Padam87/CronBundle",
+            "keywords": [
+                "console",
+                "cron",
+                "symfony"
+            ],
+            "time": "2020-06-11T18:44:32+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

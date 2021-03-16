@@ -11,6 +11,7 @@ use App\Repository\HotelRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\VoyageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Bridge\Google\Transport\GmailSmtpTransport;
@@ -37,11 +38,28 @@ class GestionReservationController extends AbstractController
      */
 
 
-    public function index(ReservationRepository $ResRepository): Response
+    public function index(ReservationRepository $ResRepository,Request $request): Response
     {
+        $limit = 4;
+        $filters=$request->get('hotel');
+        $page = (int)$request->query->get("page", 1);
+        $reservations = $ResRepository->getPaginatedResPerClient(1,$page, $limit,$filters);
+        $total=count($ResRepository->getTotalResPerClient(1,$filters));
+        if($request->get('ajax')){
+            return new JsonResponse([
+                'content' => $this->renderView('reservation/contentResPerClient.html.twig',
+                    compact('reservations', 'total', 'limit', 'page'))
+            ]);
+        }
+
+
         return $this->render('reservation/index.html.twig', [
 
-            'reservations' => $ResRepository->showReservationParClient(1),//find res pour client qui a id=1
+            'reservations' =>$reservations,
+            'limit'=>$limit,
+            'page'=>$page,
+            'total'=>$total
+
         ]);
     }
 
@@ -50,11 +68,27 @@ class GestionReservationController extends AbstractController
      */
 
 
-    public function AfficheToutReservation(ReservationRepository $ResRepository): Response
+    public function AfficheToutReservation(ReservationRepository $ResRepository,Request $request): Response
     {
+        $limit = 4;
+        $filters=$request->get('hotel');
+        $page = (int)$request->query->get("page", 1);
+        $reservations = $ResRepository->getPaginatedRes($page, $limit,$filters);
+        $total=count($ResRepository->getTotalReservation($filters));
+        if($request->get('ajax')){
+            return new JsonResponse([
+                'content' => $this->renderView('reservation/content.html.twig',
+                    compact('reservations', 'total', 'limit', 'page'))
+            ]);
+        }
         return $this->render('reservation/indexAllReservation.html.twig', [
 
-            'reservations' => $ResRepository->findAll(),//find res pour client qui a id=1
+            'reservations' =>$reservations,
+            'limit'=>$limit,
+            'page'=>$page,
+            'total'=>$total
+
+            //find res pour client qui a id=1
         ]);
     }
 

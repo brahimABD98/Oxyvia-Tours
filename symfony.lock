@@ -99,6 +99,9 @@
     "nikic/php-parser": {
         "version": "v4.10.4"
     },
+    "padam87/cron-bundle": {
+        "version": "v2.5.0"
+    },
     "php": {
         "version": "7.3"
     },

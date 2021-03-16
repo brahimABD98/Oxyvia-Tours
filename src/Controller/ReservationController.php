@@ -254,14 +254,22 @@ class ReservationController extends AbstractController
     /**
      * @Route("/{id}", name="reservation_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Reservation $reservation): Response
+    public function delete(Request $request, Reservation $reservation ,ChambreRepository $chambreRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$reservation->getId(), $request->request->get('_token'))) {
+
             $entityManager = $this->getDoctrine()->getManager();
+            $chambres=$chambreRepository->deleteResFromChambre($reservation->getId());
+
+            foreach ($chambres as $chambre){
+                $chambre->setOccupe('non occupe');
+                $chambre->setReservation(null);
+
+            }
             $entityManager->remove($reservation);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('reservation_index');
+        return $this->redirectToRoute('gestion_reservation');
     }
 }

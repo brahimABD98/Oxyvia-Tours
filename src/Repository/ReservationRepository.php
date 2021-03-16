@@ -37,7 +37,83 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
 
+    public function getPaginatedResPerClient($db,$page, $limit,$filters=null){
+        $query = $this->createQueryBuilder('a')
+            ->join('a.hotel','h')
+            ->addSelect('h')
+            ->join('a.client','cl')
+            ->addSelect('cl')
+            ->where('cl.id=:id')
+             ->setParameter('id',$db);
 
+        if($filters != null){
+            $query->andWhere('h.nom like :cats')
+                ->setParameter('cats','%'.$filters.'%');
+        }
+
+        $query ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+
+    public function getTotalResPerClient($db,$filters=null){
+        $query = $this->createQueryBuilder('a')
+            ->join('a.hotel','h')
+            ->addSelect('h')
+            ->join('a.client','cl')
+            ->addSelect('cl')
+            ->where('cl.id=:id')
+            ->setParameter('id',$db);
+
+        if($filters != null){
+            $query->andWhere('h.nom like :cats')
+                ->setParameter('cats','%'.$filters.'%');
+        }
+
+
+        return $query->getQuery()->getResult();
+    }
+
+////////////////////// INDEX DE RESERVATION DU PAR CLIENT
+
+
+
+
+    public function getPaginatedRes($page, $limit,$filters){
+        $query = $this->createQueryBuilder('a')
+            ->join('a.hotel','c')
+                ->addSelect('c');
+
+        if($filters != null){
+            $query->andWhere('c.nom like :cats')
+                ->setParameter('cats','%'.$filters.'%');
+        }
+
+           $query ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Returns number of Annonces
+     * @return void
+     */
+    public function getTotalReservation($filters=null){
+        $query = $this->createQueryBuilder('a')
+            ->join('a.hotel','c')
+            ->addSelect('c');
+
+        if($filters != null){
+            $query->andWhere('c.nom like :cats')
+                ->setParameter('cats','%'.$filters.'%');
+        }
+
+        ;
+        return $query->getQuery()->getResult();
+    }
     // /**
     //  * @return Reservation[] Returns an array of Reservation objects
     //  */
