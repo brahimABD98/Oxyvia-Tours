@@ -53,14 +53,8 @@ class GestionReservationController extends AbstractController
         }
 
 
-        return $this->render('reservation/index.html.twig', [
-
-            'reservations' =>$reservations,
-            'limit'=>$limit,
-            'page'=>$page,
-            'total'=>$total
-
-        ]);
+        return $this->render('reservation/index.html.twig',compact('reservations','limit','page',
+            'total'));
     }
 
     /**

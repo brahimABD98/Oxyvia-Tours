@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef14c4de70a39c8a9574545a0721f205",
+    "content-hash": "a7a841afe251e58e76d47802d73719f1",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -64,6 +64,147 @@
                 "source": "https://github.com/composer/package-versions-deprecated/tree/1.11.99.1"
             },
             "time": "2020-11-11T10:22:58+00:00"
+        },
+        {
+            "name": "craue/formflow-bundle",
+            "version": "3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/craue/CraueFormFlowBundle.git",
+                "reference": "0fca027ca7bff77e4601af4c72da0b05b8a5ee0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/craue/CraueFormFlowBundle/zipball/0fca027ca7bff77e4601af4c72da0b05b8a5ee0a",
+                "reference": "0fca027ca7bff77e4601af4c72da0b05b8a5ee0a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8",
+                "symfony/config": "~3.4|~4.4|~5.1",
+                "symfony/dependency-injection": "~3.4|~4.4|~5.1",
+                "symfony/event-dispatcher": "~3.4|~4.4|~5.1",
+                "symfony/form": "~3.4|~4.4|~5.1",
+                "symfony/http-foundation": "~3.4|~4.4|~5.1",
+                "symfony/http-kernel": "~3.4|~4.4|~5.1",
+                "symfony/options-resolver": "~3.4|~4.4|~5.1",
+                "symfony/security-core": "~3.4|~4.4|~5.1",
+                "symfony/translation": "~3.4|~4.4|~5.1",
+                "symfony/validator": "~3.4|~4.4|~5.1",
+                "symfony/yaml": "~3.4|~4.4|~5.1"
+            },
+            "require-dev": {
+                "craue/translations-tests": "^1.1",
+                "doctrine/common": "~2.7|~3.0",
+                "doctrine/doctrine-bundle": "~1.10|~2.0",
+                "phpunit/phpunit": "^9.4",
+                "symfony/phpunit-bridge": "^5.2",
+                "symfony/symfony": "~3.4.23|~4.4|~5.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Craue\\FormFlowBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Raue",
+                    "email": "christian.raue@gmail.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/craue/CraueFormFlowBundle/contributors"
+                }
+            ],
+            "description": "Multi-step forms for your Symfony project.",
+            "homepage": "https://github.com/craue/CraueFormFlowBundle",
+            "keywords": [
+                "form",
+                "step",
+                "symfony",
+                "wizard"
+            ],
+            "time": "2020-12-17T09:07:51+00:00"
+        },
+        {
+            "name": "craue/formflow-demo-bundle",
+            "version": "3.4.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/craue/CraueFormFlowDemoBundle.git",
+                "reference": "638682acd9a0b4fec25cee748fd40ca051d2d2a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/craue/CraueFormFlowDemoBundle/zipball/638682acd9a0b4fec25cee748fd40ca051d2d2a3",
+                "reference": "638682acd9a0b4fec25cee748fd40ca051d2d2a3",
+                "shasum": ""
+            },
+            "require": {
+                "craue/formflow-bundle": "~3.4@dev",
+                "doctrine/orm": "^2.5.2",
+                "symfony/config": "~3.4|~4.4|~5.1",
+                "symfony/dependency-injection": "~3.4|~4.4|~5.1",
+                "symfony/event-dispatcher": "~3.4|~4.4|~5.1",
+                "symfony/form": "~3.4|~4.4|~5.1",
+                "symfony/framework-bundle": "~3.4|~4.4|~5.1",
+                "symfony/http-foundation": "~3.4|~4.4|~5.1",
+                "symfony/http-kernel": "~3.4|~4.4|~5.1",
+                "symfony/intl": "~3.4|~4.4|~5.1",
+                "symfony/options-resolver": "~3.4|~4.4|~5.1",
+                "symfony/routing": "~3.4|~4.4|~5.1",
+                "symfony/translation": "~3.4|~4.4|~5.1",
+                "symfony/validator": "~3.4|~4.4|~5.1"
+            },
+            "require-dev": {
+                "craue/translations-tests": "^1.1",
+                "doctrine/instantiator": "^1.0.5",
+                "phpunit/phpunit": "^9.4",
+                "symfony/phpunit-bridge": "^5.2",
+                "symfony/symfony": "~3.4.23|~4.4|~5.1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Craue\\FormFlowDemoBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Raue",
+                    "email": "christian.raue@gmail.com"
+                }
+            ],
+            "description": "Example code showcasing the features of CraueFormFlowBundle.",
+            "homepage": "https://github.com/craue/CraueFormFlowDemoBundle",
+            "keywords": [
+                "demo",
+                "form",
+                "step",
+                "symfony",
+                "wizard"
+            ],
+            "time": "2021-01-04T11:43:53+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -1536,6 +1677,48 @@
                 "zf"
             ],
             "time": "2021-02-25T21:54:58+00:00"
+        },
+        {
+            "name": "mercuryseries/flashy-bundle",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mercuryseries/flashy-bundle.git",
+                "reference": "6ed47bd753f12b9ae41c2f3463e678490601db9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mercuryseries/flashy-bundle/zipball/6ed47bd753f12b9ae41c2f3463e678490601db9d",
+                "reference": "6ed47bd753f12b9ae41c2f3463e678490601db9d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0",
+                "symfony/config": "^3.4 || ^4.0 || ^5.0",
+                "symfony/dependency-injection": "^3.4 || ^4.0 || ^5.0",
+                "symfony/http-kernel": "^3.4 || ^4.0 || ^5.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^3.4 || ^4.0 || ^5.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "MercurySeries\\FlashyBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Honore Hounwanou",
+                    "email": "mercuryseries@gmail.com"
+                }
+            ],
+            "description": "Easy flash notifications in Symfony",
+            "time": "2020-12-04T18:23:40+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -6810,7 +6993,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "craue/formflow-demo-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

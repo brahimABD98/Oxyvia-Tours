@@ -12,7 +12,7 @@
                 <div class="container">
                     <div class="bs-wizard clearfix">
                         <div class="bs-wizard-step">
-                            <div class="text-center bs-wizard-stepnum">Your cart</div>
+                            <div class="text-center bs-wizard-stepnum"> Terminer </div>
                             <div class="progress">
                                 <div class="progress-bar"></div>
                             </div>
@@ -20,16 +20,16 @@
                         </div>
 
                         <div class="bs-wizard-step active">
-                            <div class="text-center bs-wizard-stepnum">Payment</div>
+                            <div class="text-center bs-wizard-stepnum">Votre</div>
                             <div class=R"progress">
                                 <div class="progress-bar"></div>
                             </div>
                             <a href="#0" class="bs-wizard-dot"></a>
                         </div>
 
-                        <div class="bs-wizard-step disabled">
-                            <div class="text-center bs-wizard-stepnum">Finish!</div>
-                            <div class="progress">
+                        <div class="bs-wizard-step active">
+                            <div class="text-center bs-wizard-stepnum">Réservation</div>
+                            <div class=R"progress">
                                 <div class="progress-bar"></div>
                             </div>
                             <a href="#0" class="bs-wizard-dot"></a>
@@ -58,6 +58,18 @@
                                 <br>
                             </div>
                             <div class="room_type first">
+                                {% for message in app.flashes('info') %}
+                                    <div class="alert alert-info">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+
+                                {% for message in app.flashes('warning') %}
+                                    <div class="alert alert-danger">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+
                                 <div class="row">
                                     <div class="col-md-4">
                                         <img src="{{ asset('img/singleroom.jpg') }}" class="img-fluid" alt="">
@@ -77,21 +89,25 @@
                                         {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
 
                                         {% if nbchambreSingleDispo[0][0] is null  %}
-                                        pas de chambre disponible
-                                    {% else %}
+                                        <li>  pas de chambre disponible</li>
+                                       {% else %}
                                         <li>Prix : {{nbchambreSingleDispo[0][0].prix}}</li>
                                         {% endif %}>
 
+                                        {% if nbchambreSingleDispo[0][0] is null  %}
 
+                                        <div class="form-group">
+                                            <label>Nombre de chambre single à réserver</label>
+                                            {{ form_widget(form.NbChambreSingleReserve,{ 'attr':{'disabled':'disabled'} }) }}
+                                            {{ form_errors(form.NbChambreSingleReserve) }}
+                                        </div>
+                                        {% else %}
                                         <div class="form-group">
                                             <label>Nombre de chambre single à réserver</label>
                                             {{ form_widget(form.NbChambreSingleReserve) }}
                                             {{ form_errors(form.NbChambreSingleReserve) }}
-
                                         </div>
-                                        <button type="submit" class=" add_top_30 btn_1 full-width purchase" >Réserver</button>
-
-                                        {{ form_end(form) }}
+                                        {% endif %}>
 
                                     </div>
                                 </div>
@@ -115,7 +131,6 @@
                                         </ul>
                                         <li>Nombre de chambre disponible : {{nbchambreDoubleDispo[0][1]}}</li>
 
-                                        {{ form_start(form2,{'attr': {'novalidate': 'novalidate'}} ) }}
 
                                         {% if nbchambreDoubleDispo [0][0] is null  %}
                                         pas de chambre disponible
@@ -123,16 +138,27 @@
                                         <li>Prix : {{nbchambreDoubleDispo[0][0].prix}}</li>
                                         {% endif %}>
 
+
+
+                                        {% if nbchambreDoubleDispo[0][0] is null  %}
+
                                         <div class="form-group">
-                                            <label>Nombre de chambre Double à réserver</label>
-                                            {{ form_widget(form2.nbChambreDoubleReserve) }}
-                                            {{ form_errors(form2.nbChambreDoubleReserve) }}
-
-
+                                            <label>Nombre de chambre single à réserver</label>
+                                            {{ form_widget(form.nbChambreDoubleReserve,{ 'attr':{'disabled':'disabled'} }) }}
+                                            {{ form_errors(form.nbChambreDoubleReserve) }}
                                         </div>
+                                    {% else %}
+                                        <div class="form-group">
+                                            <label>Nombre de chambre double à réserver</label>
+                                            {{ form_widget(form.nbChambreDoubleReserve) }}
+                                            {{ form_errors(form.nbChambreDoubleReserve) }}
+                                        </div>
+                                        {% endif %}>
+
+
                                         <button type="submit" class=" add_top_30 btn_1 full-width purchase" >Réserver</button>
 
-                                        {{ form_end(form2) }}
+                                        {{ form_end(form) }}
 
                                     </div>
                                 </div>

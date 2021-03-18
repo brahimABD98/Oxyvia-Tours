@@ -327,6 +327,8 @@
     }
 </style>
                                 <aside class="col-lg-4" id="sidebar">
+
+
                                     {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
 
 
@@ -353,7 +355,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Nombre adultes</label>
-                                            {{ form_widget(form.nb_adulte) }}
+                                            {{ form_widget(form.nb_adulte,{ 'value':'0' }) }}
                                             {{ form_errors(form.nb_adulte) }}
 
 

@@ -18,7 +18,13 @@
                 <li class="breadcrumb-item active">Bookings list</li>
             </ol>
             <div class="box_general">
+
                 <div class="header_box">
+                    {% for message in app.flashes('info') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     <h2 class="d-inline-block">Liste des Reservation effecuté par vous </h2>
                     <form id="filters">
                         {% if queryParams is not empty and queryParams.hotel is defined %}

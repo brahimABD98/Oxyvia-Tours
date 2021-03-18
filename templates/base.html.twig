@@ -18,6 +18,7 @@
         <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
         <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
         <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+        <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
 
         <!-- GOOGLE WEB FONT -->
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
@@ -34,6 +35,7 @@
 </head>
 
 <body>
+
 
 <div id="page">
 
@@ -740,6 +742,8 @@
     <script src="http://maps.googleapis.com/maps/api/js"></script>
     <script src="js/map_single_hotel.js"></script>
     <script src="js/infobox.js"></script>
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+    <script src="//code.jquery.com/jquery.js"></script>
 
 <!-- DATEPICKER  -->
 <script>
@@ -759,7 +763,9 @@
         });
     });
 </script>
+
 {% endblock%}
+{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 
 
 </body>

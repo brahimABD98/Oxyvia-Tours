@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 use App\Repository\ChambreRepository;
+use http\Message;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
@@ -17,8 +21,12 @@ use App\Repository\ReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Email;
 
 /**
  * @Route("/reservation")
@@ -55,12 +63,25 @@ class ReservationController extends AbstractController
                 'attr' => ['class' => 'js-datepicker'],
                 'data'          => new \DateTime(),
             ])
-            ->add('nb_adulte')
-            ->add('nb_enfants')
+            ->add('nb_adulte',IntegerType::class,[
+                'attr' => array( 'value'=>'1' ),
+                'constraints'=>new NotBlank()
+
+            ])
+
+            ->add('nb_enfants',IntegerType::class,[
+                'attr' => array( 'value'=>'0' ),
+                'constraints'=>new NotBlank(),
+
+            ])
+
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() ) {
+
+            $nb_enf=$form->getData()['nb_enfants'];
+            $nb_adul=$form->getData()['nb_adulte'];
 
 
             $date_debut = $form["date_debut"]->getData()->format('Y-m-d');
@@ -90,7 +111,7 @@ class ReservationController extends AbstractController
     /**
      * @Route("/wiw/{date_debut}/{date_fin}/{nbadultes}/{nbenfants}", name="reservation_check")
      */
-    public function ReservationCheck(HotelRepository $hotelRepository,ClientRepository $clientRepository,Request $request,$date_debut,$date_fin,$nbadultes,$nbenfants,ChambreRepository $chambreRepository): Response
+    public function ReservationCheck(MailerInterface $mailer,ReservationRepository $reservationRepository,HotelRepository $hotelRepository,ClientRepository $clientRepository,Request $request,$date_debut,$date_fin,$nbadultes,$nbenfants,ChambreRepository $chambreRepository): Response
     {
         $hotel_id = $_GET['hotel_id'];
         $reservation=new Reservation();
@@ -106,84 +127,219 @@ class ReservationController extends AbstractController
         $nbadultes = $nbadultes;
         $nbenfants = $nbenfants;
         $form = $this->createFormBuilder($defaultData)
-            ->add('NbChambreSingleReserve')
+            ->add('NbChambreSingleReserve',IntegerType::class,[
+                'attr' => array( 'value'=>'0' ),
+            ])
+            ->add('nbChambreDoubleReserve',IntegerType::class,[
+                'attr' => array( 'value'=>'0' ),
+            ])
             ->getForm();
 
         $form->handleRequest($request);
 
-        //form 2 pour reservation room double
-        $defaultData = ['message' => 'Type your message here'];
-        $form2 = $this->createFormBuilder($defaultData)
-            ->add('nbChambreDoubleReserve')
-            ->getForm();
-        $form2->handleRequest($request);
-
-
         if ($form->isSubmitted() && $form->isValid() ) {
             $nbchambre = $form["NbChambreSingleReserve"]->getData();
-            if ($nbchambre <= $nbchambreSingleDispo[0][1]) {
-                $reservation->setCheckPayement("checked");
-                $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
-                $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
-                $reservation->setNbAdulte($nbadultes);
-                $reservation->setNbEnfants($nbenfants);
-                $reservation->setHotel($hotel);
-                $reservation->setClient($client);
-                $reservation->setType("reservation hotel");
-                $reservation->setPrix($diff->d * $nbchambreSingleDispo['0']['0']->getPrix() * $nbchambre * ($nbadultes + $nbenfants));
-                $reservation->setNbChambreSingleReserve($nbchambre);
-                $reservation->setNbChambreDoubleReserve(0);
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($reservation);
-                $entityManager->flush();
-                $chambreAaffecteRes= $chambreRepository->getChambresSingleWithLimit($hotel_id,$nbchambre);
-                foreach ($chambreAaffecteRes as $res){
-                    $room=$chambreRepository->find($res->getId());
-                    $room->setReservation($reservation);
-                    $room->setOccupe('occupe');
+            $nbchambre2 = $form["nbChambreDoubleReserve"]->getData();
+
+            if($nbchambre!=0 && $nbchambre2!=0){
+                if($nbchambre <= $nbchambreSingleDispo[0][1]&&$nbchambre2<=$nbchambreDoubleDispo[0][1]){
+
+                    $reservation->setToken($this->generateToken());
+                    $reservation->setConfirme("non confirme");
+                    $reservation->setCheckPayement("checked");
+                    $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
+                    $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
+                    $reservation->setNbAdulte($nbadultes);
+                    $reservation->setNbEnfants($nbenfants);
+                    $reservation->setHotel($hotel);
+                    $reservation->setClient($client);
+                    $reservation->setType("reservation hotel 2 type");
+                    if($diff->d==0){
+                        $reservation->setPrix(1 * (($nbchambreDoubleDispo['0']['0']->getPrix() * $nbchambre2 )+($nbchambreSingleDispo['0']['0']->getPrix() * $nbchambre ) ) );
+
+                    }
+                    else {
+                        $reservation->setPrix($diff->d * (($nbchambreDoubleDispo['0']['0']->getPrix() * $nbchambre2 )+($nbchambreSingleDispo['0']['0']->getPrix() * $nbchambre ) ) );
+
+                    }
+
+                    $reservation->setNbChambreSingleReserve($nbchambre);
+                    $reservation->setNbChambreDoubleReserve($nbchambre2);
                     $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($room);
+                    $entityManager->persist($reservation);
                     $entityManager->flush();
 
+                    $chambreAaffecteRes= $chambreRepository->getChambresDoubleWithLimit($hotel_id,$nbchambre2);
+                    foreach ($chambreAaffecteRes as $res){
+                        $room=$chambreRepository->find($res->getId());
+                        $room->setReservation($reservation);
+                        $room->setOccupe('occupe');
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($room);
+                        $entityManager->flush();
+                    }
+
+                    $chambreAaffecteRes = $chambreRepository->getChambresSingleWithLimit($hotel_id, $nbchambre);
+                    foreach ($chambreAaffecteRes as $res) {
+                        $room = $chambreRepository->find($res->getId());
+                        $room->setReservation($reservation);
+                        $room->setOccupe('occupe');
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($room);
+                        $entityManager->flush();
+                    }
+
+                    //////////SEND EMAIL FOR CONFIRMATION
+
+                    $email = (new TemplatedEmail())
+                        ->from('saieftaher1@gmail.com')
+                        ->to('saieftaher1@gmail.com')
+                        ->subject('confirmation de votre réservation!')
+                        ->htmlTemplate('reservation/confirmReservationEmail.html.twig')
+                        ->context([
+                            'client' => $reservation->getClient()->getNom(),
+                            'hotel'=>$reservation->getHotel()->getNom(),
+                            'date_debut'=>$reservation->getDateDebut(),
+                            'date_fin'=>$reservation->getDateFin(),
+                            'token'=>$reservation->getToken()
+                        ]);
+                    $mailer->send($email);
+
+                    $this->addFlash("info", "un email de confirmation a été envoyé a votre boite mail !");
+
+
                 }
-                return $this->redirectToRoute('reservation_index');
+
+
             }
+            else if($nbchambre!=0){
+                    if ($nbchambre <= $nbchambreSingleDispo[0][1]) {
+                        $reservation->setToken($this->generateToken());
+
+                        $reservation->setConfirme("non confirme");
+                        $reservation->setCheckPayement("checked");
+                        $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
+                        $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
+                        $reservation->setNbAdulte($nbadultes);
+                        $reservation->setNbEnfants($nbenfants);
+                        $reservation->setHotel($hotel);
+                        $reservation->setClient($client);
+                        $reservation->setType("reservation hotel single");
+
+                        if($diff->d==0){
+                            $reservation->setPrix(1 * $nbchambreSingleDispo['0']['0']->getPrix() * $nbchambre );
+
+                        }
+                        else {
+                            $reservation->setPrix($diff->d * $nbchambreSingleDispo['0']['0']->getPrix() * $nbchambre );
+
+                        }
+
+                        $reservation->setNbChambreSingleReserve($nbchambre);
+                        $reservation->setNbChambreDoubleReserve(0);
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($reservation);
+                        $entityManager->flush();
+                        $chambreAaffecteRes = $chambreRepository->getChambresSingleWithLimit($hotel_id, $nbchambre);
+                        foreach ($chambreAaffecteRes as $res) {
+                            $room = $chambreRepository->find($res->getId());
+                            $room->setReservation($reservation);
+                            $room->setOccupe('occupe');
+                            $entityManager = $this->getDoctrine()->getManager();
+                            $entityManager->persist($room);
+                            $entityManager->flush();
+
+                        }
+
+                        //////////SEND EMAIL FOR CONFIRMATION
+
+                        $email = (new TemplatedEmail())
+                            ->from('saieftaher1@gmail.com')
+                            ->to('saieftaher1@gmail.com')
+                            ->subject('confirmation de votre réservation!')
+                            ->htmlTemplate('reservation/confirmReservationEmail.html.twig')
+                            ->context([
+                                'client' => $reservation->getClient()->getNom(),
+                                'hotel'=>$reservation->getHotel()->getNom(),
+                                'date_debut'=>$reservation->getDateDebut(),
+                                'date_fin'=>$reservation->getDateFin(),
+                                'token'=>$reservation->getToken()
+                            ]);
+                        $mailer->send($email);
+                        $this->addFlash("info", "un email de confirmation a été envoyé a votre boite mail !");
+
+                    }
+
+                }
+            else if($nbchambre2!=0){
+                    if($nbchambre2<=$nbchambreDoubleDispo[0][1]){
+
+                        $reservation->setToken($this->generateToken());
+                        $reservation->setConfirme("non confirme");
+                        $reservation->setCheckPayement("checked");
+                        $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
+                        $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
+                        $reservation->setNbAdulte($nbadultes);
+                        $reservation->setNbEnfants($nbenfants);
+                        $reservation->setHotel($hotel);
+                        $reservation->setClient($client);
+                        $reservation->setType("reservation hotel double");
+
+                        if($diff->d==0){
+                            $reservation->setPrix(1 * $nbchambreDoubleDispo['0']['0']->getPrix() * $nbchambre2 );
+
+                        }
+                        else {
+                            $reservation->setPrix($diff->d * $nbchambreDoubleDispo['0']['0']->getPrix() * $nbchambre2 );
+
+                        }
+
+                        $reservation->setNbChambreSingleReserve(0);
+                        $reservation->setNbChambreDoubleReserve($nbchambre2);
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($reservation);
+                        $entityManager->flush();
+
+                        $chambreAaffecteRes= $chambreRepository->getChambresDoubleWithLimit($hotel_id,$nbchambre2);
+                        foreach ($chambreAaffecteRes as $res){
+                            $room=$chambreRepository->find($res->getId());
+                            $room->setReservation($reservation);
+                            $room->setOccupe('occupe');
+                            $entityManager = $this->getDoctrine()->getManager();
+                            $entityManager->persist($room);
+                            $entityManager->flush();
+
+                        }
+
+                        //////////SEND EMAIL FOR CONFIRMATION
+
+                        $email = (new TemplatedEmail())
+                            ->from('saieftaher1@gmail.com')
+                            ->to('saieftaher1@gmail.com')
+                            ->subject('confirmation de votre réservation!')
+                            ->htmlTemplate('reservation/confirmReservationEmail.html.twig')
+                            ->context([
+                                'client' => $reservation->getClient()->getNom(),
+                                'hotel'=>$reservation->getHotel()->getNom(),
+                                'date_debut'=>$reservation->getDateDebut(),
+                                'date_fin'=>$reservation->getDateFin(),
+                                'token'=>$reservation->getToken()
+                            ]);
+                        $mailer->send($email);
+                        $this->addFlash("info", "un email de confirmation a été envoyé a votre boite mail !");
+
+                    }
+
+
+            }
+            else if($nbchambre==00 && $nbchambre2==0) {
+            $this->addFlash('warning','vous devez réserver au moins une chambre');
+
+        }
+
         }
 
 
-        else    if ($form2->isSubmitted() && $form2->isValid() ) {//form de double room
-            $nbchambre2 = $form2["nbChambreDoubleReserve"]->getData();
-            if($nbchambre2<=$nbchambreDoubleDispo[0][1]){
-                $reservation->setCheckPayement("checked");
-                $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
-                $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
-                $reservation->setNbAdulte($nbadultes);
-                $reservation->setNbEnfants($nbenfants);
-                $reservation->setHotel($hotel);
-                $reservation->setClient($client);
-                $reservation->setType("reservation hotel");
-                $reservation->setPrix($diff->d * $nbchambreDoubleDispo['0']['0']->getPrix() * $nbchambre2 * ($nbadultes + $nbenfants));
-                $reservation->setNbChambreSingleReserve(0);
-                $reservation->setNbChambreDoubleReserve($nbchambre2);
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($reservation);
-                $entityManager->flush();
-
-               $chambreAaffecteRes= $chambreRepository->getChambresDoubleWithLimit($hotel_id,$nbchambre2);
-               foreach ($chambreAaffecteRes as $res){
-                   $room=$chambreRepository->find($res->getId());
-                   $room->setReservation($reservation);
-                   $room->setOccupe('occupe');
-                   $entityManager = $this->getDoctrine()->getManager();
-                   $entityManager->persist($room);
-                   $entityManager->flush();
-
-               }
-                return $this->redirectToRoute('reservation_index');
-
-            }
-
-        }
         return $this->render('reservation/checkAvaibility.html.twig', [
             'hotel_id'=>$hotel_id,
             'nbchambreSingleDispo'=>$nbchambreSingleDispo,
@@ -191,14 +347,32 @@ class ReservationController extends AbstractController
             'form' => $form->createView(),
             'date_debut'=>$date_debut,
             'date_fin'=>$date_fin,
-            'form2' => $form2->createView(),
+
             'nbadultes' => $nbadultes,
             'nbenfants' => $nbenfants
 
         ]);
     }
 
-
+    /**
+     * @Route("/confirmer-mon-compte/{token}", name="confirm_reservation")
+     * @param string $token
+     */
+    public function confirmReservation(string $token,ReservationRepository  $reservationRepository)
+    {
+        $res = $reservationRepository->findOneBy(["token" => $token]);
+        if($res) {
+            $res->setToken("");
+            $res->setConfirme('confirme');
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($res);
+            $em->flush();
+            $this->addFlash("info", "Merci pour votre confiance , reservation a été confirmé avec sucées !");
+            return $this->redirectToRoute("gestion_reservation");
+        } else {
+            return $this->redirectToRoute('home');
+        }
+    }
 
 
     /**
@@ -256,6 +430,7 @@ class ReservationController extends AbstractController
      */
     public function delete(Request $request, Reservation $reservation ,ChambreRepository $chambreRepository): Response
     {
+
         if ($this->isCsrfTokenValid('delete'.$reservation->getId(), $request->request->get('_token'))) {
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -271,5 +446,15 @@ class ReservationController extends AbstractController
         }
 
         return $this->redirectToRoute('gestion_reservation');
+    }
+
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    private function generateToken()
+    {
+        return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }
 }

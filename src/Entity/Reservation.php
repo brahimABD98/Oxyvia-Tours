@@ -102,6 +102,16 @@ class Reservation
      */
     private $chambres;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $confirme;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $token;
+
     public function __construct()
     {
         $this->chambres = new ArrayCollection();
@@ -281,6 +291,30 @@ class Reservation
                 $chambre->setReservation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getConfirme(): ?string
+    {
+        return $this->confirme;
+    }
+
+    public function setConfirme(string $confirme): self
+    {
+        $this->confirme = $confirme;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
 
         return $this;
     }

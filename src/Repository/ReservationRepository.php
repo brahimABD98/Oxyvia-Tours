@@ -21,11 +21,13 @@ class ReservationRepository extends ServiceEntityRepository
 
     public function showReservationParClient($db){
         return $this->createQueryBuilder('s')
+
             ->join('s.client','c')
             ->addSelect('c')
             ->where('c.id=:id')
-
             ->setParameter('id',$db)
+            ->setParameter('conf','confirme')
+
             ->getQuery()
             ->getResult();
 
@@ -44,7 +46,10 @@ class ReservationRepository extends ServiceEntityRepository
             ->join('a.client','cl')
             ->addSelect('cl')
             ->where('cl.id=:id')
-             ->setParameter('id',$db);
+            ->andWhere('a.confirme like :conf ')
+            ->setParameter('conf','confirme')
+
+            ->setParameter('id',$db);
 
         if($filters != null){
             $query->andWhere('h.nom like :cats')
@@ -65,7 +70,10 @@ class ReservationRepository extends ServiceEntityRepository
             ->join('a.client','cl')
             ->addSelect('cl')
             ->where('cl.id=:id')
-            ->setParameter('id',$db);
+            ->andWhere('a.confirme like :conf ')
+
+            ->setParameter('id',$db)
+             ->setParameter('conf','confirme');
 
         if($filters != null){
             $query->andWhere('h.nom like :cats')
@@ -84,8 +92,9 @@ class ReservationRepository extends ServiceEntityRepository
     public function getPaginatedRes($page, $limit,$filters){
         $query = $this->createQueryBuilder('a')
             ->join('a.hotel','c')
-                ->addSelect('c');
-
+            ->addSelect('c')
+            ->andWhere('a.confirme like :conf ')
+            ->setParameter('conf','confirme');
         if($filters != null){
             $query->andWhere('c.nom like :cats')
                 ->setParameter('cats','%'.$filters.'%');
@@ -104,8 +113,9 @@ class ReservationRepository extends ServiceEntityRepository
     public function getTotalReservation($filters=null){
         $query = $this->createQueryBuilder('a')
             ->join('a.hotel','c')
-            ->addSelect('c');
-
+            ->addSelect('c')
+        ->andWhere('a.confirme like :conf ')
+            ->setParameter('conf','confirme');
         if($filters != null){
             $query->andWhere('c.nom like :cats')
                 ->setParameter('cats','%'.$filters.'%');
