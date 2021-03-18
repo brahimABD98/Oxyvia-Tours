@@ -19,6 +19,19 @@ class VoyageRepository extends ServiceEntityRepository
         parent::__construct($registry, Voyage::class);
     }
 
+
+    /**
+     * @return Voyage[]
+     */
+    public function findAllEmailAlphabetical()
+    {
+        return $this->createQueryBuilder('u')
+            ->groupBy('u.ville')
+            ->getQuery()
+            ->execute()
+            ;
+    }
+
     // /**
     //  * @return Voyage[] Returns an array of Voyage objects
     //  */

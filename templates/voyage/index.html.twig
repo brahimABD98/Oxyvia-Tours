@@ -21,6 +21,15 @@
 
                     <td> <a href="{{ path('voyage_new') }}" class="btn_1 black approve">Ajouter un voyage</a></td>
 
+                    <div class="embed-responsive">
+                        {{ form_start(form) }}
+                        {{ form_widget(form.ville) }}
+                         {{ form_widget(form.date_debut) }}
+                        {{ form_widget(form.date_fin) }}
+                        <input type="hidden" name="page" value="{{page}}">
+
+                    {{ form_end(form) }}
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
@@ -64,4 +73,32 @@
         <!-- /container-fluid-->
     </div>
     <!-- /container-wrapper-->
+
+
+
+    <script>
+        window.onload = () => {
+            const FiltersForm = document.querySelector("#filters");
+
+            // On boucle sur les input
+            document.querySelectorAll("#filters select").forEach(input => {
+                input.addEventListener("change", () =>
+                {
+                    const Form = new FormData(FiltersForm);
+
+                    // On fabrique la "queryString"
+                    const Params = new URLSearchParams();
+
+                    Form.forEach((value, key) => {
+                        //Params.append(key, value);
+                        console.log(key," ", value)
+                    });
+
+
+                });
+            });
+
+
+        }
+    </script>
 {% endblock %}

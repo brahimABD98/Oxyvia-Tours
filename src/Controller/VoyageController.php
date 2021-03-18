@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use Acme\Bundle\AcmeBundle\DQL;
 use App\Entity\Voyage;
 use App\Form\VoyageType;
 use App\Repository\VoyageRepository;
@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * @Route("dashboard/gestion/voyage")
@@ -17,14 +18,82 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class VoyageController extends AbstractController
 {
     /**
-     * @Route("/", name="voyage_index", methods={"GET"})
+     * @Route("/", name="voyage_index")
      */
-    public function index(VoyageRepository $voyageRepository): Response
-    {
+    public function index(VoyageRepository $voyageRepository,Request $request): Response
+    {$limit = 4;
+        $page = (int)$request->query->get("page", 1);
+
+        $voyage=new Voyage();
+        $form = $this->createFormBuilder($voyage, ['attr' => ['id' => 'filters']])
+
+        ->add(
+            'ville',
+            EntityType::class,
+            [
+                'class' => Voyage::class,
+
+                'expanded' => false,
+                'multiple' => false,
+                 'placeholder'=>"selectionez la ville du voyage",
+
+                'query_builder' => function (VoyageRepository $er) {
+                    return $er->createQueryBuilder('u')
+                            ->groupBy('u.ville') ;
+
+                },
+                'choice_label' => 'ville',
+                'choice_value' => 'ville',
+            ]
+        )
+            ->add(
+                'date_debut',
+                EntityType::class,
+                [
+                    'class' => Voyage::class,
+                    'choice_label' => 'getJourDebutFormat',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'placeholder'=>"selectionez date fin du voyage",
+
+                    'query_builder' => function (VoyageRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->select('DATE_FORMAT(u.date_debut, "%d %m %Y") as dateAsMonth')
+                            ->groupBy('as dateAsMonth')
+                        ->getQuery()
+                            ->getResult();
+                    },
+                    'choice_label' => 'date_debut',
+                    'choice_value' => 'date_debut',
+
+                ]
+            )
+            ->add(
+                'date_fin',
+                EntityType::class,
+                [
+                    'class' => Voyage::class,
+                    'choice_label' => 'getJourfinFormat',
+                    'expanded' => false,
+                    'multiple' => false,
+                    'placeholder'=>"selectionez date fin du voyage",
+
+
+                ]
+            )
+            ->getForm();
+
+
         return $this->render('voyage/index.html.twig', [
             'voyages' => $voyageRepository->findAll(),
+            'form' => $form->createView(),
+            'page'=>$page
         ]);
     }
+
+
+
+
 
     /**
      * @Route("/new", name="voyage_new", methods={"GET","POST"})

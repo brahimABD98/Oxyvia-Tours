@@ -178,4 +178,13 @@ class Voyage
 
         return $this;
     }
+
+    public function getJourDebutFormat($format = 'd/m/Y')
+    {
+        return $this->date_debut->format($format);
+    }
+    public function getJourfinFormat($format = 'd/m/Y')
+    {
+        return $this->date_fin->format($format);
+    }
 }

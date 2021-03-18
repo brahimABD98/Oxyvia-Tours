@@ -201,7 +201,13 @@ class ReservationController extends AbstractController
                             'hotel'=>$reservation->getHotel()->getNom(),
                             'date_debut'=>$reservation->getDateDebut(),
                             'date_fin'=>$reservation->getDateFin(),
-                            'token'=>$reservation->getToken()
+                            'nbadulte'=>$reservation->getNbAdulte(),
+                            'nbenfants'=>$reservation->getNbEnfants(),
+                            'total'=>$reservation->getPrix(),
+                            'token'=>$reservation->getToken(),
+                            'nbsingle'=>$reservation->getNbChambreSingleReserve(),
+                            'nbdouble'=>$reservation->getNbChambreDoubleReserve()
+
                         ]);
                     $mailer->send($email);
 
@@ -263,7 +269,12 @@ class ReservationController extends AbstractController
                                 'hotel'=>$reservation->getHotel()->getNom(),
                                 'date_debut'=>$reservation->getDateDebut(),
                                 'date_fin'=>$reservation->getDateFin(),
-                                'token'=>$reservation->getToken()
+                                'nbadulte'=>$reservation->getNbAdulte(),
+                                'nbenfants'=>$reservation->getNbEnfants(),
+                                'total'=>$reservation->getPrix(),
+                                'token'=>$reservation->getToken(),
+                                'nbsingle'=>$reservation->getNbChambreSingleReserve(),
+                                'nbdouble'=>0
                             ]);
                         $mailer->send($email);
                         $this->addFlash("info", "un email de confirmation a été envoyé a votre boite mail !");
@@ -323,7 +334,12 @@ class ReservationController extends AbstractController
                                 'hotel'=>$reservation->getHotel()->getNom(),
                                 'date_debut'=>$reservation->getDateDebut(),
                                 'date_fin'=>$reservation->getDateFin(),
-                                'token'=>$reservation->getToken()
+                                'nbadulte'=>$reservation->getNbAdulte(),
+                                'nbenfants'=>$reservation->getNbEnfants(),
+                                'total'=>$reservation->getPrix(),
+                                'token'=>$reservation->getToken(),
+                                'nbsingle'=>0,
+                                'nbdouble'=>$reservation->getNbChambreDoubleReserve()
                             ]);
                         $mailer->send($email);
                         $this->addFlash("info", "un email de confirmation a été envoyé a votre boite mail !");
@@ -332,6 +348,9 @@ class ReservationController extends AbstractController
 
 
             }
+
+
+
             else if($nbchambre==00 && $nbchambre2==0) {
             $this->addFlash('warning','vous devez réserver au moins une chambre');
 
@@ -347,7 +366,6 @@ class ReservationController extends AbstractController
             'form' => $form->createView(),
             'date_debut'=>$date_debut,
             'date_fin'=>$date_fin,
-
             'nbadultes' => $nbadultes,
             'nbenfants' => $nbenfants
 
