@@ -179,7 +179,7 @@ class Voyage
         return $this;
     }
 
-    public function getJourDebutFormat($format = 'd/m/Y')
+    public function getJourDebutFormat($format = 'Y/m/d')
     {
         return $this->date_debut->format($format);
     }

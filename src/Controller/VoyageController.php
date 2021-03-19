@@ -6,6 +6,8 @@ use App\Entity\Voyage;
 use App\Form\VoyageType;
 use App\Repository\VoyageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,73 +23,43 @@ class VoyageController extends AbstractController
      * @Route("/", name="voyage_index")
      */
     public function index(VoyageRepository $voyageRepository,Request $request): Response
-    {$limit = 4;
+    {$limit = 10;
         $page = (int)$request->query->get("page", 1);
+        $filterville=$request->get('ville');
+        $filtersdb=$request->get('datedebut');
+        $filtersdf=$request->get('datefin');
 
-        $voyage=new Voyage();
-        $form = $this->createFormBuilder($voyage, ['attr' => ['id' => 'filters']])
+        $datedeb=$voyageRepository->dateDebutGroupedBy();
+        $datefin=$voyageRepository->datefinGroupedBy();
+        $villes=$voyageRepository->VilleGroupedBy();
 
-        ->add(
-            'ville',
-            EntityType::class,
-            [
-                'class' => Voyage::class,
+        $voyages = $voyageRepository->getPaginatedvoyage($page, $limit,$filterville,$filtersdb,$filtersdf);
 
-                'expanded' => false,
-                'multiple' => false,
-                 'placeholder'=>"selectionez la ville du voyage",
-
-                'query_builder' => function (VoyageRepository $er) {
-                    return $er->createQueryBuilder('u')
-                            ->groupBy('u.ville') ;
-
-                },
-                'choice_label' => 'ville',
-                'choice_value' => 'ville',
-            ]
-        )
-            ->add(
-                'date_debut',
-                EntityType::class,
-                [
-                    'class' => Voyage::class,
-                    'choice_label' => 'getJourDebutFormat',
-                    'expanded' => false,
-                    'multiple' => false,
-                    'placeholder'=>"selectionez date fin du voyage",
-
-                    'query_builder' => function (VoyageRepository $er) {
-                        return $er->createQueryBuilder('u')
-                            ->select('DATE_FORMAT(u.date_debut, "%d %m %Y") as dateAsMonth')
-                            ->groupBy('as dateAsMonth')
-                        ->getQuery()
-                            ->getResult();
-                    },
-                    'choice_label' => 'date_debut',
-                    'choice_value' => 'date_debut',
-
-                ]
-            )
-            ->add(
-                'date_fin',
-                EntityType::class,
-                [
-                    'class' => Voyage::class,
-                    'choice_label' => 'getJourfinFormat',
-                    'expanded' => false,
-                    'multiple' => false,
-                    'placeholder'=>"selectionez date fin du voyage",
+        $total=count($voyageRepository->getTotalVoy($filterville,$filtersdb,$filtersdf));
 
 
-                ]
-            )
-            ->getForm();
+
+
+        if($request->get('ajax')){
+            return new JsonResponse([
+                'content' => $this->renderView('voyage/content.html.twig',
+                    compact('voyages', 'total', 'limit', 'page','filterville'))
+            ]);
+        }
+
+
+
 
 
         return $this->render('voyage/index.html.twig', [
             'voyages' => $voyageRepository->findAll(),
-            'form' => $form->createView(),
-            'page'=>$page
+            'datedeb'=>$datedeb,
+            'datefin'=>$datefin,
+            'villes'=>$villes,
+            'page'=>$page,
+                'limit'=>$limit,
+
+            'total'=>$total
         ]);
     }
 

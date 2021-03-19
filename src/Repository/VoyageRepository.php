@@ -20,16 +20,137 @@ class VoyageRepository extends ServiceEntityRepository
     }
 
 
-    /**
-     * @return Voyage[]
-     */
-    public function findAllEmailAlphabetical()
+
+    public function dateDebutGroupedBy()
     {
         return $this->createQueryBuilder('u')
+            ->select("date_format(u.date_debut, '%Y-%m-%d') as wiw" )
+            ->groupBy('wiw')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function datefinGroupedBy()
+    {
+        return $this->createQueryBuilder('u')
+            ->select("date_format(u.date_fin, '%Y-%m-%d') as wiw" )
+            ->groupBy('wiw')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function VilleGroupedBy()
+    {
+        return $this->createQueryBuilder('u')
+
             ->groupBy('u.ville')
             ->getQuery()
-            ->execute()
-            ;
+            ->getResult();
+    }
+    public function getPaginatedvoyage($page, $limit,$filterville=null,$filtersdb=null,$filtersdf=null){
+        $query = $this->createQueryBuilder('c');
+
+        if($filtersdb != null&&$filtersdf != null&&$filterville != null){
+            $query->andWhere('c.date_debut like :ville')
+                ->andWhere('c.date_fin like :db')
+                ->andWhere('c.ville like :v')
+                ->setParameter('ville','%'.$filtersdb.'%')
+                ->setParameter('db','%'.$filtersdf.'%')
+                  ->setParameter('v','%'.$filterville.'%');
+
+        }
+
+
+       else if($filterville != null&&$filtersdb != null){
+            $query->andWhere('c.ville like :ville')
+                ->andWhere('c.date_debut like :db')
+                ->setParameter('ville','%'.$filterville.'%')
+                ->setParameter('db','%'.$filtersdb.'%');
+
+        }
+
+       else if($filterville != null&&$filtersdf != null){
+            $query->andWhere('c.ville like :ville')
+                ->andWhere('c.date_fin like :db')
+                ->setParameter('ville','%'.$filterville.'%')
+                ->setParameter('db','%'.$filtersdf.'%');
+
+        }
+
+       else if($filtersdb != null&&$filtersdf != null){
+            $query->andWhere('c.date_debut like :ville')
+                ->andWhere('c.date_fin like :db')
+                ->setParameter('ville','%'.$filtersdb.'%')
+                ->setParameter('db','%'.$filtersdf.'%');
+
+        }
+       else if($filterville != null){
+            $query->andWhere('c.ville like :ville')
+                ->setParameter('ville','%'.$filterville.'%');
+        }
+       else  if($filtersdb != null){
+            $query->andWhere('c.date_debut like :db')
+                ->setParameter('db','%'.$filtersdb.'%');
+        }
+       else  if($filtersdf != null){
+            $query->andWhere('c.date_fin like :df')
+                ->setParameter('df','%'.$filtersdf.'%');
+        }
+
+
+
+        $query ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * Returns number of Annonces
+     * @return void
+     */
+    public function getTotalVoy($filterville=null,$filtersdb=null,$filtersdf=null)
+    {
+        $query = $this->createQueryBuilder('c');
+
+        if ($filtersdb != null && $filtersdf != null && $filterville != null) {
+            $query->andWhere('c.date_debut like :ville')
+                ->andWhere('c.date_fin like :db')
+                ->andWhere('c.ville like :v')
+                ->setParameter('ville', '%' . $filtersdb . '%')
+                ->setParameter('db', '%' . $filtersdf . '%')
+                ->setParameter('v', '%' . $filterville . '%');
+
+        } else if ($filterville != null && $filtersdb != null) {
+            $query->andWhere('c.ville like :ville')
+                ->andWhere('c.date_debut like :db')
+                ->setParameter('ville', '%' . $filterville . '%')
+                ->setParameter('db', '%' . $filtersdb . '%');
+
+        } else if ($filterville != null && $filtersdf != null) {
+            $query->andWhere('c.ville like :ville')
+                ->andWhere('c.date_fin like :db')
+                ->setParameter('ville', '%' . $filterville . '%')
+                ->setParameter('db', '%' . $filtersdf . '%');
+
+        } else if ($filtersdb != null && $filtersdf != null) {
+            $query->andWhere('c.date_debut like :ville')
+                ->andWhere('c.date_fin like :db')
+                ->setParameter('ville', '%' . $filtersdb . '%')
+                ->setParameter('db', '%' . $filtersdf . '%');
+
+        } else if ($filterville != null) {
+            $query->andWhere('c.ville like :ville')
+                ->setParameter('ville', '%' . $filterville . '%');
+        } else if ($filtersdb != null) {
+            $query->andWhere('c.date_debut like :db')
+                ->setParameter('db', '%' . $filtersdb . '%');
+        } else if ($filtersdf != null) {
+            $query->andWhere('c.date_fin like :df')
+                ->setParameter('df', '%' . $filtersdf . '%');
+        };
+        return $query->getQuery()->getResult();
     }
 
     // /**
