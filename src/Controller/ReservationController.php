@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 use App\Repository\ChambreRepository;
+use App\Repository\PlaceRepository;
+use App\Repository\VoyageRepository;
 use http\Message;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -475,4 +477,36 @@ class ReservationController extends AbstractController
     {
         return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }
+
+
+    /////////RESERVATION VOYAGE////////////
+
+    /**
+     * @Route("/new/voyage", name="reservation_new", methods={"GET","POST"})
+     */
+    public function newReservationVoyage(VoyageRepository $voyageRepository,PlaceRepository $placeRepository): Response
+    {
+
+        $voy=$voyageRepository->find(9);
+
+        $placepervoy=$voy->getPlace()->toArray();
+
+//dd($placepervoy);
+        return $this->render('voyage/ReservationVoyage.html.twig',compact('placepervoy','voy'));
+    }
+
+
+    /**
+     * @Route("/new/voyageMaps/{id}", name="voyplacemaps")
+     */
+    public function maps($id,VoyageRepository $voyageRepository,PlaceRepository $placeRepository): Response
+    {
+
+
+
+        return $this->render('Voyage/PlaceMaps.html.twig', [
+            'id'=>$id,
+
+        ]);    }
+
 }

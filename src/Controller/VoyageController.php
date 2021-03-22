@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 use Acme\Bundle\AcmeBundle\DQL;
+use App\Entity\Place;
 use App\Entity\Voyage;
 use App\Form\VoyageType;
+use App\Repository\HotelRepository;
 use App\Repository\VoyageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -57,7 +59,7 @@ class VoyageController extends AbstractController
             'datefin'=>$datefin,
             'villes'=>$villes,
             'page'=>$page,
-                'limit'=>$limit,
+            'limit'=>$limit,
 
             'total'=>$total
         ]);
@@ -70,25 +72,80 @@ class VoyageController extends AbstractController
     /**
      * @Route("/new", name="voyage_new", methods={"GET","POST"})
      */
-    public function new(Request $request,ParameterBagInterface $params): Response
+    public function new(Request $request,ParameterBagInterface $params,HotelRepository $hotelRepository): Response
     {
         $voyage = new Voyage();
         $form = $this->createForm(VoyageType::class, $voyage);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $hotel=$hotelRepository->find($form->get('hotel')->getData());
+
+            $place1 = $request->request->get("place1");
+            $att1 = $request->request->get("att1");
+            $long1 = $request->request->get("long1");
+
+            $place2 = $request->request->get("place2");
+            $att2 = $request->request->get("att2");
+            $long2 = $request->request->get("long2");
+
+            $place3 = $request->request->get("place3");
+            $att3 = $request->request->get("att3");
+            $long3 = $request->request->get("long3");
+
+            $placeobj=new Place();
+            $placeobj->setNom($place1);
+            $placeobj->setAltitude($att1);
+            $placeobj->setLongitude($long1);
+
+            $placeobj2=new Place();
+            $placeobj2->setNom($place2);
+            $placeobj2->setAltitude($att2);
+            $placeobj2->setLongitude($long2);
+
+            $placeobj3=new Place();
+            $placeobj3->setNom($place3);
+            $placeobj3->setAltitude($att3);
+            $placeobj3->setLongitude($long3);
+
             $file=$request->files->get('voyage')['image'];
-           $uploads_directory=$params->get('uploads_directory');
-           $filename=md5(uniqid()). '.'.$file->guessExtension();
-           $file->move(
-               $uploads_directory,
-               $filename
-           );
-          $voyage->setImage($filename);
+            $uploads_directory=$params->get('uploads_directory');
+            $filename=md5(uniqid()). '.'.$file->guessExtension();
+            $file->move(
+                $uploads_directory,
+                $filename
+            );
+            $voyage->setImage($filename);
+            $voyage->setHotel($hotel);
+
+            $arr=[$placeobj,
+                $placeobj2,
+                $placeobj3
+            ];
+
+            foreach ($arr as $ar){
+                $voyage->getPlace()->add($ar);
+            }
+
+            $placeobj->addVoyage($voyage);
+            $placeobj2->addVoyage($voyage);
+            $placeobj3->addVoyage($voyage);
+
+
+
+
+
 
             $entityManager = $this->getDoctrine()->getManager();
-           $entityManager->persist($voyage);
-             $entityManager->flush();
+            $entityManager->persist($voyage);
+//            $entityManager->persist($placeobj);
+//            $entityManager->persist($placeobj2);
+//            $entityManager->persist($placeobj3);
+
+            $entityManager->flush();
+
+
 
             return $this->redirectToRoute('voyage_index');
         }

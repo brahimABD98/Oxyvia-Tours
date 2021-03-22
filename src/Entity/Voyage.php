@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VoyageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -77,6 +79,25 @@ class Voyage
      * @ORM\Column(type="string", length=255)
      */
     private $image;
+
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Place::class, inversedBy="voyages",cascade={"persist"})
+     */
+    private $place;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Hotel::class, inversedBy="voyages")
+     */
+    private $hotel;
+
+
+
+    public function __construct()
+    {
+        $this->place = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -187,4 +208,44 @@ class Voyage
     {
         return $this->date_fin->format($format);
     }
+
+
+
+    /**
+     * @return Collection|Place[]
+     */
+    public function getPlace(): Collection
+    {
+        return $this->place;
+    }
+
+    public function addPlace(Place $place): self
+    {
+        if (!$this->place->contains($place)) {
+            $this->place[] = $place;
+        }
+
+        return $this;
+    }
+
+    public function removePlace(Place $place): self
+    {
+        $this->place->removeElement($place);
+
+        return $this;
+    }
+
+    public function getHotel(): ?Hotel
+    {
+        return $this->hotel;
+    }
+
+    public function setHotel(?Hotel $hotel): self
+    {
+        $this->hotel = $hotel;
+
+        return $this;
+    }
+
+
 }

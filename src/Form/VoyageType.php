@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Form;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
+use App\Entity\Hotel;
 use App\Entity\Voyage;
+use App\Repository\HotelRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -38,7 +41,18 @@ class VoyageType extends AbstractType
             ->add('image', FileType::class,[
                 'mapped'=>false,
                 'label'=>'Affiche de voyage'
-            ]);
+            ])
+
+      ->  add('hotel', EntityType::class, [
+            'class' => Hotel::class,
+          'placeholder' => 'Sélectionner un hotel',
+          'query_builder' => function (HotelRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->groupBy('u.nom');
+            },
+            'choice_label' => 'nom',
+        ]);
+
 
         ;
     }

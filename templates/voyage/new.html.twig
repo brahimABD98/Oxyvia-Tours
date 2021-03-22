@@ -4,11 +4,21 @@
 
 
 {% block body %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <style>
         .custom-file-input {
             opacity: 1;
         }
+        .modal-backdrop {
+            /* bug fix - no overlay */
+            display: none;
+            background-color: #000;
+
+        }
     </style>
+
+
     <!-- /Navigation-->
     <div class="content-wrapper">
         <div class="container-fluid">
@@ -52,15 +62,60 @@
 
                             {{ form_label(form.image) }}
                             {{ form_widget(form.image) }}
-                            
+
+                            {{ form_label(form.hotel) }}
+                            {{ form_widget(form.hotel) }}
+
+
 
                         </div>
 
-                <!-- /row-->
 
 
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <label>  Place 1</label>
+                           <input type="text" id="place1" name="place1">
 
+                            <label>  atitude</label>
+                            <input type="text" id="att1" name="att1">
+
+                            <label>  longitude</label>
+                             <input type="text" id="long1" name="long1">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <label>  Place 2</label>
+                            <input type="text" id="place2" name="place2">
+                            <label>  atitude</label>
+
+                            <input type="text" id="att2" name="att2">
+                            <label>  longitude</label>
+
+                            <input type="text" id="long2" name="long2">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <label>  Place 3</label>
+                            <input type="text" id="place3" name="place3">
+                            <label>  atitude</label>
+
+                            <input type="text" id="att3" name="att3">
+                            <label>  longitude</label>
+
+                            <input type="text" id="long3" name="long3">
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
+
 
 
 
@@ -71,4 +126,8 @@
         </div>
         <!-- /.container-fluid-->
     </div>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock %}

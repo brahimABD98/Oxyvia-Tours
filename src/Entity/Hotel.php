@@ -41,11 +41,21 @@ class Hotel
      */
     private $reservation;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Voyage::class, mappedBy="hotel")
+     */
+    private $voyages;
+
+
+
+
+
     public function __construct()
     {
         $this->chambre_id = new ArrayCollection();
         $this->reservations = new ArrayCollection();
         $this->reservation = new ArrayCollection();
+        $this->voyages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -127,4 +137,36 @@ class Hotel
 
         return $this;
     }
+
+    /**
+     * @return Collection|Voyage[]
+     */
+    public function getVoyages(): Collection
+    {
+        return $this->voyages;
+    }
+
+    public function addVoyage(Voyage $voyage): self
+    {
+        if (!$this->voyages->contains($voyage)) {
+            $this->voyages[] = $voyage;
+            $voyage->setHotel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVoyage(Voyage $voyage): self
+    {
+        if ($this->voyages->removeElement($voyage)) {
+            // set the owning side to null (unless already changed)
+            if ($voyage->getHotel() === $this) {
+                $voyage->setHotel(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
