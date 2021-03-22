@@ -32,8 +32,8 @@
 
 
 
-                                        <a href="{{ path('reclamation_show', {'id': reclamation.id}) }}">show</a>
-                                        <p class="inline-popups"><a href="{{ path('reclamation_show', {'id': reclamation.id}) }}" data-effect="mfp-zoom-in" class="btn_1 gray"><i class="fa fa-fw fa-reply"></i> Reply to this review</a></p>
+                                     <!--   <a href="{{ path('reclamation_show', {'id': reclamation.id}) }}">show</a>-->
+                                        <p class="inline-popups"><a href="{{ path('reponse_new' , {'id':reclamation.id}) }}" data-effect="mfp-zoom-in" class="btn_1 gray"><i class="fa fa-fw fa-reply"></i> Reply to this review</a></p>
 
 
                             {% else %}
