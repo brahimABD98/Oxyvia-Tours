@@ -1,31 +1,38 @@
 
-    <div class="list_general">
-        <ul>
-            {% for i in reservations %}
-                <li>
-                    <figure><img src="img/item_1.jpg" alt=""></figure>
+<div class="list_general">
+    <ul>
+        {% for i in reservations %}
+            <li>
+                {% if i.type=='reservation voyage'  %}
+                    <figure><img src="{{ asset('uploads/')~ i.voyage.image }}" alt=""></figure>
+                    <h4>Voyage {{ i.voyage.nom}} </h4>
+                {% elseif i.type=='reservation hotel'  %}
                     <h4>Hotel {{ i.hotel.nom}} </h4>
-                    <ul class="booking_list">
-                        <li><strong>date debut</strong> {{ i.datedebut|date('d-m-Y') }}</li>
-                        <li><strong>datefin</strong> {{ i.datefin|date('d-m-Y')}} </li>
-                        <li><strong>prix</strong> {{ i.prix }}</li>
-                        <li><strong>nb adultes</strong> {{ i.nbadulte }}</li>
-                        <li><strong>nb enfants</strong> {{ i.nbenfants }}</li>
-                        <li><strong>client</strong> {{ i.client.nom }} {{ i.client.prenom }}</li>
+                {% endif %}
+                <ul class="booking_list">
+                    <li><strong>date debut</strong> {{ i.datedebut|date('d-m-Y') }}</li>
+                    <li><strong>datefin</strong> {{ i.datefin|date('d-m-Y')}} </li>
 
-                    </ul>
-                    <ul class="buttons">
+                    {% if i.type=='reservation voyage'  %}
+                        <li><strong>ville</strong> {{ i.voyage.ville}}</li>
+                    {% endif %}
+
+                    <li><strong>prix</strong> {{ i.prix }}</li>
+                    <li><strong>nb adultes</strong> {{ i.nbadulte }}</li>
+                    <li><strong>nb enfants</strong> {{ i.nbenfants }}</li>
+                    <li><strong>Type</strong>{{ i.type }}</li>
+                    <li><strong>client</strong> {{ i.client.nom }} {{ i.client.prenom }}</li>
+
+                </ul>
+
+            </li>
+        {%  endfor %}
 
 
-                    </ul>
-                </li>
-            {%  endfor %}
-
-
-        </ul>
-    </div>
+    </ul>
+</div>
 <!-- /box_general-->
-    {% set queryParams = app.request.query.all %}
+{% set queryParams = app.request.query.all %}
     {% set queryString = queryParams|filter((v, k) => k != "page" and k != "ajax")|url_encode %}
 <nav aria-label="...">
     <ul class="pagination pagination-sm add_bottom_30">

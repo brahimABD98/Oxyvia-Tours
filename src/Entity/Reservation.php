@@ -56,11 +56,6 @@ class Reservation
      */
     private $type;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *  @Assert\NotBlank (message="eerr")
-     */
-    private $checkPayement;
 
 
 
@@ -111,6 +106,11 @@ class Reservation
      * @ORM\Column(type="string", length=255)
      */
     private $token;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Voyage::class, inversedBy="reservations")
+     */
+    private $voyage;
 
     public function __construct()
     {
@@ -187,17 +187,7 @@ class Reservation
     }
 
 
-    public function getCheckPayement(): ?string
-    {
-        return $this->checkPayement;
-    }
 
-    public function setCheckPayement(string $checkPayement): self
-    {
-        $this->checkPayement = $checkPayement;
-
-        return $this;
-    }
 
 
 
@@ -315,6 +305,18 @@ class Reservation
     public function setToken(string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getVoyage(): ?Voyage
+    {
+        return $this->voyage;
+    }
+
+    public function setVoyage(?Voyage $voyage): self
+    {
+        $this->voyage = $voyage;
 
         return $this;
     }

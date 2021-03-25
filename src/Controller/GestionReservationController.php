@@ -42,9 +42,12 @@ class GestionReservationController extends AbstractController
     {
         $limit = 4;
         $filters=$request->get('hotel');
+        $filtersType=$request->get('type');
+
         $page = (int)$request->query->get("page", 1);
-        $reservations = $ResRepository->getPaginatedResPerClient(1,$page, $limit,$filters);
-        $total=count($ResRepository->getTotalResPerClient(1,$filters));
+        $reservations = $ResRepository->getPaginatedResPerClient(1,$page, $limit,$filters,$filtersType);
+     //   dd($reservations);
+        $total=count($ResRepository->getTotalResPerClient(1,$filters,$filtersType));
         if($request->get('ajax')){
             return new JsonResponse([
                 'content' => $this->renderView('reservation/contentResPerClient.html.twig',
@@ -66,9 +69,10 @@ class GestionReservationController extends AbstractController
     {
         $limit = 4;
         $filters=$request->get('hotel');
+        $filtersType=$request->get('type');
         $page = (int)$request->query->get("page", 1);
-        $reservations = $ResRepository->getPaginatedRes($page, $limit,$filters);
-        $total=count($ResRepository->getTotalReservation($filters));
+        $reservations = $ResRepository->getPaginatedRes($page, $limit,$filters,$filtersType);
+        $total=count($ResRepository->getTotalReservation($filters,$filtersType));
         if($request->get('ajax')){
             return new JsonResponse([
                 'content' => $this->renderView('reservation/content.html.twig',

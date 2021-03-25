@@ -6,6 +6,7 @@ use App\Entity\Place;
 use App\Entity\Voyage;
 use App\Form\VoyageType;
 use App\Repository\HotelRepository;
+use App\Repository\TransportRepository;
 use App\Repository\VoyageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -72,14 +73,13 @@ class VoyageController extends AbstractController
     /**
      * @Route("/new", name="voyage_new", methods={"GET","POST"})
      */
-    public function new(Request $request,ParameterBagInterface $params,HotelRepository $hotelRepository): Response
+    public function new(Request $request,ParameterBagInterface $params,HotelRepository $hotelRepository,TransportRepository $transportRepository): Response
     {
         $voyage = new Voyage();
         $form = $this->createForm(VoyageType::class, $voyage);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $hotel=$hotelRepository->find($form->get('hotel')->getData());
 
             $place1 = $request->request->get("place1");
@@ -128,20 +128,23 @@ class VoyageController extends AbstractController
                 $voyage->getPlace()->add($ar);
             }
 
+$transports=$form['transport']->getData();
+            foreach ($transports as $ar2){
+             //   dd($ar2->getId());
+                $trans=$transportRepository->find($ar2->getId());
+                    $trans->setVoyage($voyage);
+            }
+
+
             $placeobj->addVoyage($voyage);
             $placeobj2->addVoyage($voyage);
             $placeobj3->addVoyage($voyage);
 
 
-
-
-
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($voyage);
-//            $entityManager->persist($placeobj);
-//            $entityManager->persist($placeobj2);
-//            $entityManager->persist($placeobj3);
+
+
 
             $entityManager->flush();
 

@@ -32,8 +32,13 @@
                                 <li><strong>Date debut</strong> {{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</li>
                                 <li><strong>Date fin</strong> {{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</li>
                                 <li><strong>Prix</strong>{{ reservation.prix }}</li>
-                                <li><strong>Nombre de personne</strong>{{ reservation.nbenfants }}</li>
+                                <li><strong>Nombre d'adultes </strong>{{ reservation.nbadulte}}</li>
+                                <li><strong>Nombre d'enfants </strong>{{ reservation.nbenfants}}</li>
+                                {% if reservation.type=='reservation voyage'  %}
+                                    <li><strong>Nom du voyage</strong> {{ reservation.voyage.ville}}</li>
+                                    <li><strong>ville</strong> {{ reservation.voyage.nom}}</li>
 
+                                {% endif %}
 
                             </ul>
 

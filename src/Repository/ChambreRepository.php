@@ -115,6 +115,20 @@ class ChambreRepository extends ServiceEntityRepository
 
     }
 
+    public function getChambreSinglePrixPerHotel($db){
+        return $this->createQueryBuilder('s')
+->select('s.prix')
+            ->where(' IDENTITY(s.hotel) like :db')
+            ->andWhere('s.occupe like :occ')
+            ->andWhere('s.type like :typeroom')
+            ->setParameter('db',$db)
+            ->setParameter('occ','non occupe')
+            ->setParameter('typeroom','single room')
+            ->getQuery()
+            ->getResult();
+
+    }
+
     // /**
     //  * @return Chambre[] Returns an array of Chambre objects
     //  */

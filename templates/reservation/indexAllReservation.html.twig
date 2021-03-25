@@ -27,6 +27,12 @@
                             {% endif %}
                             <label>Rechercher Par Hotel :</label>
                             <p><input type="text" id="hotel" name="hotel" value="{{ checked }}"></p>
+                            <select name="type" id="type">
+                                <option value="" class="dropdown-item">--Sélectionner type de réservation--</option>
+                                <option value="reservation voyage">voyage</option>
+                                <option value="reservation hotel">hotel</option>
+
+                            </select>
                             <input type="hidden" name="page" value="{{page}}">
 
                         </form>
@@ -39,50 +45,88 @@
         <!-- /container-fluid-->
     </div>
 
+        <script>
+            window.onload = () => {
+                const FiltersForm = document.querySelector("#filters");
 
-    <script>
-        window.onload = () => {
-            const FiltersForm = document.querySelector("#filters");
+                // On boucle sur les input
+                document.querySelectorAll("#filters input").forEach(input => {
+                    input.addEventListener("keyup", () =>
+                    {
+                        console.log("changeed")
+                        // Ici on intercepte les clics
+                        // On récupère les données du formulaire
+                        const Form = new FormData(FiltersForm);
+                        const Params = new URLSearchParams();
 
-            // On boucle sur les input
-            document.querySelectorAll("#filters input").forEach(input => {
-                input.addEventListener("keyup", () =>
-                {
-                    console.log("key")
-                    // Ici on intercepte les clics
-                    // On récupère les données du formulaire
-                    const Form = new FormData(FiltersForm);
-                    const Params = new URLSearchParams();
+                        Form.forEach((value, key) => {
+                            Params.append(key, value);
+                        });
+                        const Url = new URL(window.location.href);
+                        // On lance la requête ajax
+                        fetch(Url.pathname + "?" + Params.toString() + "&ajax=1", {
+                            headers: {
+                                "X-Requested-With": "XMLHttpRequest"
+                            }
+                        }).then(response =>
+                            response.json()
 
-                    Form.forEach((value, key) => {
-                        Params.append(key, value);
+                        ).then(data => {
+                            // On va chercher la zone de contenu
+                            const content = document.querySelector("#content");
+
+                            // On remplace le contenu
+                            content.innerHTML = data.content;
+
+                            // On met à jour l'url
+                            history.pushState({}, null, Url.pathname + "?" + Params.toString());
+                        }).catch(e => alert(e),
+                            console.log("tets")
+                        );
+
                     });
-                    const Url = new URL(window.location.href);
-                    // On lance la requête ajax
-                    fetch(Url.pathname + "?" + Params.toString() + "&ajax=1", {
-                        headers: {
-                            "X-Requested-With": "XMLHttpRequest"
-                        }
-                    }).then(response =>
-                        response.json()
-
-                    ).then(data => {
-                        // On va chercher la zone de contenu
-                        const content = document.querySelector("#content");
-
-                        // On remplace le contenu
-                        content.innerHTML = data.content;
-
-                        // On met à jour l'url
-                        history.pushState({}, null, Url.pathname + "?" + Params.toString());
-                    }).catch(e => alert(e),
-                    console.log("tets")
-                    );
-
                 });
-            });
+
+                document.querySelectorAll("#filters select").forEach(input => {
+                    input.addEventListener("change", () =>
+                    {
+                        console.log("changeed")
+                        // Ici on intercepte les clics
+                        // On récupère les données du formulaire
+                        const Form = new FormData(FiltersForm);
+                        const Params = new URLSearchParams();
+
+                        Form.forEach((value, key) => {
+                            Params.append(key, value);
+                        });
+                        const Url = new URL(window.location.href);
+                        // On lance la requête ajax
+                        fetch(Url.pathname + "?" + Params.toString() + "&ajax=1", {
+                            headers: {
+                                "X-Requested-With": "XMLHttpRequest"
+                            }
+                        }).then(response =>
+                            response.json()
+
+                        ).then(data => {
+                            // On va chercher la zone de contenu
+                            const content = document.querySelector("#content");
+
+                            // On remplace le contenu
+                            content.innerHTML = data.content;
+
+                            // On met à jour l'url
+                            history.pushState({}, null, Url.pathname + "?" + Params.toString());
+                        }).catch(e => alert(e),
+                            console.log("tets")
+                        );
+
+                    });
+                });
 
 
-        }
-    </script>
+            }
+
+
+        </script>
 {% endblock %}

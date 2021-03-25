@@ -3,14 +3,24 @@
     <ul>
         {% for i in reservations %}
             <li>
-                <figure><img src="img/item_1.jpg" alt=""></figure>
-                <h4>Hotel {{ i.hotel.nom}} </h4>
-                <ul class="booking_list">
+                {% if i.type=='reservation voyage'  %}
+                <figure><img src="{{ asset('uploads/')~ i.voyage.image }}" alt=""></figure>
+                <h4>Voyage {{ i.voyage.nom}} </h4>
+                {% elseif i.type=='reservation hotel'  %}
+                    <h4>Hotel {{ i.hotel.nom}} </h4>
+                {% endif %}
+                    <ul class="booking_list">
                     <li><strong>date debut</strong> {{ i.datedebut|date('d-m-Y') }}</li>
                     <li><strong>datefin</strong> {{ i.datefin|date('d-m-Y')}} </li>
+
+                        {% if i.type=='reservation voyage'  %}
+                            <li><strong>ville</strong> {{ i.voyage.ville}}</li>
+                        {% endif %}
+
                     <li><strong>prix</strong> {{ i.prix }}</li>
                     <li><strong>nb adultes</strong> {{ i.nbadulte }}</li>
                     <li><strong>nb enfants</strong> {{ i.nbenfants }}</li>
+                    <li><strong>Type</strong>{{ i.type }}</li>
                     <li><strong>client</strong> {{ i.client.nom }} {{ i.client.prenom }}</li>
 
                 </ul>

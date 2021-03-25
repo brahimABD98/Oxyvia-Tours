@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use App\Repository\VoyageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=VoyageRepository::class)
@@ -45,7 +46,7 @@ class Voyage
      *
 
      */
-    private $date_debut;
+    public $date_debut;
 
     /**
      * @ORM\Column(type="date",nullable=true)
@@ -58,14 +59,14 @@ class Voyage
      *
      *
      */
-    private $date_fin;
+    public $date_fin;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="veuillez remplir prix d'un personne")
 
      */
-    private $prix_personne;
+    public $prix_personne;
 
     /**
      * @ORM\Column(type="integer")
@@ -73,7 +74,7 @@ class Voyage
      *
      *
      */
-    private $nb_personne;
+    public $nb_personne;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -89,14 +90,28 @@ class Voyage
 
     /**
      * @ORM\ManyToOne(targetEntity=Hotel::class, inversedBy="voyages")
+     * @Assert\NotBlank(message="veuillez remplir l'hotel")
+
      */
     private $hotel;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Transport::class, mappedBy="voyage")
+     */
+    private $transport;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="voyage")
+     */
+    private $reservations;
 
 
 
     public function __construct()
     {
         $this->place = new ArrayCollection();
+        $this->transport = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,15 +215,6 @@ class Voyage
         return $this;
     }
 
-    public function getJourDebutFormat($format = 'Y/m/d')
-    {
-        return $this->date_debut->format($format);
-    }
-    public function getJourfinFormat($format = 'd/m/Y')
-    {
-        return $this->date_fin->format($format);
-    }
-
 
 
     /**
@@ -246,6 +252,68 @@ class Voyage
 
         return $this;
     }
+
+    /**
+     * @return Collection|Transport[]
+     */
+    public function getTransport(): Collection
+    {
+        return $this->transport;
+    }
+
+    public function addTransport(Transport $transport): self
+    {
+        if (!$this->transport->contains($transport)) {
+            $this->transport[] = $transport;
+            $transport->setVoyage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransport(Transport $transport): self
+    {
+        if ($this->transport->removeElement($transport)) {
+            // set the owning side to null (unless already changed)
+            if ($transport->getVoyage() === $this) {
+                $transport->setVoyage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->setVoyage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getVoyage() === $this) {
+                $reservation->setVoyage(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 
 }

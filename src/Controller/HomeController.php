@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ChambreRepository;
+use App\Repository\VoyageRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(MailerInterface $mailer,ChambreRepository $chambreRepository): Response
+    public function index(VoyageRepository $voyageRepository, MailerInterface $mailer,ChambreRepository $chambreRepository): Response
     {
         $authors = $chambreRepository
             ->showChambreExpire();
@@ -30,13 +31,14 @@ class HomeController extends AbstractController
                     'chambreExpire' => $authors,
 
                 ]);
-//        $transport = new GmailSmtpTransport('saieftaher1','saief1998');
-//        $mailer = new Mailer($transport);
-
         $mailer->send($email);
+
+        $arrvoy=$voyageRepository->Voyagelist();
+
+
     }
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+        'arrvoy'=>$arrvoy
         ]);
     }
 }

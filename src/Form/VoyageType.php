@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Form;
+use App\Entity\Transport;
+use App\Repository\TransportRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use App\Entity\Hotel;
@@ -51,10 +53,19 @@ class VoyageType extends AbstractType
                     ->groupBy('u.nom');
             },
             'choice_label' => 'nom',
-        ]);
+        ])
 
+            ->  add('transport', EntityType::class, [
+                'class' => Transport::class,
+                'placeholder' => 'Sélectionner vehicule(s)',
 
-        ;
+                'multiple'  => true,
+                'choice_label' => 'nom',
+
+            ])
+
+            ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

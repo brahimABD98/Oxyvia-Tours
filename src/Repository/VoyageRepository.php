@@ -20,6 +20,19 @@ class VoyageRepository extends ServiceEntityRepository
     }
 
 
+///get list of voy that are not full
+    // /**
+    //  * @return Voyage[] Returns an array of Voyage objects
+    //  */
+    public function Voyagelist()
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.nb_personne <> :val')
+            ->setParameter('val','0')
+            ->getQuery()
+            ->getResult();
+    }
+
 
     public function dateDebutGroupedBy()
     {

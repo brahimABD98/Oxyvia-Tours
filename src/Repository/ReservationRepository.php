@@ -39,7 +39,7 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
 
-    public function getPaginatedResPerClient($db,$page, $limit,$filters=null){
+    public function getPaginatedResPerClient($idclient,$page, $limit,$filters=null,$filterType=null){
         $query = $this->createQueryBuilder('a')
             ->join('a.hotel','h')
             ->addSelect('h')
@@ -48,13 +48,35 @@ class ReservationRepository extends ServiceEntityRepository
             ->where('cl.id=:id')
             ->andWhere('a.confirme like :conf ')
             ->setParameter('conf','confirme')
+            ->setParameter('id',$idclient);
 
-            ->setParameter('id',$db);
+        if($filters != null&&$filterType != null){
+            $query->andWhere('a.type like :typeRes')
+                ->setParameter('typeRes','%'.$filterType.'%');
 
-        if($filters != null){
+                    if($filterType=='reservation voyage'){
+                        $query   ->join('a.voyage','vo')
+                            ->addSelect('vo')
+                             ->andWhere('vo.nom like :cats')
+                               ->setParameter('cats','%'.$filters.'%');
+                    }
+                    else  if($filterType=='reservation hotel'){
+                        $query ->andWhere('h.nom like :cats')
+                            ->setParameter('cats','%'.$filters.'%');
+                    }
+        }
+        else if($filterType != null){
+
+            $query->andWhere('a.type like :typeRes')
+                ->setParameter('typeRes','%'.$filterType.'%');
+
+        }
+        else if($filters != null){
             $query->andWhere('h.nom like :cats')
                 ->setParameter('cats','%'.$filters.'%');
         }
+
+
 
         $query ->setFirstResult(($page * $limit) - $limit)
             ->setMaxResults($limit)
@@ -63,7 +85,7 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
 
-    public function getTotalResPerClient($db,$filters=null){
+    public function getTotalResPerClient($idclient,$filters=null,$filterType=null){
         $query = $this->createQueryBuilder('a')
             ->join('a.hotel','h')
             ->addSelect('h')
@@ -71,14 +93,40 @@ class ReservationRepository extends ServiceEntityRepository
             ->addSelect('cl')
             ->where('cl.id=:id')
             ->andWhere('a.confirme like :conf ')
+            ->setParameter('conf','confirme')
+            ->setParameter('id',$idclient);
 
-            ->setParameter('id',$db)
-             ->setParameter('conf','confirme');
 
-        if($filters != null){
+        if($filters != null&&$filterType != null){
+            $query->andWhere('a.type like :typeRes')
+                ->setParameter('typeRes','%'.$filterType.'%');
+
+            if($filterType=='reservation voyage'){
+                $query   ->join('a.voyage','vo')
+                    ->addSelect('vo')
+                    ->andWhere('vo.nom like :cats')
+                    ->setParameter('cats','%'.$filters.'%');
+            }
+            else  if($filterType=='reservation hotel'){
+                $query ->andWhere('h.nom like :cats')
+                    ->setParameter('cats','%'.$filters.'%');
+            }
+
+
+
+        }
+
+        else if($filterType != null){
+
+            $query->andWhere('a.type like :typeRes')
+                ->setParameter('typeRes','%'.$filterType.'%');
+
+        }
+        else if($filters != null){
             $query->andWhere('h.nom like :cats')
                 ->setParameter('cats','%'.$filters.'%');
         }
+
 
 
         return $query->getQuery()->getResult();
@@ -89,18 +137,42 @@ class ReservationRepository extends ServiceEntityRepository
 
 
 
-    public function getPaginatedRes($page, $limit,$filters){
+    public function getPaginatedRes($page, $limit,$filters,$filterType=null){
         $query = $this->createQueryBuilder('a')
-            ->join('a.hotel','c')
-            ->addSelect('c')
+            ->join('a.hotel','h')
+            ->addSelect('h')
             ->andWhere('a.confirme like :conf ')
             ->setParameter('conf','confirme');
-        if($filters != null){
-            $query->andWhere('c.nom like :cats')
+
+
+        if($filters != null&&$filterType != null){
+            $query->andWhere('a.type like :typeRes')
+                ->setParameter('typeRes','%'.$filterType.'%');
+
+            if($filterType=='reservation voyage'){
+                $query   ->join('a.voyage','vo')
+                    ->addSelect('vo')
+                    ->andWhere('vo.nom like :cats')
+                    ->setParameter('cats','%'.$filters.'%');
+            }
+            else  if($filterType=='reservation hotel'){
+                $query ->andWhere('h.nom like :cats')
+                    ->setParameter('cats','%'.$filters.'%');
+            }
+        }
+        else if($filterType != null){
+
+            $query->andWhere('a.type like :typeRes')
+                ->setParameter('typeRes','%'.$filterType.'%');
+
+        }
+        else if($filters != null){
+            $query->andWhere('h.nom like :cats')
                 ->setParameter('cats','%'.$filters.'%');
         }
 
-           $query ->setFirstResult(($page * $limit) - $limit)
+
+        $query ->setFirstResult(($page * $limit) - $limit)
             ->setMaxResults($limit)
         ;
         return $query->getQuery()->getResult();
@@ -110,16 +182,39 @@ class ReservationRepository extends ServiceEntityRepository
      * Returns number of Annonces
      * @return void
      */
-    public function getTotalReservation($filters=null){
+    public function getTotalReservation($filters=null,$filterType=null){
         $query = $this->createQueryBuilder('a')
-            ->join('a.hotel','c')
-            ->addSelect('c')
-        ->andWhere('a.confirme like :conf ')
+            ->join('a.hotel','h')
+            ->addSelect('h')
+            ->andWhere('a.confirme like :conf ')
             ->setParameter('conf','confirme');
-        if($filters != null){
-            $query->andWhere('c.nom like :cats')
+
+        if($filters != null&&$filterType != null){
+            $query->andWhere('a.type like :typeRes')
+                ->setParameter('typeRes','%'.$filterType.'%');
+
+            if($filterType=='reservation voyage'){
+                $query   ->join('a.voyage','vo')
+                    ->addSelect('vo')
+                    ->andWhere('vo.nom like :cats')
+                    ->setParameter('cats','%'.$filters.'%');
+            }
+            else  if($filterType=='reservation hotel'){
+                $query ->andWhere('h.nom like :cats')
+                    ->setParameter('cats','%'.$filters.'%');
+            }
+        }
+        else if($filterType != null){
+
+            $query->andWhere('a.type like :typeRes')
+                ->setParameter('typeRes','%'.$filterType.'%');
+
+        }
+        else if($filters != null){
+            $query->andWhere('h.nom like :cats')
                 ->setParameter('cats','%'.$filters.'%');
         }
+
 
         ;
         return $query->getQuery()->getResult();
