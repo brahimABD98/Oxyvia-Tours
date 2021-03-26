@@ -19,6 +19,26 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
+    public function TotalPrixPerMonth(){
+   //     return $this->createQueryBuilder('s')
+
+//            ->join('s.client','c')
+//            ->addSelect('c')
+//            ->where('c.id=:id')
+//            ->setParameter('conf','confirme')
+//
+//            ->getQuery()
+//            ->getResult();
+
+          $em=$this->getEntityManager();
+        $query=$em->createQuery(
+          "select sum(c.prix) as prix ,MONTH(c.date_debut) as mois from App\Entity\Reservation c group by mois "
+        );
+        return $query->getResult();
+    }
+
+
+
     public function showReservationParClient($db){
         return $this->createQueryBuilder('s')
 
@@ -132,7 +152,7 @@ class ReservationRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
-////////////////////// INDEX DE RESERVATION DU PAR CLIENT
+////////////////////// INDEX DE RESERVATION DU PAR CLIENT UP taa client eli louta taa all
 
 
 
@@ -167,8 +187,10 @@ class ReservationRepository extends ServiceEntityRepository
 
         }
         else if($filters != null){
-            $query->andWhere('h.nom like :cats')
-                ->setParameter('cats','%'.$filters.'%');
+            $query->andwhere('h.nom like :cats')
+
+                ->setParameter('cats','%'.$filters.'%')
+;
         }
 
 
@@ -211,8 +233,13 @@ class ReservationRepository extends ServiceEntityRepository
 
         }
         else if($filters != null){
-            $query->andWhere('h.nom like :cats')
-                ->setParameter('cats','%'.$filters.'%');
+            $query ->andWhere('h.nom like :cats')
+                ->join('a.voyage','vo')
+                ->addSelect('vo')
+                ->andWhere('vo.nom like :cats2')
+
+                ->setParameter('cats','%'.$filters.'%')
+                ->setParameter('cats2','%'.$filters.'%');
         }
 
 

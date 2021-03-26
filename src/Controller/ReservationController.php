@@ -48,7 +48,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/new/{hotel_id}", name="reservation_newhotel")
+     * @Route("/hotel/{hotel_id}", name="reservation_newhotel")
      */
     public function new(Request $request, $hotel_id): Response
     {

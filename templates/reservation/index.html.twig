@@ -32,15 +32,20 @@
                         {% else %}
                             {% set checked = "" %}
                         {% endif %}
-                        <label>Rechercher Par Hotel :</label>
-                        <p><input type="text" id="hotel" name="hotel" value="{{ checked }}"></p>
+                        <div class="col">
+
                         <select name="type" id="type">
                             <option value="" class="dropdown-item">--Sélectionner type de réservation--</option>
                             <option value="reservation voyage">voyage</option>
                             <option value="reservation hotel">hotel</option>
 
                         </select>
+                        </div>
+                        <div class="col">
 
+                        <label>Rechercher Par Hotel :</label>
+                        <p><input type="text" id="hotel" name="hotel" value="{{ checked }}"></p>
+                        </div>
                         <input type="hidden" name="page" value="{{page}}">
                     </form>
                 </div>

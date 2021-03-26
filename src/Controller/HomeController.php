@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+
 /**
  * @Route("/")
  */
@@ -19,8 +20,10 @@ class HomeController extends AbstractController
      */
     public function index(VoyageRepository $voyageRepository, MailerInterface $mailer,ChambreRepository $chambreRepository): Response
     {
+
         $authors = $chambreRepository
             ->showChambreExpire();
+
         if (count($authors)){
             $email = (new TemplatedEmail())
                 ->from('saieftaher1@gmail.com')
@@ -32,11 +35,19 @@ class HomeController extends AbstractController
 
                 ]);
         $mailer->send($email);
+            foreach ($authors as $res){
+                $entityManager = $this->getDoctrine()->getManager();
+                $chambre=$chambreRepository->find($res->getID());
+                $chambre->setOccupe('non occupe');
+                $chambre->setReservation(null);
+                $entityManager->persist($res);
+                $entityManager->flush();
+            }
+    }
+
 
         $arrvoy=$voyageRepository->Voyagelist();
 
-
-    }
         return $this->render('home/index.html.twig', [
         'arrvoy'=>$arrvoy
         ]);

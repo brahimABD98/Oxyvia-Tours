@@ -196,33 +196,32 @@
                                 <!--[if mso | IE]>
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td>
                                 <![endif]-->
-<div>
-    <table border='0' cellpadding='0' cellspacing='0' role='presentation' width='100%'>
+                                <div>
+                                    <table border='0' cellpadding='0' cellspacing='0' role='presentation' width='100%'>
                                         <tbody>
                                         <tr>
                                             {% for key in chambreExpire %}
-                                            <td style='background-color:#ffffff;border:1px solid #e5e5e5;padding:15px;vertical-align:top;'>
-                                                <table border='0' cellpadding='0' cellspacing='0' role='presentation' style='' width='100%'>
-                                                    <tr>
-                                                        <td align='left' style='font-size:0px;padding:0px ;word-break:break-word;'>
-                                                            <div style='color:#4d4d4d;font-family:Oxygen, Helvetica neue, sans-serif;font-size:18px;font-weight:700;line-height:25px;text-align:left;'>
-                                                               Hotel : {{ key.hotel.nom }}
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align='left' style='font-size:0px;padding:0px;word-break:break-word;'>
-                                                            <div style='color:#777777;font-family:Oxygen, Helvetica neue, sans-serif;font-size:14px;line-height:23px;text-align:left;'>
-                                                              Id chambre : {{ key.id }} <br/>
-                                                               Type chambre : {{ key.type }}
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
+                                                <td style='background-color:#ffffff;border:1px solid #e5e5e5;padding:15px;vertical-align:top;'>
+                                                    <table border='0' cellpadding='0' cellspacing='0' role='presentation' style='' width='100%'>
+                                                        <tr>
+                                                            <td align='left' style='font-size:0px;padding:0px ;word-break:break-word;'>
+                                                                <div style='color:#4d4d4d;font-family:Oxygen, Helvetica neue, sans-serif;font-size:18px;font-weight:700;line-height:25px;text-align:left;'>
+                                                                    Hotel : {{ key.hotel.nom }}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align='left' style='font-size:0px;padding:0px;word-break:break-word;'>
+                                                                <div style='color:#777777;font-family:Oxygen, Helvetica neue, sans-serif;font-size:14px;line-height:23px;text-align:left;'>
+                                                                    Id chambre : {{ key.id }} <br/>
+                                                                    Type chambre : {{ key.type }}
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
                                             {% endfor %}
                                         </tr>
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -247,8 +246,6 @@
                                 </div>
                                 <!--[if mso | IE]>
                                 </td>
-
-
                         </tr>
                         </tbody>
                     </table>

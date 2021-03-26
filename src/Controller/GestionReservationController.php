@@ -72,6 +72,8 @@ class GestionReservationController extends AbstractController
         $filtersType=$request->get('type');
         $page = (int)$request->query->get("page", 1);
         $reservations = $ResRepository->getPaginatedRes($page, $limit,$filters,$filtersType);
+
+
         $total=count($ResRepository->getTotalReservation($filters,$filtersType));
         if($request->get('ajax')){
             return new JsonResponse([
@@ -124,70 +126,31 @@ class GestionReservationController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/gestion/emailAdmin", name="emailerAdmin", methods={"GET","POST"})
-     */
-    public function EmailerAdmin(ChambreRepository $chambreRepository,Request $request ,MailerInterface $mailer)
-    {
-        $form = $this->createForm(EmailerAdminType::class);
-        $form->handleRequest($request);
-        $chambreExpire=$chambreRepository->showChambreExpire();
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $contact=$form->getData();
-            $email = (new TemplatedEmail())
-                ->from('saieftaher1@gmail.com')
-                ->to($contact['email'])
-                ->subject('Liste des Chambres vides!')
-
-                // path of the Twig template to render
-                ->html($this->renderView(
-                    'emailToAdmin/email.html.twig',
-                    [
-
-                        'chambreExpire'          => $chambreExpire,
-                        'nom'          => $contact['nom'],
-
-
-                    ]
-                ),
-                    'text/html');
-
-
-
-            $transport = new GmailSmtpTransport('saieftaher1','saief1998');
-            $mailer = new Mailer($transport);
-            $mailer->send($email);
-            $this->addFlash('message','le message est envoyé');
-
-            foreach ($chambreExpire as $res){
-                $entityManager = $this->getDoctrine()->getManager();
-                $chambre=$chambreRepository->find($res->getID());
-                $chambre->setOccupe('non occupe');
-                $chambre->setReservation(null);
-                $entityManager->persist($res);
-                $entityManager->flush();
-            }
-
-        }
-
-        return $this->render('reservation/EmailerAdmin.html.twig', [
-            'form' => $form->createView(),
-            'ch'=>$chambreExpire
-        ]);
-    }
-
 
     /**
      * @Route("/gestion/reservation/stats", name="hotelstats", methods={"GET","POST"})
      */
-    public function hotelStats(Request $request,HotelRepository  $hotelRepository): Response
+    public function hotelStats(Request $request,HotelRepository  $hotelRepository,ReservationRepository  $reservationRepository): Response
     {
-        $lstRes=$hotelRepository->findAll();
+        $totperMois=$reservationRepository->TotalPrixPerMonth();
+        $nbMois=[];
+        $prixtotal=[];
+       // dd($totperMois);
+        $max = sizeof($totperMois);
+        for($i = 0; $i < $max;$i++)
+        {
+            array_push($nbMois, $totperMois[$i]['mois']);
+            array_push($prixtotal, $totperMois[$i]['prix']);
 
+        }
+
+
+
+        $lstRes=$hotelRepository->findAll();
         $hotelNom=[];
         $resCount=[];
         foreach ($lstRes as $res){
+
             $hotelNom[]=$res->getNom();
             $resCount[]=count($res->getReservation());
         }
@@ -195,6 +158,8 @@ class GestionReservationController extends AbstractController
         return $this->render('reservation/MostResHotelStats.html.twig', [
             'hotelNom' => json_encode($hotelNom),
             'resCount' =>json_encode($resCount),
+            'nbMois'=>json_encode($nbMois),
+            'prixtotal'=>json_encode($prixtotal),
         ]);
     }
 

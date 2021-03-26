@@ -15,17 +15,20 @@
                 <li class="breadcrumb-item">
                     <a href="#">Dashboard</a>
                 </li>
-                <li class="breadcrumb-item active">Bookings list</li>
+                <li class="breadcrumb-item active">Statistiques sur les réservation de l'agence</li>
             </ol>
             <div class="box_general">
                 <div class="header_box">
-                    <h2 class="d-inline-block">Stats sur les hotels les plus réservés  </h2>
+                    <h2 class="d-inline-block">Statistiques sur les réservation de l'agence </h2>
 
                 </div>
                 <div class="list_general">
                     <canvas id="categories" width="400" height="100"></canvas>
-
                 </div>
+                <div class="list_general">
+                    <canvas id="canvas2" width="400" height="100"></canvas>
+                </div>
+
             </div>
             <!-- /box_general-->
 
@@ -45,8 +48,37 @@
                     data: {{ resCount|raw }},
                     backgroundColor: ['red','green','blue']
                 }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Stats sur les hotels les plus réservés '
+                }
             }
         })
+
+
+        new Chart(document.getElementById("canvas2"), {
+            type: 'line',
+            data: {
+
+                labels:{{ nbMois|raw }},
+                datasets: [{
+                    data: {{ prixtotal|raw }},
+                    label: "",
+                    borderColor: "#3e95cd",
+                    fill: false
+                }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Total des profits par mois'
+                }
+            }
+        });
+
 
     </script>
 
