@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+{{ form_widget(form.nom) }}
+{{ form_widget(form.prenom) }}
+{{ form_widget(form.daten) }}
+
+{{ form_widget(form.num) }}
+{{ form_widget(form.email) }}
+{{ form_widget(form.adresse) }}
+{{ form_widget(form.mdp) }}
+{{ form_widget(form.cin) }}
+
+    <button class="btn">{{ button_label|default('save') }}</button>
+{{ form_end(form) }}

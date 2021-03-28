@@ -1,0 +1,290 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\HotelRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+/**
+ * @ORM\Entity(repositoryClass=HotelRepository::class)
+ */
+class Hotel
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups("hotel:read")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message=" this field is required ")
+     * @Groups("hotel:read")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message=" this field is required ")
+     * @Groups("hotel:read")
+     */
+    private $pays;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message=" this field is required ")
+     * @Groups("hotel:read")
+     */
+    private $adresse;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 5,
+     *      notInRangeMessage = "You must be between {{ min }} and {{ max }} tall to enter",
+     * )
+     * @Groups("hotel:read")
+     */
+    private $nbetoile;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 8,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
+     * @Groups("hotel:read")
+     */
+    private $num;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message="this field should be a valid mail ")
+     * @Groups("hotel:read")
+     */
+
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups("hotel:read")
+     */
+    private $image;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity=Chambre::class, mappedBy="idhotel")
+     * @Groups("hotel:read")
+     */
+    private $idchambre;
+
+    /**
+     * @ORM\Column(type="float",nullable=true)
+     * @Groups("hotel:read")
+     */
+    private $lat;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Groups("hotel:read")
+     */
+    private $lng;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="idhotel")
+     * @Groups("hotel:read")
+     */
+    private $idcomment;
+
+
+    public function __construct()
+    {
+        $this->idchambre = new ArrayCollection();
+        $this->idcomment = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
+
+    public function setPays(string $pays): self
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getNbetoile(): ?int
+    {
+        return $this->nbetoile;
+    }
+
+    public function setNbetoile(int $nbetoile): self
+    {
+        $this->nbetoile = $nbetoile;
+
+        return $this;
+    }
+
+    public function getNum(): ?int
+    {
+        return $this->num;
+    }
+
+    public function setNum(int $num): self
+    {
+        $this->num = $num;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|Chambre[]
+     */
+    public function getIdchambre(): Collection
+    {
+        return $this->idchambre;
+    }
+
+    public function addIdchambre(Chambre $idchambre): self
+    {
+        if (!$this->idchambre->contains($idchambre)) {
+            $this->idchambre[] = $idchambre;
+            $idchambre->setIdhotel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdchambre(Chambre $idchambre): self
+    {
+        if ($this->idchambre->removeElement($idchambre)) {
+            // set the owning side to null (unless already changed)
+            if ($idchambre->getIdhotel() === $this) {
+                $idchambre->setIdhotel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLat(): ?float
+    {
+        return $this->lat;
+    }
+
+    public function setLat(?float $lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLng(): ?float
+    {
+        return $this->lng;
+    }
+
+    public function setLng(?float $lng): self
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getIdcomment(): Collection
+    {
+        return $this->idcomment;
+    }
+
+    public function addIdcomment(Comment $idcomment): self
+    {
+        if (!$this->idcomment->contains($idcomment)) {
+            $this->idcomment[] = $idcomment;
+            $idcomment->setIdhotel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdcomment(Comment $idcomment): self
+    {
+        if ($this->idcomment->removeElement($idcomment)) {
+            // set the owning side to null (unless already changed)
+            if ($idcomment->getIdhotel() === $this) {
+                $idcomment->setIdhotel(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+}
