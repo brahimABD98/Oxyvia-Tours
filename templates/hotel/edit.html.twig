@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Hotel{% endblock %}
+
+{% block body %}
+    <center>
+    <h1>Edit Hotel</h1>
+
+    {{ include('hotel/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('bookings') }}">back to list</a>
+    </center>
+
+{% endblock %}

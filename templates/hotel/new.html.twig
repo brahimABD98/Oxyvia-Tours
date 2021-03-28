@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Hotel{% endblock %}
+
+{% block body %}
+   <center> <h1>Create new Hotel</h1></center>
+        {{ include('hotel/_form.html.twig') }}
+
+    <a href="{{ path('bookings') }}">back to list</a>
+{% endblock %}

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Oxyvia-Tours.iml" filepath="$PROJECT_DIR$/.idea/Oxyvia-Tours.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sprint_web.iml" filepath="$PROJECT_DIR$/.idea/sprint_web.iml" />
     </modules>
   </component>
 </project>

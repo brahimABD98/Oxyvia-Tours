@@ -22,6 +22,13 @@ class Chambre
      */
     private $type;
 
+
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $numero;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -34,15 +41,22 @@ class Chambre
      */
     private $prix;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Hotel::class, inversedBy="chambre_id")
-     */
-    private $hotel;
 
     /**
      * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="chambres")
      */
     private $reservation;
+   
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Hotel::class, inversedBy="idchambre")
+     */
+    private $idhotel;
 
     public function getId(): ?int
     {
@@ -57,6 +71,15 @@ class Chambre
     public function setType(string $type): self
     {
         $this->type = $type;
+    }
+    public function getNumero(): ?int
+    {
+        return $this->numero;
+    }
+
+    public function setNumero(int $numero): self
+    {
+        $this->numero = $numero;
 
         return $this;
     }
@@ -73,28 +96,27 @@ class Chambre
         return $this;
     }
 
-
-
-    public function getPrix(): ?int
+    public function getPrix(): ?float
     {
         return $this->prix;
     }
 
-    public function setPrix(int $prix): self
+    public function setPrix(float $prix): self
     {
         $this->prix = $prix;
 
         return $this;
     }
 
-    public function getHotel(): ?Hotel
+    
+    public function getImage(): ?string
     {
-        return $this->hotel;
+        return $this->image;
     }
 
-    public function setHotel(?Hotel $hotel): self
+    public function setImage(string $image): self
     {
-        $this->hotel = $hotel;
+        $this->image = $image;
 
         return $this;
     }
@@ -107,7 +129,17 @@ class Chambre
     public function setReservation(?Reservation $reservation): self
     {
         $this->reservation = $reservation;
+    }
+    
 
+    public function getIdhotel(): ?Hotel
+    {
+        return $this->idhotel;
+    }
+
+    public function setIdhotel(?Hotel $idhotel): self
+    {
+        $this->idhotel = $idhotel;
         return $this;
     }
 }

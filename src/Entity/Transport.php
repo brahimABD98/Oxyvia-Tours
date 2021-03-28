@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TransportRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TransportRepository::class)
@@ -19,16 +20,19 @@ class Transport
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message=" this field is required ")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message=" this field is required ")
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *@Assert\NotBlank(message=" this field is required ")
      */
     private $matricule;
 
@@ -36,11 +40,16 @@ class Transport
      * @ORM\ManyToOne(targetEntity=Voyage::class, inversedBy="transport")
      */
     private $voyage;
+    
+    /** @ORM\Column(type="string", length=255)
+     *
+     */
+    private $image;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $prixLocation;
+    private $prix;
 
     public function getId(): ?int
     {
@@ -91,18 +100,27 @@ class Transport
     public function setVoyage(?Voyage $voyage): self
     {
         $this->voyage = $voyage;
+    }
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
 
-    public function getPrixLocation(): ?int
+    public function getPrix(): ?int
     {
-        return $this->prixLocation;
+        return $this->prix;
     }
 
-    public function setPrixLocation(int $prixLocation): self
+    public function setPrix(int $prix): self
     {
-        $this->prixLocation = $prixLocation;
+        $this->prix = $prix;
 
         return $this;
     }

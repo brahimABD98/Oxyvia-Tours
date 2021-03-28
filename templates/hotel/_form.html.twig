@@ -1,0 +1,73 @@
+{{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+<center>
+<div class="form">
+    <label>  Saisir le nom : </label>
+    {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
+    <div class="alert alert-info">
+        {{ form_errors(form.name) }}
+    </div>
+
+</div>
+    <div class="form">
+        <label>Saisir le pays : </label>
+        {{ form_widget(form.pays,{'attr':{'class':'form-control'}}) }}
+        <div class="alert alert-info">
+            {{ form_errors(form.pays) }}
+        </div>
+    </div>
+</div>
+<div class="form">
+    <label>Saisir l'adresse : </label>
+    {{ form_widget(form.adresse,{'attr':{'class':'form-control'}}) }}
+    <div class="alert alert-info">
+        {{ form_errors(form.adresse) }}
+    </div>
+</div>
+    <div class="form">
+        <label>Saisir le nombre d'étoile : </label>
+        {{ form_widget(form.nbetoile,{'attr':{'class':'form-control'}}) }}
+        <div class="alert alert-info">
+            {{ form_errors(form.nbetoile) }}
+        </div>
+    </div>
+    <div class="form">
+        <label>Saisir le num  : </label>
+        {{ form_widget(form.num ,{'attr':{'class':'form-control'}}) }}
+        <div class="alert alert-info">
+            {{ form_errors(form.num) }}
+        </div>
+    </div>
+    <div class="form">
+        <label>Saisir l'email': </label>
+        {{ form_widget(form.email,{'attr':{'class':'form-control'}}) }}
+        <div class="alert alert-info">
+            {{ form_errors(form.email) }}
+        </div>
+    </div>
+<div class="form">
+        <label>Saisir photo': </label>
+    {{ form_widget(form.image,{'attr':{'class':'form-control'}}) }}
+    <div class="alert alert-info">
+        {{ form_errors(form.image) }}
+    </div>
+</div>
+<div class="form">
+    <label>  Saisir la longitude : </label>
+    {{ form_widget(form.lng,{'attr':{'class':'form-control'}}) }}
+    <div class="alert alert-info">
+        {{ form_errors(form.lng) }}
+    </div>
+
+</div>
+<div class="form">
+    <label>  Saisir la latitude : </label>
+    {{ form_widget(form.lat,{'attr':{'class':'form-control'}}) }}
+    <div class="alert alert-info">
+        {{ form_errors(form.lat) }}
+    </div>
+
+</div>
+    {{ form_widget(form) }}
+    <button class="btn btn-primary btn-block">{{ button_label|default('Submit Form') }}</button>
+{{ form_end(form) }}
+</center>

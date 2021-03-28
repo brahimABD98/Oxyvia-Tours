@@ -1,0 +1,24 @@
+{% extends 'header.html.twig' %}
+{% block title %}Hotel{% endblock %}
+{% block content %}
+    {% for chambre in chambres %}
+        <div class="container">
+            <div class="well">
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" src="{{ asset('picture/' ~ chambre.image) }}" alt="" width="130" height="130" ">
+                    </a>
+                    <div class="media-body">
+                        <div class="col-md-6 col-sm-7 col-xs-12">
+                            <div class="badge freelancer-badge">{{ chambre.idhotel.nom }}</div>
+                            <h3><a href="job-single.html" class="text-primary" title="">{{ chambre.nom }}</a></h3>
+                            <p class="text-warning">{{ chambre.type }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
