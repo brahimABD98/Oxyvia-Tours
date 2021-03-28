@@ -240,7 +240,7 @@ class ReservationController extends AbstractController
                         ->htmlTemplate('reservation/confirmReservationEmail.html.twig')
                         ->context([
                             'client' => $reservation->getClient()->getNom(),
-                            'hotel' => $reservation->getHotel()->getNom(),
+                            'hotel' => $reservation->getHotel()->getName(),
                             'date_debut' => $reservation->getDateDebut(),
                             'date_fin' => $reservation->getDateFin(),
                             'nbadulte' => $reservation->getNbAdulte(),
@@ -306,7 +306,7 @@ class ReservationController extends AbstractController
                         ->htmlTemplate('reservation/confirmReservationEmail.html.twig')
                         ->context([
                             'client' => $reservation->getClient()->getNom(),
-                            'hotel' => $reservation->getHotel()->getNom(),
+                            'hotel' => $reservation->getHotel()->getName(),
                             'date_debut' => $reservation->getDateDebut(),
                             'date_fin' => $reservation->getDateFin(),
                             'nbadulte' => $reservation->getNbAdulte(),
@@ -414,8 +414,22 @@ class ReservationController extends AbstractController
     {
 
         $res = $reservationRepository->findOneBy(["token" => $token]);
-        $res->getVoyage()->setNbPersonne($res->getVoyage()->getNbPersonne()-1);
-        if ($res) {
+       
+        
+        if( $res->getVoyage()!=null){
+           
+                $res->setToken("");
+                $res->setConfirme('confirme');
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($res);
+                $em->flush();
+                $this->addFlash("info", "Merci pour votre confiance , la reservation a été confirmé avec sucées !");
+                return $this->redirectToRoute("gestion_reservation");
+            } 
+
+          else if( $res->getVoyage()==null) {
+           // $res->getVoyage()->setNbPersonne($res->getVoyage()->getNbPersonne()-1);
+
             $res->setToken("");
             $res->setConfirme('confirme');
             $em = $this->getDoctrine()->getManager();
@@ -423,9 +437,10 @@ class ReservationController extends AbstractController
             $em->flush();
             $this->addFlash("info", "Merci pour votre confiance , la reservation a été confirmé avec sucées !");
             return $this->redirectToRoute("gestion_reservation");
-        } else {
-            return $this->redirectToRoute('home');
-        }
+          }  
+        
+        
+       
     }
 
 
@@ -447,11 +462,14 @@ class ReservationController extends AbstractController
     {
         $voy = $voyageRepository->find($voy);
         $reservation=new Reservation();
+       // dd($voy);
+
         $hotel=$voy->getHotel()->getId();
         $diffJours = date_diff($voy->getDateDebut(), $voy->getDateFin())->d;
   $nbchambreSingleDispo = $chambreRepository->NbChambreSingleDispo($hotel);
         $getChambreSinglePrixPerHotel=$chambreRepository->getChambreSinglePrixPerHotel($hotel);
-        $prixTransport=$voy->getTransport()->toArray()[0]->getPrixLocation();
+
+        $prixTransport=$voy->getTransport()->toArray()[0]->getPrix();
         $total=$getChambreSinglePrixPerHotel[0]['prix']*$diffJours+$prixTransport+$voy->getPrixPersonne()*$nb;
 
         $form = $this->createFormBuilder()
@@ -490,6 +508,7 @@ class ReservationController extends AbstractController
 
         foreach ($chambreAaffecteRes as $res) {
             $room = $chambreRepository->find($res->getId());
+    
             $room->setReservation($reservation);
             $room->setOccupe('occupe');
             $entityManager = $this->getDoctrine()->getManager();
@@ -502,9 +521,9 @@ class ReservationController extends AbstractController
                 ->to('saieftaher1@gmail.com')
                 ->subject('confirmation de votre réservation!')
                 ->htmlTemplate('reservation/ConfirmationReservationVoyage.html.twig')
-                ->context([
+            ->context([
                     'client' => $reservation->getClient()->getNom(),
-                    'hotel' => $reservation->getHotel()->getNom(),
+                    'hotel' => $reservation->getHotel()->getName(),
                     'date_debut' => $reservation->getDateDebut(),
                     'date_fin' => $reservation->getDateFin(),
                     'nbadulte' => $reservation->getNbAdulte(),

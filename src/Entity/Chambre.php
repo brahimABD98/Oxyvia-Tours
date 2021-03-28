@@ -129,8 +129,9 @@ class Chambre
     public function setReservation(?Reservation $reservation): self
     {
         $this->reservation = $reservation;
+
+        return $this;
     }
-    
 
     public function getIdhotel(): ?Hotel
     {

@@ -22,7 +22,7 @@ class ChambreRepository extends ServiceEntityRepository
     public function NbChambreSingleDispo($db){
         return $this->createQueryBuilder('s')
             ->select('count(s.id),s')
-            ->where(' IDENTITY(s.hotel) like :db')
+            ->where(' IDENTITY(s.idhotel) like :db')
             ->andWhere('s.occupe like :occ')
             ->andWhere('s.type like :typeroom')
             ->setParameter('db',$db)
@@ -37,7 +37,7 @@ class ChambreRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('s')
             ->select('s')
             ->setMaxResults($nb)
-            ->where(' IDENTITY(s.hotel) like :db')
+            ->where(' IDENTITY(s.idhotel) like :db')
             ->andWhere('s.occupe like :occ')
             ->andWhere('s.type like :typeroom')
             ->setParameter('db',$db)
@@ -52,7 +52,7 @@ class ChambreRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('s')
             ->select('s')
             ->setMaxResults($nb)
-            ->where(' IDENTITY(s.hotel) like :db')
+            ->where(' IDENTITY(s.idhotel) like :db')
             ->andWhere('s.occupe like :occ')
             ->andWhere('s.type like :typeroom')
             ->setParameter('db',$db)
@@ -69,7 +69,7 @@ class ChambreRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('s')
             ->select('count(s.id),s')
-            ->where(' IDENTITY(s.hotel) like :db')
+            ->where(' IDENTITY(s.idhotel) like :db')
             ->andWhere('s.occupe like :occ')
             ->andWhere('s.type like :typeroom')
             ->setParameter('db',$db)
@@ -117,8 +117,8 @@ class ChambreRepository extends ServiceEntityRepository
 
     public function getChambreSinglePrixPerHotel($db){
         return $this->createQueryBuilder('s')
-->select('s.prix')
-            ->where(' IDENTITY(s.hotel) like :db')
+            ->select('s.prix')
+            ->where(' IDENTITY(s.idhotel) like :db')
             ->andWhere('s.occupe like :occ')
             ->andWhere('s.type like :typeroom')
             ->setParameter('db',$db)
@@ -126,6 +126,7 @@ class ChambreRepository extends ServiceEntityRepository
             ->setParameter('typeroom','single room')
             ->getQuery()
             ->getResult();
+            
 
     }
 

@@ -50,9 +50,9 @@ class VoyageType extends AbstractType
           'placeholder' => 'Sélectionner un hotel',
           'query_builder' => function (HotelRepository $er) {
                 return $er->createQueryBuilder('u')
-                    ->groupBy('u.nom');
+                    ->groupBy('u.name');
             },
-            'choice_label' => 'nom',
+            'choice_label' => 'name',
         ])
 
             ->  add('transport', EntityType::class, [

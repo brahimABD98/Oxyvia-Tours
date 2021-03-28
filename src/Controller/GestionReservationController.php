@@ -151,7 +151,7 @@ class GestionReservationController extends AbstractController
         $resCount=[];
         foreach ($lstRes as $res){
 
-            $hotelNom[]=$res->getNom();
+            $hotelNom[]=$res->getName();
             $resCount[]=count($res->getReservation());
         }
 

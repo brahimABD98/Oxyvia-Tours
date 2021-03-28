@@ -49,7 +49,8 @@
                 <figure>
                     <small>{{ hotel.name }}</small>
                         <a href="{{ path('type',{'type': hotel.id}) }}" ></a>
-                    <a href="{{ path('type',{'type':hotel.id}) }}" ><img src="{{ asset('picture/' ~ hotel.image) }}"width="800" height="533">
+          <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}">    <img src="{{ asset('picture/' ~ hotel.image) }}"width="800" height="533">
+                      
                 </figure>
             </div>
             <div class="col-lg-7">

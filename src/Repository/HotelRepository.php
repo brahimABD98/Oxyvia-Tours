@@ -49,8 +49,8 @@ class HotelRepository extends ServiceEntityRepository
     */
     public function search($name) {
         return $this->createQueryBuilder('Hotel')
-            ->andWhere('Hotel.name LIKE :name')
-            ->setParameter('name', '%'.$name.'%')
+            ->andWhere('Hotel.name LIKE :aa')
+            ->setParameter('aa', '%'.$name.'%')
             ->getQuery()
             ->getResult();
     }

@@ -41,7 +41,7 @@ class BackController extends AbstractController
         ]);
     }
     /**
-     * @Route("/bookings", name="bookings", methods={"GET","POST"})
+     * @Route("/dashboard/bookings", name="bookings", methods={"GET","POST"})
      */
     public function index1(TransportRepository $transportRepository,HotelRepository $hotelRepository,ChambreRepository $chambreRepository,PaginatorInterface $paginator,Request $request ): Response
     {
@@ -52,6 +52,8 @@ class BackController extends AbstractController
         if ($searchForm->isSubmitted()) {
             $name = $searchForm['name']->getData();
             $donnees = $hotelRepository->search($name);
+
+            dd($donnees);
             return $this->redirectToRoute('search', array('name' => $name));
         }
         $donnees = $this->getDoctrine()->getRepository(Hotel::class)->findBy([],['id' => 'desc']);
@@ -145,6 +147,7 @@ class BackController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $uploadedFile = $form['image']->getData();
             $filename = md5(uniqid()).'.'.$uploadedFile->guessExtension();
             $uploadedFile->move($this->getParameter('upload_directory'),$filename);

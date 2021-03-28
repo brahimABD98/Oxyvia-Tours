@@ -117,6 +117,7 @@ class VoyageController extends AbstractController
                 $filename
             );
             $voyage->setImage($filename);
+           
             $voyage->setHotel($hotel);
 
             $arr=[$placeobj,
