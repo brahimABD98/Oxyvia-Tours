@@ -1,0 +1,155 @@
+
+{% extends 'backoffice.html.twig' %}
+{% block title %} Statistiques Facture {% endblock %}
+
+{% block body %}
+<body class="fixed-nav sticky-footer" id="page-top">
+<!-- Navigation-->
+
+<!-- /Navigation-->
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active" >Statistiques Facture</li>
+        </ol>
+        <!-- Area Chart Example-->
+        {% block stylesheets  %}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous">
+
+
+        {% endblock %}
+
+
+
+        <!-- Area Chart Example-->
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-pie-chart"></i> Pie Chart Graphe</div>
+            <div class="card-body">
+                <canvas id="facturess" width="400" height="100"></canvas>
+
+            </div>
+        </div>
+
+        <!-- Example Pie Chart Card-->
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-bar-chart"></i> Bar Chart Graphe</div>
+           <center> <img src="{{ asset('img/logos/téléchargement (1).png') }}" width="150" height="100"> </center>
+            <div class="card-body">
+                <canvas id="facturess2" width="400" height="100"></canvas>
+            </div>
+        </div>
+
+
+
+
+
+
+        {% block javascripts %}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+            <script>
+                let facturess = document.querySelector("#facturess")
+                let factureGraphe= new Chart(facturess,{
+                    type:"doughnut",
+                    data : { labels: {{ factureEtat|raw }},
+                        datasets:[{
+                            label : "Répartiotion des factures",
+                            data: {{ factureCount|raw }},
+                            backgroundColor:{{ factureColor|raw }}
+                        }]
+                    },
+                    options:{
+                        title:{ display:true,
+                            text:
+                                'Illustation des factures étant payées & non payées'},
+
+                        legend:{
+                            display:false,
+                            position:'bottom'
+                        }
+                    }
+                })
+
+                let facturess2 = document.querySelector("#facturess2")
+                let factureGraph2= new Chart(facturess2,
+                    { type:"bar",
+                        data:{
+                            labels:{{ dates|raw }},
+                            datasets: [{
+                                label:"Nombre des factures par jours",
+                                data:{{ FactureByDateCount|raw }},
+                                borderColor:'blueviolet',
+                                backgroundColor: ['blue','purple','pink','green','black','red','orange','yellow']
+                            }]
+                        }
+
+                    })
+
+            </script>
+        {% endblock %}
+
+
+
+
+
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Example Bar Chart Card-->
+
+            </div>
+            <div class="col-lg-4">
+                <!-- Example Pie Chart Card-->
+
+            </div>
+        </div>
+    </div>
+    <!-- /container-fluid-->
+</div>
+<!-- /container-wrapper-->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fa fa-angle-up"></i>
+</a>
+<!-- Logout Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">Ã—</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Page level plugin JavaScript-->
+<script src="vendor/chart.js/Chart.min.js"></script>
+<script src="vendor/datatables/jquery.dataTables.js"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+<script src="vendor/jquery.selectbox-0.2.js"></script>
+<script src="vendor/retina-replace.min.js"></script>
+<script src="vendor/jquery.magnific-popup.min.js"></script>
+<!-- Custom scripts for all pages-->
+<script src="js/admin.js"></script>
+<!-- Custom scripts for this page-->
+<script src="js/admin-charts-all.js"></script>
+
+</body>
+{% endblock %}

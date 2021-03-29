@@ -46,8 +46,12 @@
                     </div>
                     <!-- End bs-wizard -->
                     <div id="confirm">
-                        <h4>Order completed!</h4>
-                        <p>You'll receive a confirmation email at mail@example.com</p>
+                        {% for message in app.flashes('facture') %}
+                            <div class="alert-dark" role="alert">
+                                <svg class="glyph stroked checkmark"><use xlink:href="#stroked-checkmark"></use></svg>
+                                {{message}} <a href="#" class ="mr-5"><span class="glyphicon glyphicon-remove"></span></a>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

@@ -27,6 +27,26 @@ class ComptePersonnel
      */
     private $depense;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $prenom;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $occupation;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $salaire_annuel;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -57,6 +77,54 @@ class ComptePersonnel
         }
 
         $this->depense = $depense;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getOccupation(): ?string
+    {
+        return $this->occupation;
+    }
+
+    public function setOccupation(string $occupation): self
+    {
+        $this->occupation = $occupation;
+
+        return $this;
+    }
+
+    public function getSalaireAnnuel(): ?string
+    {
+        return $this->salaire_annuel;
+    }
+
+    public function setSalaireAnnuel(string $salaire_annuel): self
+    {
+        $this->salaire_annuel = $salaire_annuel;
 
         return $this;
     }

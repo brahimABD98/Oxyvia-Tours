@@ -25,7 +25,7 @@ class HomeController extends AbstractController
     public function adventures(){
 
 
-        return $this->render('home/advantres.html.twig');
+        return $this->render('home/sweet.html');
     }
     /**
      * @Route("/sh1", name="sh1")
@@ -41,7 +41,7 @@ class HomeController extends AbstractController
     public function sh2(){
 
 
-        return $this->render('home/index-3.html.twig');
+        return $this->render('home/index33.html.twig');
     }
 
     /**

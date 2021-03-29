@@ -7,6 +7,7 @@ use App\Entity\Depense;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -69,6 +70,12 @@ class DepenseType extends AbstractType
                 ],
             ])
             ->add('date_depense')
+            ->add('nom')
+            ->add('prenom')
+            ->add('enabled', ChoiceType::class,
+                ['choices'=>[''=>null,'Yes'=>0,'No'=>1 ],
+                ])
+            ->add('color',ColorType::class)
 
         ;
     }

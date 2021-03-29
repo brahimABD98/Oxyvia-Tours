@@ -12,6 +12,7 @@
     <!-- /header -->
 
     <main>
+
         {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
         <div class="hero_in cart_section">
             <div class="wrapper">
@@ -92,6 +93,17 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
+                                            <label>votre Pays :</label>
+                                            {{ form_widget(form.pays) }}
+                                            <div class="alert-secondary">
+                                                {{ form_errors(form.pays) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
                                             <label>Devise relatif à votre pays :</label>
                                             {{ form_widget(form.devise) }}
                                             <div class="alert-warning">
@@ -140,6 +152,7 @@
                                         <div class="form-group">
                                             <label>Type de Carte Bancaire</label>
                                             {{ form_widget(form.typeCB)}}
+
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
@@ -160,7 +173,7 @@
                                                 <div class="col-4">
 
                                                     {{ form_widget(form.code_securite) }} <p> </p> <img src="{{ asset('img/icon_ccv.gif') }}" width="50" height="29" alt="ccv"><small>Last 3 digits</small>
-                                                    </div>
+                                                    {{ form_widget(form.color) }} </div>
 
 
 
@@ -198,30 +211,66 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Location de OxyviaTours agency :</label>
+                                            <img src="{{ asset('img/logos/map-marker.png') }}" width="30" height="30">
                                             <div class="custom-select-form">
                                                 {{ form_widget(form.location) }}
                                                 </select>
 
-                                                <br>  </br>
-                                                <input type="submit" value="Je Valide le paiement" class="btn_1 full-width"></div>
-                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
+                                    <div class="col-sm-6">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Tu vas la payer acctuellement ? :</label>
+                                            <div class="custom-select-form">
+                                                {{ form_widget(form.enabled) }}
+
+
+                                                </select>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+
+                                            <div class="custom-select-form">
+
+                                                </select>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
-                <br></br>
+                                <br>  </br>
+                                <input type="submit" value="Je Valide le paiement" class="btn_1 full-width"></div>
+            </div>
 
-                {{ form_rest(form) }}
+
+
+            {{ form_rest(form) }}
                 {{ form_end(form) }}
                                 <!--End row -->
                             </div>
                             <hr>
+      <center>  <button><a href="{{ path('map') }}"> Show Location<i class="fa fa-trash"></i></a></button></center>
 
-                            <!--End step -->
+    </main>
+    </main>                 <!--End step -->
+    </main>
+</body>
 
-                        </div>
                     </div>
+
 
 
                     <!-- /col -->
@@ -243,8 +292,30 @@
 <!-- page -->
 
 <!-- Sign In Popup -->
-<div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
     <div class="small-dialog-header">
+
         <h3>Sign In</h3>
     </div>
     <form>
@@ -301,6 +372,7 @@ or
 
 
 </body>
+
 
 
 {% endblock %}

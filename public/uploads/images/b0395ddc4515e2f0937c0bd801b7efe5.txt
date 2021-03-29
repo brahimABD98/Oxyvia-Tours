@@ -1,0 +1,113 @@
+Entity :
+
+
+ /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank(message="Ajouter une image jpg")
+     * @Assert\File(mimeTypes={ "image/jpeg" ,"image/png","image/jpg"})
+     *
+     */
+    private $image;
+
+
+
+
+Form :
+
+->add('image', FileType::class, array('data_class' => null))
+
+
+
+
+
+
+Controller :
+
+ public function AjouterMeubleAction(Request $request)
+    {
+        $meuble = new Meuble();
+        $form = $this->createForm(MeubleType::class, $meuble);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
+            $file = $meuble->getImage();
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $this->getParameter('images_directory'), $fileName
+            );
+            $meuble->setImage($fileName);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($meuble);
+            $entityManager->flush();
+            $this->addFlash('meuble',
+                ' Meuble Added successufly!'
+            );
+            return $this->redirectToRoute('AfficherMeuble');
+        }
+        return $this->render('ShaimaBundle:template:add_meuble.html.twig', array("form" => $form->createView()));
+    }
+
+    public function deleteMeubleAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $meuble = $em->getRepository(Meuble::class)->find($id);
+        $em->remove($meuble);
+        $em->flush();
+        $this->addFlash('meubles',
+            ' Meuble Deleted successufly!'
+        );
+        return $this->redirectToRoute('AfficherMeuble');
+    }
+
+    function modifierMeubleAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $meuble = $em->getRepository("ShaimaBundle:Meuble")->find($id);
+        $Form = $this->createForm(MeubleType::class, $meuble);
+        $Form->handleRequest($request);
+        if ($Form->isSubmitted() && $Form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($meuble);
+            $entityManager->flush();
+            $em->flush();
+            return $this->redirectToRoute('AfficherMeuble');
+        }
+        return $this->render('ShaimaBundle:template:modifier_Meuble.html.twig', array('form' => $Form->createView()));
+    }
+
+
+
+les dependances :
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
+
+
+
+<label>image :</label>
+
+
+                                    {{ form_widget(form.image, {'attr': { 'type':"file" }}) }}
+
+ <label>Image :</label>
+
+
+                                    {{ form_widget(form.image, {'attr': { 'type':"file" ,'class' : 'help-block' , 'style': 'vertical-align: inherit;','placeholder':"Imagee.....!"}}) }}
+
+
+<td colspan="4"><img src ="{{ asset('uploads/images/'~meuble.image ) }}" height="100px" width="250px">  </td>
+
+
+ <td class="center"><img src="{{URL::asset($doctor->image)}}" style="width:40px;height:40px;"/></td>
+
+
+ {% if product.image %}
+                <img src="{{ asset('uploads/images/' ~ product.image.filename) }}" width="200" height="200"/>
+            {% else %}
+                no image file
+            {% endif %}
+
+
+use Symfony\Component\HttpFoundation\File\UploadedFile;
