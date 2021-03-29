@@ -30,7 +30,7 @@ class FactureController extends AbstractController
         ]);
     }
     /**
-     * @Route("/showFacture", name="showFacture")
+     * @Route("/dashboard/showFacture", name="showFacture")
      */
     public function Affiche(Request $request,PaginatorInterface $paginator){
         $repo=$this->getDoctrine()->getRepository(Facture::class);
@@ -65,10 +65,9 @@ class FactureController extends AbstractController
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     * @Route("Facture/Add",name="ajout")
+     * @Route("Facture/Add/{res}",name="ajout")
      */
-    function Add(Request $request){
-
+    function Add(Request $request,$res){
         $facture=new Facture();
         $form=$this->createForm(FactureType::class,$facture);
         //$form->add('Add',SubmitType::class);
@@ -88,7 +87,8 @@ class FactureController extends AbstractController
             return $this->redirectToRoute('show3');
         }
         return $this->render('facture/Add.html.twig',[
-            'form'=>$form->createView()
+            'form'=>$form->createView(),
+            'res'=>$res
         ]);
 
 
@@ -495,7 +495,7 @@ class FactureController extends AbstractController
     }
 
     /**
-     * @Route("/stats",name="stats")
+     * @Route("/dashboard/stats",name="stats")
      */
     public function stats(FactureRepository $repository)
     {

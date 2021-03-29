@@ -9,11 +9,13 @@ use App\Form\ContactType;
 use App\Form\DepenseType;
 use App\Repository\DepenseRepository;
 use Dompdf\Adapter\PDFLib;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Cocur\Slugify\Slugify;
 use Knp\Component\Pager\PaginatorInterface;
@@ -37,7 +39,7 @@ class DepenseController extends AbstractController
 
 
     /**
-     * @Route("/showDepense", name="showDepense")
+     * @Route("/dashboard/showDepense", name="showDepense")
      */
     public function Affiche (Request $request,PaginatorInterface $paginator)
     {
@@ -433,10 +435,10 @@ class DepenseController extends AbstractController
 /**
  * @param Request $request
  * @return Response
- * @Route("/contact2",name="contact2")
+ * @Route("/dashboard/contact2",name="contact2")
  */
 
-public function sendMail(Request $request, \Swift_Mailer $mailer)
+public function sendMail(MailerInterface $mailer,Request $request)
 { $contact=new Contact();
     $form=$this->createForm(ContactType::class,$contact);
     $form->handleRequest($request);
@@ -456,23 +458,31 @@ public function sendMail(Request $request, \Swift_Mailer $mailer)
         $em->persist($contact);
         $em->flush();
         //dd($contact);
-        $message = (new \Swift_Message('Paiement Notification'))
-
-            ->setFrom('eyaallahthebti99@gmail.com')
-            ->setTo('eyaallahthebti99@gmail.com')
-            //->setTo($contact['email'])
-            // ->attach(\Swift_Attachment::fromPath($contact1['fichier']))
-            ->attach(\Swift_Attachment::fromPath('img/logos/mypdf (2).pdf'))
-
-            ->setBody($this->renderView(
-                'emails/contact.html.twig',
-                compact('contact')
 
 
+        $email = (new TemplatedEmail())
+            ->from('eyaallahthebti99@gmail.com')
+            ->to('eyaallahthebti99@gmail.com')
+            ->subject('Paiement Notification')
 
-            ),
-                'text/html');
-        $mailer->send($message);
+
+            ->attachFromPath('img/logos/mypdf (2).pdf')
+
+            ->htmlTemplate('emails/contact.html.twig')
+
+            ->context([
+                'contact' => $contact,
+
+
+            ]);
+
+
+
+
+
+
+
+        $mailer->send($email);
         $this->addFlash('send','le message a bien été envoyé');
         return $this->redirectToRoute('dateinff');
 
@@ -540,7 +550,7 @@ public function sendMail(Request $request, \Swift_Mailer $mailer)
     }
 
     /**
-     * @Route("/stats1",name="stats1")
+     * @Route("/dashboard/stats1",name="stats1")
      */
     public function stats(DepenseRepository $repository)
     {  $depenses=$repository->findAll();
