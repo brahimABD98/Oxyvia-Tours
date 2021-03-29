@@ -1,0 +1,79 @@
+
+
+
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name ="viewport" content="initial-scale=1.0 , user-scalable=no"                 >
+        <meta charset="utf-8">
+        <title>Simple Map</title>
+        <style >
+            /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+            #map {
+                height: 100%;
+            }
+
+            /* Optional: Makes the sample page fill the window. */
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <script>
+
+
+            function initMap() {
+                var myLating = {
+                    lat: 35.9032531,
+                    lng: 10.5447975
+                };
+                var myBLating = {
+                    lat: 37.2720905,
+                    lng:9.8708565
+                };
+
+                var map = new google.maps.Map(document.getElementById("map"), {
+                    zoom: 4,
+                    center: myLating
+
+                });
+                var marker =new google.maps.Marker({
+                    position: myLating,
+                    map: map,
+                    title:'Sousse'
+                });
+
+                var markers =new google.maps.Marker({
+                    position: myBLating,
+                    map: map,
+                    title:'Bizerte'
+                });
+
+            }
+        </script>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcjOqgCqWniAb2PGhXIaUJVXMHJgse0hs&callback=initMap"
+        ></script>
+    </body>
+    </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

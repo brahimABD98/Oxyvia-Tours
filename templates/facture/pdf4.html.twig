@@ -1,0 +1,57 @@
+<style>
+    h1 {
+        text-align: center;
+        text-transform: uppercase;
+        color: #4CAF50;
+    }
+    a {
+        text-decoration: none;
+        color: #008CBA;
+    }
+</style>
+
+<div class="col-lg-6 col-md-8">
+    <center>  <h1 aligne ="center" ><small style="color:darkred"> **Unpaid Facture** </small> </h1> </center></div>
+
+<div class="ripple-container"></div>
+<div class="tab-content tab-space">
+    <div class="tab-pane" id="pill1" style="margin-bottom: 25px; width: 1000px; height: 700px;  margin-left: 30px;">
+
+
+
+
+
+            <ul>
+
+                <li>
+
+
+                <li class="booking_list">
+
+                <li><strong >ID Client:</strong> {{ f.getIdentifiant() }}</li>
+                <li><strong>Totale £:</strong><strong style="color:red">{{ f.getMontant() }}</strong></li>
+                <li><strong style="color:#0062cc">Payement Date:</strong><strong style="color: #0062cc"> {{ f.getDatePaiement()|date('d-m-Y H:i:s') }}</strong></li>
+                <li><strong>Devise:</strong> {{ f.getDevise() }}</li>
+                <li><strong style="color:#bf800c">Means of payment:</strong>{{ f.getMoyenPaiement()}}</li>
+                <li><strong>Payment Mode :</strong> {{ f.getModePaiement()}}</li>
+                <li><strong>CB type:</strong> {{ f.getTypeCB()}}</li>
+                <li><strong>CB N:</strong> {{ f.getNcb() }}</li>
+                <li><strong>Security code:</strong> {{ f.getCodeSecurite() }}</li>
+                <li><strong style="color: darkred">End date:</strong><strong style="color: darkred">{{ f.getDateExpiration()|date('d-m-Y H:i:s') }}</strong> </li>
+                <li><strong>Agency Location choosed :</strong> {{ f. getLocation()}}</li>
+                <li><strong>Country :</strong> {{ f.getPays() }}</li>
+                </li>
+
+                </li>
+                <center><img src="{{ pathToPublic ~ asset('img/logos/oxyvia.png') }}" height="110px" width="130px" ></center>
+                <strong style="font-family: Verdana ">{{f.getDatePaiement()|date('D')}}
+                    {{f.getDatePaiement()| date ('M Y')}} </strong>
+            </ul>
+
+    </div>
+</div>
+
+
+
+
+

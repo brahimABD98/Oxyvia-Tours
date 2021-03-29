@@ -1,0 +1,341 @@
+
+{% extends 'backoffice.html.twig' %}
+{% block title %} $ Depense List {% endblock %}
+
+ {% block body %}
+
+
+
+
+
+
+
+    <body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation-->
+
+    <!-- /Navigation-->
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active"> $ Depense Tables</li>
+            </ol>
+            <!-- Example DataTables Card-->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-table"></i> <i class="fa fa-angle-right"></i> $ Rémunération des salariés $  </div>
+                <div id="confirm">
+                    {% for message in app.flashes('depense') %}
+                        <div class="alert-info" role="alert" style="font-size:150%;"  >
+                            <svg class="glyph stroked checkmark"><use xlink:href="#stroked-checkmark"></use></svg>
+                            {{message}} <a href="#" class ="mr-5" style="font-size:50%;"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('delete') %}
+                        <div class="alert-danger" role="alert" style="font-size:150%;"  >
+                            <svg class="glyph stroked checkmark"><use xlink:href="#stroked-checkmark"></use></svg>
+                            {{message}} <a href="#" class ="mr-5" style="font-size:50%;"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    {% endfor %}
+                    {% for message in app.flashes('update') %}
+                        <div class="alert-secondary" role="alert" style="font-size:150%;"  >
+                            <svg class="glyph stroked checkmark"><use xlink:href="#stroked-checkmark"></use></svg>
+                            {{message}} <a href="#" class ="mr-5" style="font-size:50%;"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="bootstrap-table">
+
+
+                            <!--<script src=""></script>-->
+                             <!--pathToPublic ~ asset('js/jquery-1.11.1.min.js') -->
+
+                            <div class="pull-center search">
+                              <!--<input id ="search"class="form-control" type="search" placeholder="                                                                                                                       Chercher                 "></th>-->
+
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Numéro de dépense</th>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Occupation</th>
+                                <th>Salaire annuel</th>
+                                <th>Taux horaire réguliére</th>
+                                <th>Taux horaire d'heure suplimentaire </th>
+                                <th>Exempté d'heure suplimentaire</th>
+                                <th>Date de dépense </th>
+                                <th>Delete action</th>
+                                <th>Update action</th>
+                            </tr>
+                            </thead>
+
+                                    <tbody>
+
+                            <tr {% for d in depense %}>
+                                <td>{{ d.getId()}} </td>
+                                <td>{{ d.getIdPersonnel().getIdPersonnel()}} </td>
+
+                                <td ><img src ="{{ asset('uploads/images/'~d.getPicture() ) }}" height="130px" width="150px">  </td>
+                                <td>{{ d.getNom() }}</td>
+                                <td>{{ d.getPrenom() }}</td>
+                                <td>{{ d.getOccupation()}} </td>
+                                <td>{{ d.getSalaire()}} </td>
+                                <td>{{ d.getHoraireReguliere() }}</td>
+                                <td>{{ d.getHoraireSup() }}</td>
+                                <td>{{ d.getExempte() }}</td>
+                                <td>{{ d.getDateDepense() }}</td>
+                                <td><a href="{{ path('deletee',{'id':d.id}) }}"><i class="fa fa-trash"></i></a></td>
+                                <td> <a href="{{ path('updatee',{'id':d.id}) }}"><i class="fa fa-edit"></i></a></td>
+
+                            </tr {% endfor %}>
+                                    </div>
+
+                                    <br>  </br>
+                            <div class="row">
+
+                                <div class="col-xl-3 col-sm-6 mb-3">
+                                    <div class="card dashboard text-white bg-primary o-hidden h-100">
+
+                                        <div class="card-body">
+
+                                            <div class="card-body-icon">
+                                                <i class="fa fa-fw fa-check-circle"></i>
+                                            </div>
+                                            <div class="mr-5"><h5>Paid Salary!</h5></div>
+                                        </div>
+                                        <a class="card-footer text-white clearfix small z-1" href="{{ path('dateinff') }}">
+                                            <span class="float-left">View Details</span>
+                                            <span class="float-right">
+                <i class="fa fa-angle-right"></i>
+              </span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mb-3">
+                                    <div class="card dashboard text-white bg-warning o-hidden h-100">
+                                        <div class="card-body">
+                                            <div class="card-body-icon">
+                                                <i class="fa fa-fw fa-money"></i>
+                                            </div>
+                                            <div class="mr-5"><h5>Unpaid salary!</h5></div>
+                                        </div>
+                                        <a class="card-footer text-white clearfix small z-1" href="{{ path('datesupp') }}">
+                                            <span class="float-left">View Details</span>
+                                            <span class="float-right">
+                                            <i class="fa fa-angle-right"></i>
+                                             </span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <br></br> <img src="{{ asset('img/logos/téléchargement (2).png') }}" width="120" height="100">
+                            </div>
+
+
+
+                            <div class="row">
+
+
+                                <div class="col-sm-6">
+                                    <form method="post" action="{{ path('enabledd2') }}"> <input type="submit" value="Refresh" class="btn-info">   </form>
+                                </div>
+                                <div class="col-sm-6">
+                                    <form method="post" action="{{ path('enabledd') }}"> <input type="submit" value="Refresh" class="btn-warning">   </form>
+                                </div>
+                            </div>
+                            <br></br>
+
+                            <form method="post" action="{{ path('triee') }}">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label><i class="fa fa-tripadvisor"></i> Trier </label>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label> </label>
+                                            <input type="submit" value="Trie" class="btn-light">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form method="post" action="{{ path('rechercheMultiple') }}">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label><i class="fa fa-search"></i> Search </label>
+                                            <input class="form-control" type="text" name="recherche" placeholder="Any infos...">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label> </label>
+                                            <input type="submit" value="Search" class="btn-danger">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <a href="{{ path('add')}}"><i class="fa fa-pencil">create new</i> </a>
+                        </table>
+
+
+                <div class="navigation">
+                    {{ knp_pagination_render(depense) }}
+                </div>
+
+
+
+                        </tbody>
+
+                    </div>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+            <!-- /tables-->
+        </div>
+        <!-- /container-fluid-->
+    </div>
+
+
+
+
+
+        <!-- /container-wrapper-->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">Ã—</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="vendor/jquery.selectbox-0.2.js"></script>
+    <script src="vendor/retina-replace.min.js"></script>
+    <script src="vendor/jquery.magnific-popup.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/admin.js"></script>
+    <!-- Custom scripts for this page-->
+    <script src="js/admin-datatables.js"></script>
+    </div>
+
+
+
+
+
+
+    <!--<script>
+        $(document).ready(function(){
+            $('#search').keyup(function(){
+                search_table($(this).val());
+            });
+            function search_table(value){
+                $('#type tbody tr').each(function(){
+                    var found = 'false';
+                    $(this).each(function(){
+                        if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                        {
+                            found = 'true';
+                        }
+                    });
+                    if(found == 'true')
+                    {
+                        $(this).show();
+
+                    }
+                    else
+                    {
+                        $(this).hide();
+
+                    }
+                });
+            }
+        });
+    </script>-->
+
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+    <script>
+        $( document ).ready(function() {
+            $("#search").keyup(function(e){
+                /* La variable value va prendre la valeur insérer dans le champ de texte afin d’effectuer la recherche */
+                var value = $(this).val();
+                /* Ajax est lancé lors du remplissage du champ texte dont l’id est « search » pour faire la recherche */
+                $.ajax({
+                    /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+                    url : "{{ path('searchDepensex') }}",
+                    /* La méthode utilisée pour transférer les données est GET */
+                    type : 'GET',
+                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la zone de recherche et sera placée après l’url */
+                    data: {
+                        'searchValue' : value
+                    },
+                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+                    success : function(retour){
+                        if(retour){
+                            $('#t tbody#search').empty();
+                            $.each(JSON.parse(retour), function(i, obj) {
+                                $('#t tbody#all').hide();
+                                $('#t tbody#search').append('<tr><td> '+obj.id+'  </td><td>    '+obj.id_personnel+'  </td><td>'+obj.picture+' </td><td>    '+obj.nom+'  </td><td>    '+obj.prenom+'  </td><td>    '+obj.occupation+'  </td><td>    '+obj.salaire+'  </td><td>    '+obj.horaire_reguliere+'  </td><td>    '+obj.horaire_sup+'  </td><td>    '+obj.exempte+'  </td><td>    '+obj.date_depense+'  </td><tr><a href="updatee/'+obj.id+'">modifier</a> </br><a href="deletee/'+obj.id+'">supprimer</a></tr></tr>');
+                            });
+                        }
+                        else
+                        {
+                            $('#t tbody#all').show();
+                            $('#t tbody#search').empty();
+                            $('#t tbody#search').fadeIn('fast');
+                        }
+                    },
+                });
+                return false;
+            });
+        });
+    </script>
+
+{% endblock %}
+
+
+
+

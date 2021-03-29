@@ -1,0 +1,378 @@
+{% extends 'base.html.twig' %}
+{% block title %}Paiement  étape 1{% endblock %}
+
+{% block body %}
+
+
+<body>
+
+<div id="page" class="theia-exception">
+
+
+    <!-- /header -->
+
+    <main>
+
+        {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+        <div class="hero_in cart_section">
+            <div class="wrapper">
+                <div class="container">
+                    <div class="bs-wizard clearfix">
+                        <div class="bs-wizard-step">
+                            <div class="text-center bs-wizard-stepnum">Your cart</div>
+                            <div class="progress">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <a href="cart-1.html" class="bs-wizard-dot"></a>
+                        </div>
+
+                        <div class="bs-wizard-step active">
+                            <div class="text-center bs-wizard-stepnum">Payment</div>
+                            <div class="progress">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <a href="#0" class="bs-wizard-dot"></a>
+                        </div>
+
+                        <div class="bs-wizard-step disabled">
+                            <div class="text-center bs-wizard-stepnum">Finish!</div>
+                            <div class="progress">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <a href="#0" class="bs-wizard-dot"></a>
+                        </div>
+                    </div>
+                    <!-- End bs-wizard -->
+                </div>
+            </div>
+        </div>
+        <!--/hero_in-->
+
+        <div class="bg_color_1">
+            <div class="container margin_60_35">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="box_cart">
+                            <div class="message">
+
+                                <p>Plateforme de paiements <a href="#0"> Online</a></p>
+                            </div>
+                            <div class="form_title">
+                                <h3><strong>1</strong>Your Identity & Your Payment informations</h3>
+                                <p>
+                                    payez vos facture en ligne & profitez d'un paiement sécurisé
+                                </p>
+                            </div>
+                            <div class="step">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>ID-N'Passeport :</label>
+                                            {{ form_widget(form.identifiant)}}
+                                            <div class="alert-primary">
+                                            {{ form_errors(form.identifiant) }}
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Montant de facture à payer :</label>
+                                            {{ form_widget(form.montant) }}
+                                            <div class="alert-info">
+                                            {{ form_errors(form.montant) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Date de paiement :</label>
+                                            {{ form_widget(form.date_paiement) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>votre Pays :</label>
+                                            {{ form_widget(form.pays) }}
+                                            <div class="alert-secondary">
+                                                {{ form_errors(form.pays) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Devise relatif à votre pays :</label>
+                                            {{ form_widget(form.devise) }}
+                                            <div class="alert-warning">
+                                            {{ form_errors(form.devise) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Moyen de paiement :</label>
+                                            {{ form_widget(form.moyen_paiement) }}
+                                            <div class="alert-secondary">
+                                            {{ form_errors(form.moyen_paiement) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Mode de paiement :</label>
+                                            {{ form_widget(form.mode_paiement) }}
+                                            <div class="alert-danger">
+                                            {{ form_errors(form.mode_paiement) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <!--End step -->
+
+                            <div class="form_title">
+                                <h3><strong>2</strong>Card Bank Informations</h3>
+                                <p>
+                                    Relatif au Choix de paiement On-ligne.
+                                </p>
+                            </div>
+                            <div class="step">
+                                <div class="form-group">
+                                    <label>Numéro de Carte Bancaire</label>
+                                    {{ form_widget(form.Ncb) }}
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                            <label>Type de Carte Bancaire</label>
+                                            {{ form_widget(form.typeCB)}}
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+
+                                        <img src="{{ asset('img/cards_all.svg') }}"alt="Cards" class="cards-payment">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Date d'expiration :</label>
+                                        {{ form_widget(form.date_expiration) }}
+                                                </div>
+
+                                    <div class="col-md-6">
+
+                                            <label>Code de securite :</label>
+
+                                                <div class="col-4">
+
+                                                    {{ form_widget(form.code_securite) }} <p> </p> <img src="{{ asset('img/icon_ccv.gif') }}" width="50" height="29" alt="ccv"><small>Last 3 digits</small>
+                                                    {{ form_widget(form.color) }} </div>
+
+
+
+
+                                    </div>
+                                </div>
+                                            </div>
+
+                                    </div>
+                                </div>
+                                <!--End row -->
+
+                                <hr>
+
+
+                                <p>
+
+                                </p>
+                                <p>
+
+                                    <a href="#0"><img src="{{ asset('img/paypal_bt.png') }}" alt="Image"></a>
+                                </p>
+                            </div>
+                            <hr>
+                            <!--End step -->
+
+                            <div class="form_title">
+                                <h3><strong>3</strong>Oxyvia Tours Address</h3>
+                                <p>
+                                    Relatif au Choix de paiement hors-ligne.
+                                </p>
+                            </div>
+                            <div class="step">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Location de OxyviaTours agency :</label>
+                                            <img src="{{ asset('img/logos/map-marker.png') }}" width="30" height="30">
+                                            <div class="custom-select-form">
+                                                {{ form_widget(form.location) }}
+                                                </select>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div class="col-sm-6">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Tu vas la payer acctuellement ? :</label>
+                                            <div class="custom-select-form">
+                                                {{ form_widget(form.enabled) }}
+
+
+                                                </select>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+
+                                            <div class="custom-select-form">
+
+                                                </select>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>  </br>
+                                <input type="submit" value="Je Valide le paiement" class="btn_1 full-width"></div>
+            </div>
+
+
+
+            {{ form_rest(form) }}
+                {{ form_end(form) }}
+                                <!--End row -->
+                            </div>
+                            <hr>
+      <center>  <button><a href="{{ path('map') }}"> Show Location<i class="fa fa-trash"></i></a></button></center>
+
+    </main>
+    </main>                 <!--End step -->
+    </main>
+</body>
+
+                    </div>
+
+
+
+                    <!-- /col -->
+
+
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /bg_color_1 -->
+    </main>
+    <!--/main-->
+
+
+
+    <!--/footer-->
+</div>
+<!-- page -->
+
+<!-- Sign In Popup -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+    <div class="small-dialog-header">
+
+        <h3>Sign In</h3>
+    </div>
+    <form>
+        <div class="sign-in-wrapper">
+            <a href="#0" class="social_bt facebook">Login with Facebook</a>
+            <a href="#0" class="social_bt google">Login with Google</a>
+            <div class="divider"><span>Or</span></div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" name="email" id="email">
+                <i class="icon_mail_alt"></i>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password" id="password" value="">
+                <i class="icon_lock_alt"></i>
+            </div>
+            <div class="clearfix add_bottom_15">
+                <div class="checkboxes float-left">
+                    <label class="container_check">Remember me
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="float-right mt-1"><a id="forgot" href="javascript:void(0);">Forgot Password?</a></div>
+            </div>
+            <div class="text-center"><input type="submit" value="Log In" class="btn_1 full-width"></div>
+            <div class="text-center">
+                Donâ€™t have an account? <a href="register.html">Sign up</a>
+            </div>
+            <div id="forgot_pw">
+                <div class="form-group">
+                    <label>Please confirm login email below</label>
+                    <input type="email" class="form-control" name="email_forgot" id="email_forgot">
+                    <i class="icon_mail_alt"></i>
+                </div>
+                <p>You will receive an email containing a link allowing you to reset your password to a new preferred one.</p>
+                <div class="text-center"><input type="submit" value="Reset Password" class="btn_1"></div>
+            </div>
+        </div>
+    </form>
+    <!--form -->
+</div>
+<!-- /Sign In Popup -->
+or
+<div id="toTop"></div><!-- Back to top button -->
+
+<!-- COMMON SCRIPTS -->
+<script src="js/jquery-2.2.4.min.js"></script>
+<script src="js/common_scripts.js"></script>
+<script src="js/main.js"></script>
+<script src="assets/validate.js"></script>
+
+
+
+</body>
+
+
+
+{% endblock %}

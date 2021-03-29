@@ -1,0 +1,57 @@
+<style>
+    h1 {
+        text-align: center;
+        text-transform: uppercase;
+        color: #4CAF50;
+    }
+    a {
+        text-decoration: none;
+        color: #008CBA;
+    }
+</style>
+
+<div class="col-lg-6 col-md-8">
+       <center>  <h1 aligne ="center" ><small style="color:darkcyan"> **Paid Depense** </small> </h1> </center></div>
+
+    <div class="ripple-container"></div>
+    <div class="tab-content tab-space">
+        <div class="tab-pane" id="pill1" style="margin-bottom: 25px; width: 1000px; height: 700px;  margin-left: 30px;">
+
+
+
+
+                        <ul>
+
+                            <li>
+
+
+                                <li class="booking_list">
+
+
+
+                                  <li><strong> Image : </strong>  <img src ="{{ pathToPublic ~ asset ('uploads/images/'~d.getPicture() ) }}" height="100px" width="100px"></li>
+
+                                    <li><strong style="color:blue">ID Employeer:</strong> {{ d.getIdPersonnel().getIdPersonnel()}} </li>
+                                    <li><strong style="color:blue">Nom:</strong> {{ d.getNom() }}</li>
+                                    <li><strong style="color:blue">Prenom:</strong> {{ d.getPrenom() }}</li>
+                                    <li><strong style="color:blue">Occupation:</strong> {{ d.getOccupation()}} </li>
+                            <li><strong style="color:blue">Salaire annuel:</strong>   <strong style="color:green"> {{ d.getSalaire()}}  </strong> </li>
+                                    <li><strong style="color:blue">Taux horaire réguliére:</strong> {{ d.getHoraireReguliere() }}</li>
+                                    <li><strong style="color:blue" >Taux horaire d'heure suplimentaire :</strong> {{ d.getHoraireSup() }}</li>
+                                    <li><strong style="color:blue">Exempté d'heure suplimentaire :</strong> {{ d.getExempte() }}</li>
+                                    <li><strong style="color:blue">Date de dépense:</strong> {{ d.getDateDepense() }}</li>
+
+                                </li>
+                            </li>
+                            <center><img src="{{ pathToPublic ~ asset('img/logos/oxyvia.png') }}" height="110px" width="130px" ></center>
+                            <strong style="font-family: Verdana ">{{d.getDateDepense()|date('D')}}
+                                {{d.getDateDepense()| date ('M Y')}} </strong>
+                        </ul>
+
+
+
+</div>
+    </div>
+
+
+
