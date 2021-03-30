@@ -25,16 +25,12 @@ class Hotel
   
 
     /**
-    * @Assert\NotBlank(message=" this field is required ")
-    * @Groups("hotel:read")
-    */
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message=" this field is required ")
+     */
    private $name;
 
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $nb_chambreDispo;
 
     /**
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="hotel")
@@ -168,15 +164,7 @@ class Hotel
 
 
 
-    public function getNbChambreDispo(): ?int
-    {
-        return $this->nb_chambreDispo;
-    }
 
-    public function setNbChambreDispo(int $nb_chambreDispo): self
-    {
-        $this->nb_chambreDispo = $nb_chambreDispo;
-    }
     public function getAdresse(): ?string
     {
         return $this->adresse;

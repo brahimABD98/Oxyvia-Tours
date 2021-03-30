@@ -6,6 +6,8 @@
 {% block body %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+
+
     <style>
         .custom-file-input {
             opacity: 1;
@@ -14,7 +16,6 @@
             /* bug fix - no overlay */
             display: none;
             background-color: #000;
-
         }
     </style>
 
@@ -29,64 +30,95 @@
                 </li>
                 <li class="breadcrumb-item active">Add listing</li>
             </ol>
+
+
+
+
             <div class="box_general padding_bottom" height="1500px">
                 <div class="header_box version_2" >
                     <h2><i class="fa fa-file"></i>Ajouter un voyage</h2>
                 </div>
 
+
+
+
                 {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
 
-                        <div class="form-group">
-                            {{ form_label(form.nom) }}
-                            {{ form_widget(form.nom) }}
+                <div class="form-group">
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom) }}
+                </div>
+                <div class="form-group">
 
-                            {{ form_label(form.ville) }}
-                            {{ form_widget(form.ville) }}
+                    {{ form_label(form.ville) }}
+                    {{ form_widget(form.ville) }}
+                </div>
 
-                            {{ form_label(form.description) }}
-                            {{ form_widget(form.description) }}
+    <div class="form-group">
 
-
-
-                            {{ form_label(form.date_debut) }}
-                            {{ form_widget(form.date_debut) }}
-
-                            {{ form_label(form.date_fin) }}
-                            {{ form_widget(form.date_fin) }}
-
-                            {{ form_label(form.prixPersonne) }}
-                            {{ form_widget(form.prixPersonne) }}
-
-                            {{ form_label(form.nb_personne) }}
-                            {{ form_widget(form.nb_personne) }}
-
-                            {{ form_label(form.image) }}
-                            {{ form_widget(form.image) }}
-
-                            {{ form_label(form.hotel) }}
-                            {{ form_widget(form.hotel) }}
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description) }}
+    </div>
 
 
 
-                            {{ form_label(form.transport) }}
-                            {{ form_widget(form.transport) }}
+    <div class="form-group">
+
+                    {{ form_label(form.date_debut) }}
+                    {{ form_widget(form.date_debut) }}
+    </div>
+
+    <div class="form-group">
+
+                    {{ form_label(form.date_fin) }}
+                    {{ form_widget(form.date_fin) }}
+    </div>
+
+    <div class="form-group">
+
+                    {{ form_label(form.prixPersonne) }}
+                    {{ form_widget(form.prixPersonne) }}
+    </div>
+
+    <div class="form-group">
+
+                    {{ form_label(form.nb_personne) }}
+                    {{ form_widget(form.nb_personne) }}
+    </div>
+
+                <div class="form-group">
+
+                    {{ form_label(form.image) }}
+                    {{ form_widget(form.image) }}
+                </div>
+
+                <div class="form-group">
+
+                    {{ form_label(form.hotel) }}
+                    {{ form_widget(form.hotel) }}
+                </div>
+
+                <div class="form-group">
+
+                    {{ form_label(form.transport) }}
+                    {{ form_widget(form.transport) }}
 
 
-                        </div>
+                </div>
 
 
 
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm ">
                             <label>  Place 1</label>
-                           <input type="text" id="place1" name="place1">
+                            <input type="text" id="place1" name="place1">
 
                             <label>  atitude</label>
                             <input type="text" id="att1" name="att1">
 
                             <label>  longitude</label>
-                             <input type="text" id="long1" name="long1">
+                            <input type="text" id="long1" name="long1">
                         </div>
 
                     </div>
@@ -125,7 +157,7 @@
 
             <!-- /box_general-->
             <button type="submit" class="btn_1 medium" >Sauvegarder</button>
-{{ form_end(form) }}
+            {{ form_end(form) }}
 
         </div>
         <!-- /.container-fluid-->

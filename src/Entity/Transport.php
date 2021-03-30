@@ -100,6 +100,8 @@ class Transport
     public function setVoyage(?Voyage $voyage): self
     {
         $this->voyage = $voyage;
+
+        return $this;
     }
     public function getImage(): ?string
     {

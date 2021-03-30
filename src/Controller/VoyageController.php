@@ -80,6 +80,10 @@ class VoyageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+
             $hotel=$hotelRepository->find($form->get('hotel')->getData());
 
             $place1 = $request->request->get("place1");
@@ -110,7 +114,7 @@ class VoyageController extends AbstractController
             $placeobj3->setLongitude($long3);
 
             $file=$request->files->get('voyage')['image'];
-            $uploads_directory=$params->get('uploads_directory');
+            $uploads_directory=$params->get('upload_directory');
             $filename=md5(uniqid()). '.'.$file->guessExtension();
             $file->move(
                 $uploads_directory,
@@ -124,6 +128,7 @@ class VoyageController extends AbstractController
                 $placeobj2,
                 $placeobj3
             ];
+            $entityManager->persist($voyage);
 
             foreach ($arr as $ar){
                 $voyage->getPlace()->add($ar);
@@ -131,9 +136,10 @@ class VoyageController extends AbstractController
 
 $transports=$form['transport']->getData();
             foreach ($transports as $ar2){
-             //   dd($ar2->getId());
+
                 $trans=$transportRepository->find($ar2->getId());
-                    $trans->setVoyage($voyage);
+
+                $trans->setVoyage($voyage);
             }
 
 
@@ -142,12 +148,11 @@ $transports=$form['transport']->getData();
             $placeobj3->addVoyage($voyage);
 
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($voyage);
-
-
 
             $entityManager->flush();
+
+
+
 
 
 

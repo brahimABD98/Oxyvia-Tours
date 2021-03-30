@@ -466,7 +466,7 @@ class ReservationController extends AbstractController
 
         $hotel=$voy->getHotel()->getId();
         $diffJours = date_diff($voy->getDateDebut(), $voy->getDateFin())->d;
-  $nbchambreSingleDispo = $chambreRepository->NbChambreSingleDispo($hotel);
+         $nbchambreSingleDispo = $chambreRepository->NbChambreSingleDispo($hotel);
         $getChambreSinglePrixPerHotel=$chambreRepository->getChambreSinglePrixPerHotel($hotel);
 
         $prixTransport=$voy->getTransport()->toArray()[0]->getPrix();

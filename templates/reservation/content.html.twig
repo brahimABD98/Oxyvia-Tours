@@ -7,7 +7,7 @@
                     <figure><img src="{{ asset('uploads/')~ i.voyage.image }}" alt=""></figure>
                     <h4>Voyage {{ i.voyage.nom}} </h4>
                 {% elseif i.type=='reservation hotel'  %}
-                    <h4>Hotel {{ i.hotel.nom}} </h4>
+                    <h4>Hotel {{ i.hotel.name}} </h4>
                 {% endif %}
                 <ul class="booking_list">
                     <li><strong>date debut</strong> {{ i.datedebut|date('d-m-Y') }}</li>

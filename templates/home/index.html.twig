@@ -64,7 +64,8 @@
                         <a href="#0" class="wish_bt"></a>
 
                         <a href="{{ path('reservation_newvoy',{'voy_id':voy.id}) }}">
-                            <img src="{{ asset('uploads/')~ voy.image }}" class="img-fluid" alt="" width="800" height="533">
+                            {{  voy.image  }}
+                            <img src="{{ asset('picture/')~ voy.image }}"class="img-fluid" alt="" width="800" height="533">
                             <div class="read_more"><span>Read more</span></div></a>
                         <small>Historic</small>
                     </figure>
@@ -85,7 +86,6 @@
 
         </div>
         <!-- /carousel -->
-        <p class="btn_home_align"><a href="tours-grid-isotope.html" class="btn_1 rounded">View all Tours</a></p>
         <hr class="large">
     </div>
     <!-- /container -->
@@ -95,7 +95,6 @@
             <div class="main_title_3">
                 <span><em></em></span>
                 <h2>Popular Hotels and Accommodations</h2>
-                <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
             </div>
             <div class="row">
                 <div class="col-xl-3 col-lg-6 col-md-6">

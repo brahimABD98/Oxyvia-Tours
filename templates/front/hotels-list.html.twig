@@ -88,7 +88,9 @@
                         </div>
                     <h3><a href="{{ path('type',{'type': hotel.id}) }}"> {{ hotel.name }} </a></h3>
                     <a href="{{ path('map',{'id': hotel.id}) }}" class="btn btn-primary align-items-center" style="margin-bottom: 50px">Map:Location</a>
-                    <a href="{{ path('typeh',{'typeh': hotel.id}) }}" class="btn btn-primary align-items-center" style="margin-bottom: 50px">Add Comment</a>
+                    <a href="{{ path('typeh',{'typeh': hotel.id}) }}" class="btn btn-primary align-items-center" style="margin-bottom: 50px">ajouter comentaire</a>
+                    <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}" class="btn btn-primary align-items-center" style="margin-bottom: 50px">Réserver</a>
+
                 </div>
             </div>
         </div>

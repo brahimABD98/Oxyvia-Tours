@@ -28,7 +28,7 @@
                         <li>
                             <figure><img src="img/item_1.jpg" alt=""></figure>
                             <ul class="booking_list">
-                                <li><strong>Hotel</strong> {{ reservation.hotel.nom}}</li>
+                                <li><strong>Hotel</strong> {{ reservation.hotel.name}}</li>
                                 <li><strong>Date debut</strong> {{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</li>
                                 <li><strong>Date fin</strong> {{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</li>
                                 <li><strong>Prix</strong>{{ reservation.prix }}</li>
