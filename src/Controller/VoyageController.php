@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 /**
  * @Route("dashboard/gestion/voyage")
@@ -134,7 +136,7 @@ class VoyageController extends AbstractController
                 $voyage->getPlace()->add($ar);
             }
 
-$transports=$form['transport']->getData();
+            $transports=$form['transport']->getData();
             foreach ($transports as $ar2){
 
                 $trans=$transportRepository->find($ar2->getId());
@@ -147,13 +149,7 @@ $transports=$form['transport']->getData();
             $placeobj2->addVoyage($voyage);
             $placeobj3->addVoyage($voyage);
 
-
-
             $entityManager->flush();
-
-
-
-
 
 
             return $this->redirectToRoute('voyage_index');
@@ -208,5 +204,61 @@ $transports=$form['transport']->getData();
         }
 
         return $this->redirectToRoute('voyage_index');
+    }
+
+    /**
+     * @Route("/users/data/download", name="users_data_download")
+     */
+    public function usersDataDownload(VoyageRepository  $voyageRepository)
+    {
+        // On définit les options du PDF
+        $pdfOptions = new Options();
+        // Police par défaut
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+
+        // On instancie Dompdf
+        $dompdf = new Dompdf($pdfOptions);
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed' => TRUE
+            ]
+        ]);
+        $dompdf->setHttpContext($context);
+
+        //lst voy
+        $lst=$voyageRepository->findAll();
+
+        // On génère le html
+        $html = $this->renderView('voyage/voyageDatapdf.html.twig',[
+            'list'=>$lst
+        ]);
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // On génère un nom de fichier
+        $fichier = 'voyage-data'.$this->generateToken2().'.pdf';
+
+        // On envoie le PDF au navigateur
+        $dompdf->stream($fichier, [
+            'Attachment' => true
+        ]);
+        return new Response('', 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
+
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    private function generateToken2()
+    {
+        return rtrim(strtr(base64_encode(random_bytes(5)), '+/', '-_'), '=');
     }
 }

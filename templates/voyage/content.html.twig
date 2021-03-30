@@ -17,8 +17,8 @@
         </thead>
 
         <tbody>
-        <tr>
-            {% for i in voyages %}
+        {% for i in voyages %}
+            <tr>
             <td>{{ i.nom }}</td>
             <td>{{ i.ville }}</td>
             <td>{{ i.description }}</td>
@@ -27,8 +27,7 @@
             <td>{{ i.prixpersonne }}</td>
             <td>{{ i.nbpersonne }}</td>
             <td> <img src="{{ asset('picture/')~ i.image }}" width="200px" height="200px"></td>
-            <td> <a href="{{ path('voyage_edit', {'id': i.id },'/edit') }}" class="btn_1 gray approve">Update</a></td>
-            <td> <a href="{{ path('voyage_delete', {'id': i.id }) }}" class="btn_1 gray delete">Delete </a></td>
+
 
         </tr>
 

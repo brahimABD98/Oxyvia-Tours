@@ -4,6 +4,8 @@ namespace App\Controller;
 use App\Repository\ChambreRepository;
 use App\Repository\PlaceRepository;
 use App\Repository\VoyageRepository;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use http\Message;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -600,6 +602,57 @@ class ReservationController extends AbstractController
 
 
     /**
+     * @Route("/users/data/download", name="usersDataDownload")
+     */
+    public function usersDataDownload(VoyageRepository  $voyageRepository,ReservationRepository $reservationRepository)
+    {
+        // On définit les options du PDF
+        $pdfOptions = new Options();
+        // Police par défaut
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->setIsRemoteEnabled(true);
+
+        // On instancie Dompdf
+        $dompdf = new Dompdf($pdfOptions);
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed' => TRUE
+            ]
+        ]);
+        $dompdf->setHttpContext($context);
+
+        //lst voy
+        $lst=$reservationRepository->findAll();
+
+
+        // On génère le html
+        $html = $this->renderView('reservation/ResDatapdf.html.twig',[
+            'list'=>$lst
+        ]);
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // On génère un nom de fichier
+        $fichier = 'voyage-data'.$this->generateToken2().'.pdf';
+
+        // On envoie le PDF au navigateur
+        $dompdf->stream($fichier, [
+            'Attachment' => true
+        ]);
+        return new Response('', 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
+
+    }
+
+
+
+
+    /**
      * @return string
      * @throws \Exception
      */
@@ -607,5 +660,12 @@ class ReservationController extends AbstractController
     {
         return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }
-
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    private function generateToken2()
+    {
+        return rtrim(strtr(base64_encode(random_bytes(5)), '+/', '-_'), '=');
+    }
 }

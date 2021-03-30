@@ -18,7 +18,9 @@
             </ol>
                 <div class="box_general">
                     <div class="header_box">
-                        <h2 class="d-inline-block">Liste des Reservation dans l'agence </h2>
+                        <h2 class="d-inline-block">Liste des Reservation dans l'agence </h2> <hr/>
+                        <td> <a href="{{ path('usersDataDownload') }}" class="btn_1 black approve">Genérer un pdf</a></td>
+<hr/>
                         <form id="filters">
                             {% if queryParams is not empty and queryParams.hotel is defined %}
                                 {% set checked =  queryParams.hotel %}
