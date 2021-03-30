@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use App\Entity\Contact;
 use App\Entity\Depense;
 use App\Entity\Facture;
@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mailer\MailerInterface;
 
 class FactureController extends AbstractController
 {
@@ -65,7 +66,7 @@ class FactureController extends AbstractController
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     * @Route("Facture/Add/{res}",name="ajout")
+     * @Route("/Facture/Add/{res}",name="ajout")
      */
     function Add(Request $request,$res){
         $facture=new Facture();
@@ -114,7 +115,7 @@ class FactureController extends AbstractController
 
     /**
      * @return Response
-     * @Route("/show3", name="show3")
+     * @Route("/dashboard/show3", name="show3")
      */
     function showw()
     {
@@ -387,10 +388,10 @@ class FactureController extends AbstractController
     /**
      * @param Request $request
      * @return Response
-     * @Route("/contact",name="contact")
+     * @Route("/dashboard/contact",name="contact")
      */
 
-            public function sendMail(Request $request, \Swift_Mailer $mailer)
+            public function sendMail(Request $request, MailerInterface $mailer)
             { $contact=new Contact();
                 $form=$this->createForm(ContactType::class,$contact);
               $form->handleRequest($request);
@@ -410,23 +411,22 @@ class FactureController extends AbstractController
                   $em->persist($contact);
                   $em->flush();
               //dd($contact);
-                  $message = (new \Swift_Message('Paiement Notification'))
+                  $email = (new TemplatedEmail())
 
-                      ->setFrom('eyaallahthebti99@gmail.com')
-                      ->setTo('eyaallahthebti99@gmail.com')
-                      //->setTo($contact['email'])
-                     // ->attach(\Swift_Attachment::fromPath($contact1['fichier']))
-                      ->attach(\Swift_Attachment::fromPath('img/logos/mypdf.pdf'))
+                      ->from('eyaallahthebti99@gmail.com')
+                      ->to('eyaallahthebti99@gmail.com')
+                      ->subject('Paiement Notification')
 
-                      ->setBody($this->renderView(
-                          'emails/contact.html.twig',
-                          compact('contact')
+                      ->attachFromPath('img/logos/mypdf.pdf')
+
+                      ->htmlTemplate('emails/contact.html.twig')
+
+                      ->context([
+                          'contact' => $contact,
 
 
-
-                      ),
-                      'text/html');
-                  $mailer->send($message);
+                      ]);
+                  $mailer->send($email);
                   $this->addFlash('send','le message a bien été envoyé');
                   return $this->redirectToRoute('dateinf');
 
@@ -442,10 +442,10 @@ class FactureController extends AbstractController
     /**
      * @param Request $request
      * @return Response
-     * @Route("/contact1",name="contact1")
+     * @Route("/dashboard/contact1",name="contact1")
      */
 
-    public function sendMail1(Request $request, \Swift_Mailer $mailer)
+    public function sendMail1(Request $request, MailerInterface $mailer)
     { $contact=new Contact();
         $form=$this->createForm(ContactType::class,$contact);
         $form->handleRequest($request);
@@ -465,23 +465,20 @@ class FactureController extends AbstractController
             $em->persist($contact);
             $em->flush();
             //dd($contact);
-            $message = (new \Swift_Message('Paiement Notification'))
+            $email = (new TemplatedEmail())
+                ->from('eyaallahthebti99@gmail.com')
+                ->to('eyaallahthebti99@gmail.com')
+                ->subject('Paiement Notification')
+                ->attachFromPath('img/logos/mypdf (1).pdf')
 
-                ->setFrom('eyaallahthebti99@gmail.com')
-                ->setTo('eyaallahthebti99@gmail.com')
-                //->setTo($contact['email'])
-                // ->attach(\Swift_Attachment::fromPath($contact1['fichier']))
-                ->attach(\Swift_Attachment::fromPath('img/logos/mypdf (1).pdf'))
+                ->htmlTemplate('emails/contact.html.twig')
 
-                ->setBody($this->renderView(
-                    'emails/contact.html.twig',
-                    compact('contact')
-
+                ->context([
+                    'contact' => $contact,
 
 
-                ),
-                    'text/html');
-            $mailer->send($message);
+                ]);
+            $mailer->send($email);
             $this->addFlash('send','le message a bien été envoyé');
             return $this->redirectToRoute('datesup');
 

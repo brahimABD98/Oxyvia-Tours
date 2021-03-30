@@ -51,7 +51,13 @@
                                 </div>
                             </div>
                         </form>
+
+                        <li><a href="{{ path('showFacture') }}" class="btn_1 gray delete"><i class="fa fa-fw fa-times-circle-o"></i> Return</a></li>
+                        </ul>
+
+
                     </div>
+
                     {% for message in app.flashes('send') %}
                         <div class="alert-info" role="alert" style="font-size:150%;"  >
                             <svg class="glyph stroked checkmark"><use xlink:href="#stroked-checkmark"></use></svg>

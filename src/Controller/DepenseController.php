@@ -497,10 +497,10 @@ public function sendMail(MailerInterface $mailer,Request $request)
     /**
      * @param Request $request
      * @return Response
-     * @Route("/contact3",name="contact3")
+     * @Route("/dashboard/contact3",name="contact3")
      */
 
-    public function sendMail1(Request $request, \Swift_Mailer $mailer)
+    public function sendMail1(Request $request, MailerInterface $mailer)
     { $contact=new Contact();
         $form=$this->createForm(ContactType::class,$contact);
         $form->handleRequest($request);
@@ -520,23 +520,24 @@ public function sendMail(MailerInterface $mailer,Request $request)
             $em->persist($contact);
             $em->flush();
             //dd($contact);
-            $message = (new \Swift_Message('Paiement Notification'))
+            $email = (new TemplatedEmail())
+                ->from('eyaallahthebti99@gmail.com')
+                ->to('eyaallahthebti99@gmail.com')
+                ->subject('Paiement Notification')
+                ->attachFromPath('img/logos/mypdf (3).pdf')
+                ->htmlTemplate('emails/contact.html.twig')
+                ->context([
+                    'contact' => $contact,
 
-                ->setFrom('eyaallahthebti99@gmail.com')
-                ->setTo('eyaallahthebti99@gmail.com')
-                //->setTo($contact['email'])
-                // ->attach(\Swift_Attachment::fromPath($contact1['fichier']))
-                ->attach(\Swift_Attachment::fromPath('img/logos/mypdf (3).pdf'))
 
-                ->setBody($this->renderView(
+                ]);
+               /* ->setBody($this->renderView(
                     'emails/contact.html.twig',
                     compact('contact')
 
-
-
                 ),
-                    'text/html');
-            $mailer->send($message);
+                    'text/html');*/
+            $mailer->send($email);
             $this->addFlash('send','le message a bien été envoyé');
             return $this->redirectToRoute('datesupp');
 

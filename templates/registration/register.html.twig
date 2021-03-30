@@ -17,11 +17,21 @@
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href={{ path('app_register') }}>
                         <i class="fa fa-fw fa-envelope-open"></i>
                         <span class="nav-link-text">Messages</span>
                     </a>
                 </li>
+
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Bookings">
+                    <a class="nav-link" href="{{ path('app_register') }}">
+                        <i class="fa fa-fw fa-calendar-check-o"></i>
+                        <span class="nav-link-text">Gestion des partenaires <span class="badge badge-pill badge-primary"></span></span>
+                    </a>
+                </li>
+
+
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Bookings">
                     <a class="nav-link" href="{{ path('app_register') }}">
                         <i class="fa fa-fw fa-calendar-check-o"></i>
@@ -36,15 +46,16 @@
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add listing">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link"  href="{{ path('app_register') }}">
                         <i class="fa fa-fw fa-plus-circle"></i>
-                        <span class="nav-link-text">Add listing</span>
+                        <span class="nav-link-text">Liste des Réservations de l'agence</span>
                     </a>
                 </li>
+
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ path('app_register') }}">
                         <i class="fa fa-fw fa-user"></i>
-                        <span class="nav-link-text"></span>
+                        <span class="nav-link-text">Hotels Stats</span>
                     </a>
                 </li>
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Comptability">
@@ -194,7 +205,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="modal" data-target="#exampleModal" href="{{ path('app_register') }}" >
-                        <a class="fa fa-fw fa-sign-out" href="{{ path('app_register') }}"></a>Logout</a>
+                        <a class="fa fa-fw fa-sign-out" href="{{ path('app_login') }}"></a>Logout</a>
                 </li>
             </ul>
         </div>
