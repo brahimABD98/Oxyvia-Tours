@@ -14,9 +14,6 @@ return [
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
     Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
-    Padam87\CronBundle\Padam87CronBundle::class => ['all' => true],
-    Craue\FormFlowBundle\CraueFormFlowBundle::class => ['all' => true],
-    Craue\FormFlowDemoBundle\CraueFormFlowDemoBundle::class => ['all' => true],
-    MercurySeries\FlashyBundle\MercurySeriesFlashyBundle::class => ['all' => true],
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
+    Symfony\UX\Chartjs\ChartjsBundle::class => ['all' => true],
 ];

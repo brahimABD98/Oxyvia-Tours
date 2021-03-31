@@ -41,14 +41,14 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html"><img src="{{ asset('img/logo.png') }}"data-retina="true" alt="" width="150" height="36"></a>
+    <a class="navbar-brand" href="{{ path('backoffice') }}"><img src={{asset("img/logo.png")}} data-retina="true" alt="" width="150" height="36"></a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{ path('backoffice') }}">
                     <i class="fa fa-fw fa-dashboard"></i>
                     <span class="nav-link-text">Dashboard</span>
                 </a>
@@ -104,18 +104,51 @@
 
             <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
                 <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#Components">
-                    <i class="fa fa-fw fa-gear"></i>
-                    <span class="nav-link-text">Components</span>
+                    <i class="fa fa-fw fa-pie-chart"></i>
+                    <span class="nav-link-text"> show Comtability Corner</span>
                 </a>
                 <ul class="sidenav-second-level collapse" id="collapseComponents">
-                    <li>
-                        <a href="charts.html">Charts</a>
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Factures">
+                        <a class="nav-link" href="{{ path('showFacture')}}">
+                            <i class="fa fa-fw fa-gear"></i>
+                            <span class="nav-link-text">Gestions des factures </span>
+                        </a>
                     </li>
-                    <li>
-                        <a href="tables.html">Tables</a>
+                    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Depenses">
+                        <a class="nav-link" href="{{ path('showDepense')}}">
+                            <i class="fa fa-fw fa-dollar"></i>
+                            <span class="nav-link-text">Rénumération </span>
+                        </a>
                     </li>
                 </ul>
             </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Stats Factures">
+                <a class="nav-link" href="{{ path('stats')}}">
+                    <i class="fa fa-fw fa-bar-chart"></i>
+                    <span class="nav-link-text">Statistiques Facture </span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Stats Depense">
+                <a class="nav-link" href="{{ path('stats1')}}">
+                    <i class="fa fa-fw fa-area-chart"></i>
+                    <span class="nav-link-text"> Statistiques Depense </span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Depenses">
+                <a class="nav-link" href="{{ path('showDepense') }}">
+                    <i class="fa fa-fw fa-dollar"></i>
+                    <span class="nav-link-text">Renumération</span>
+                </a>
+            </li>
+            <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Factures">
+                <a class="nav-link" href="{{  path('showFacture')}}">
+                    <i class="fa fa-fw fa-gear"></i>
+                    <span class="nav-link-text">Hundle Facture </span>
+                </a>
+            </li>
+
+
+
         </ul>
         <ul class="navbar-nav sidenav-toggler">
             <li class="nav-item">
@@ -215,32 +248,30 @@
                 </form>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-                    <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+                <a class="nav-link" data-toggle="modal" data-target="#exampleModal" href="{{ path('backoffice') }}" >
+                    <a class="fa fa-fw fa-sign-out" href="{{ path('app_login') }}"></a>Logout</a>
             </li>
         </ul>
     </div>
 </nav>
 <!-- /Navigation-->
 {% block body %}
-    <div class="content-wrapper">
-        <div class="container-fluid">
-            <!-- Breadcrumbs-->
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="#">Dashboard</a>
-                </li>
-                <li class="breadcrumb-item active">My Dashboard</li>
-            </ol>
-            <!-- Icon Cards-->
-            <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-3">
-                    <div class="card dashboard text-white bg-primary o-hidden h-100">
-                        <div class="card-body">
-                            <div class="card-body-icon">
-                                <i class="fa fa-fw fa-envelope-open"></i>
-                            </div>
-                            <div class="mr-5"><h5>26 New Messages!</h5></div>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('backoffice') }}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">My Dashboard</li>
+        </ol>
+        <!-- Icon Cards-->
+        <div class="row">
+            <div class="col-xl-3 col-sm-6 mb-3">
+                <div class="card dashboard text-white bg-primary o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw fa-envelope-open"></i>
                         </div>
                         <a class="card-footer text-white clearfix small z-1" href="messages.html">
                             <span class="float-left">View Details</span>
@@ -337,7 +368,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <a class="btn btn-primary" href="{{ path('home') }}">Logout</a>
             </div>
         </div>
     </div>

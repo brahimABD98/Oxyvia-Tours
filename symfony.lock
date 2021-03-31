@@ -1,7 +1,4 @@
 {
-    "beberlei/doctrineextensions": {
-        "version": "v1.3.0"
-    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
@@ -97,10 +94,10 @@
         "version": "v1.0.3"
     },
     "knplabs/knp-components": {
-        "version": "v2.5.1"
+        "version": "v3.0.1"
     },
     "knplabs/knp-paginator-bundle": {
-        "version": "v5.3.0"
+        "version": "v5.4.2"
     },
     "laminas/laminas-code": {
         "version": "3.4.1"
@@ -111,27 +108,20 @@
     "laminas/laminas-zendframework-bridge": {
         "version": "1.1.1"
     },
-    "mercuryseries/flashy-bundle": {
-        "version": "v3.0.2"
-    },
     "monolog/monolog": {
         "version": "1.26.0"
     },
     "nikic/php-parser": {
         "version": "v4.10.4"
     },
-
-    "padam87/cron-bundle": {
-        "version": "v2.5.0"
-    },
-    "php": {
-        "version": "7.3"
-    },
-       "phenx/php-font-lib": {
+    "phenx/php-font-lib": {
         "version": "0.5.2"
     },
     "phenx/php-svg-lib": {
         "version": "v0.3.3"
+    },
+    "php": {
+        "version": "7.3"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -518,6 +508,9 @@
     },
     "symfony/twig-pack": {
         "version": "v1.0.1"
+    },
+    "symfony/ux-chartjs": {
+        "version": "v1.2.0"
     },
     "symfony/validator": {
         "version": "4.3",
