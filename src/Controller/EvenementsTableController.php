@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class EvenementsTableController extends AbstractController
 {
     /**
-     * @Route("/", name="evenements_table_index", methods={"GET"})
+     * @Route("/dashboard/events", name="evenements_table_index", methods={"GET"})
      */
     public function index(EvenementsRepository $evenementsRepository,PaginatorInterface $paginator,Request $request): Response
     {
@@ -34,7 +34,7 @@ class EvenementsTableController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="evenements_table_new", methods={"GET","POST"})
+     * @Route("/dashboard/newevent", name="evenements_table_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -57,7 +57,7 @@ class EvenementsTableController extends AbstractController
     }
 
     /**
-     * @Route("/", name="evenements_table_show", methods={"GET"})
+     * @Route("/dashboard/event/{id}", name="evenements_table_show", methods={"GET"})
      */
     public function show(EvenementsTable $evenementsTable): Response
     {
@@ -67,7 +67,7 @@ class EvenementsTableController extends AbstractController
     }
 
     /**
-     * @Route("/editEvenements/{id}", name="editEvenement")
+     * @Route("/dashboard/editEvenements/{id}", name="editEvenement")
      */
     public function editEvenement(Request $request,$id){
         $em = $this->getDoctrine()->getManager();
@@ -89,7 +89,7 @@ class EvenementsTableController extends AbstractController
     }
 
     /**
-     * @Route("/EventDelete/{id}", name="evenements_table_delete")
+     * @Route("/dashboard/EventDelete/{id}", name="evenements_table_delete")
      */
     public function delete($id): Response
     {
@@ -101,7 +101,7 @@ class EvenementsTableController extends AbstractController
         }
 
     /**
-     * @Route("/AfficherEvent", name="AfficherEvent")
+     * @Route("dashboard/AfficherEvent", name="AfficherEvent")
      */
     public function afficherEvent(){
         $events=$this->getDoctrine()->getRepository(EvenementsTable::class)->findAll();
@@ -109,7 +109,7 @@ class EvenementsTableController extends AbstractController
     }
 
     /**
-     * @Route("/searchEvent", name="searchEvent")
+     * @Route("dashboard/searchEvent", name="searchEvent")
      */
     public function searchFormation(Request $request,NormalizerInterface $Normalizer,EvenementsRepository $repository)
     {

@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class OffresTableController extends AbstractController
 {
     /**
-     * @Route("/", name="offres_table_index", methods={"GET"})
+     * @Route("/dashboard/offres", name="offres_table_index", methods={"GET"})
      */
     public function index(OffresRepository $offresRepository,Request $request,PaginatorInterface $paginator): Response
     {
@@ -38,7 +38,7 @@ class OffresTableController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="offres_table_new", methods={"GET","POST"})
+     * @Route("dashboard/newoffre", name="offres_table_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -61,7 +61,7 @@ class OffresTableController extends AbstractController
     }
 
     /**
-     * @Route("/offres_table_show/{id}", name="offres_table_show", methods={"GET"})
+     * @Route("dashboard/offres_table_show/{id}", name="offres_table_show", methods={"GET"})
      */
     public function show(OffresTable $offresTable): Response
     {
@@ -71,7 +71,7 @@ class OffresTableController extends AbstractController
     }
 
     /**
-     * @Route("/offres_table_edit/{id}/edit", name="offres_table_edit", methods={"GET","POST"})
+     * @Route("dashboard/offres_table_edit/{id}/edit", name="offres_table_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, OffresTable $offresTable): Response
     {
@@ -91,7 +91,7 @@ class OffresTableController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="offres_table_delete", methods={"DELETE"})
+     * @Route("dashboard/offredelete/{id}", name="offres_table_delete", methods={"DELETE"})
      */
     public function delete(Request $request, OffresTable $offresTable): Response
     {
