@@ -1,0 +1,19 @@
+{% extends 'backoffice.html.twig' %}
+{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block title %}Edit OffresTable{% endblock %}
+
+{% block body %}
+<div style="margin-left:23%;margin-top: 5%">
+    <div style="margin-left:23%;margin-top: 5%">
+    <h1>Modifier les coordonnées d'un offre</h1>
+    </div>
+
+    {{ include('offres_table/_form.html.twig', {'button_label': 'Update'}) }}
+
+
+    <a href="{{ path('offres_table_index') }}">back to list</a>
+
+    {{ include('offres_table/_delete_form.html.twig') }}
+</div>
+{% endblock %}

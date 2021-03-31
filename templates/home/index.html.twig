@@ -89,7 +89,7 @@
         <hr class="large">
     </div>
     <!-- /container -->
-
+        <!-- /grid_item -->
     <div class="container container-custom margin_30_95">
         <section class="add_bottom_45">
             <div class="main_title_3">
@@ -97,62 +97,89 @@
                 <h2>Popular Hotels and Accommodations</h2>
             </div>
             <div class="row">
+            {% set value = 0 %}
+            {% for hotel in hotels %}
+
+                {% if value==0 %}
+                    {% set value = value + 1 %}
                 <div class="col-xl-3 col-lg-6 col-md-6">
                     <a href="hotel-detail.html" class="grid_item">
                         <figure>
-                            <div class="score"><strong>8.9</strong></div>
-                            <img src="img/hotel_1.jpg" class="img-fluid" alt="">
+                            <div class="score"><strong></strong></div>
+                            <img src="{{ asset('picture/' ~ hotel.image) }}" width="130" height="130">
                             <div class="info">
                                 <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
 
 
                                 <a href="{{ path('reservation_newhotel',{'hotel_id':1}) }}">
-                                    <h3>Mariott Hotel</h3>
+                                    <h3>{{ hotel.name }}</h3>
                                 </a>
                             </div>
                         </figure>
                     </a>
                 </div>
+                {% elseif value==1 %}
+                    {% set value = value + 1 %}
                 <!-- /grid_item -->
                 <div class="col-xl-3 col-lg-6 col-md-6">
                     <a href="hotel-detail.html" class="grid_item">
                         <figure>
-                            <div class="score"><strong>7.9</strong></div>
-                            <img src="img/hotel_2.jpg" class="img-fluid" alt="">
+                            <div class="score"><strong></strong></div>
+                            <img src="{{ asset('picture/' ~ hotel.image) }}" width="130" height="130">
                             <div class="info">
                                 <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-                                <h3>Concorde Hotel </h3>
+
+
+                                <a href="{{ path('reservation_newhotel',{'hotel_id':1}) }}">
+                                    <h3>{{ hotel.name }}</h3>
+                                </a>
                             </div>
                         </figure>
                     </a>
                 </div>
+                {% elseif value==2 %}
+                    {% set value = value + 1 %}
                 <!-- /grid_item -->
                 <div class="col-xl-3 col-lg-6 col-md-6">
                     <a href="hotel-detail.html" class="grid_item">
                         <figure>
-                            <div class="score"><strong>7.0</strong></div>
-                            <img src="img/hotel_3.jpg" class="img-fluid" alt="">
+                            <div class="score"><strong></strong></div>
+                            <img src="{{ asset('picture/' ~ hotel.image) }}" width="130" height="130">
                             <div class="info">
                                 <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-                                <h3>Louvre Hotel</h3>
+
+
+                                <a href="{{ path('reservation_newhotel',{'hotel_id':1}) }}">
+                                    <h3>{{ hotel.name }}</h3>
+                                </a>
                             </div>
                         </figure>
                     </a>
                 </div>
+                {% elseif value==3 %}
+                    {% set value = value + 1 %}
                 <!-- /grid_item -->
                 <div class="col-xl-3 col-lg-6 col-md-6">
                     <a href="hotel-detail.html" class="grid_item">
                         <figure>
-                            <div class="score"><strong>8.9</strong></div>
-                            <img src="img/hotel_4.jpg" class="img-fluid" alt="">
+                            <div class="score"><strong></strong></div>
+                            <img src="{{ asset('picture/' ~ hotel.image) }}" width="130" height="130">
                             <div class="info">
                                 <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
-                                <h3>Park Yatt Hotel</h3>
+
+
+                                <a href="{{ path('reservation_newhotel',{'hotel_id':1}) }}">
+                                    <h3>{{ hotel.name }}</h3>
+                                </a>
                             </div>
                         </figure>
                     </a>
                 </div>
+                    {% else %}
+                {% endif %}
                 <!-- /grid_item -->
+
+            {% endfor %}
             </div>
             <!-- /row --> <a href="{{ path('list') }}">
             

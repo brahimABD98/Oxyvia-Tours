@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210330142621 extends AbstractMigration
+final class Version20210330195032 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -27,7 +27,7 @@ final class Version20210330142621 extends AbstractMigration
         $this->addSql('CREATE TABLE craue_formflowdemo_location (id INT AUTO_INCREMENT NOT NULL, country VARCHAR(255) NOT NULL, region VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE craue_formflowdemo_topic (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(255) DEFAULT NULL, category VARCHAR(255) NOT NULL, comment LONGTEXT DEFAULT NULL, details LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE craue_formflowdemo_verhicle (id INT AUTO_INCREMENT NOT NULL, driver_id INT DEFAULT NULL, number_of_wheels INT NOT NULL, engine VARCHAR(255) DEFAULT NULL, INDEX IDX_40A375F5C3423909 (driver_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE hotel (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, nb_chambre_dispo INT NOT NULL, pays VARCHAR(255) NOT NULL, adresse VARCHAR(255) NOT NULL, nbetoile INT NOT NULL, num INT NOT NULL, email VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, lat DOUBLE PRECISION DEFAULT NULL, lng DOUBLE PRECISION DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE hotel (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, pays VARCHAR(255) NOT NULL, adresse VARCHAR(255) NOT NULL, nbetoile INT NOT NULL, num INT NOT NULL, email VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, lat DOUBLE PRECISION DEFAULT NULL, lng DOUBLE PRECISION DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE place (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, longitude VARCHAR(255) NOT NULL, altitude VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE reservation (id INT AUTO_INCREMENT NOT NULL, client_id INT DEFAULT NULL, hotel_id INT DEFAULT NULL, voyage_id INT DEFAULT NULL, date_debut DATE NOT NULL, date_fin DATE NOT NULL, prix INT NOT NULL, nb_adulte INT NOT NULL, type VARCHAR(255) NOT NULL, nb_enfants INT NOT NULL, nb_chambre_single_reserve INT NOT NULL, nb_chambre_double_reserve INT NOT NULL, confirme VARCHAR(255) NOT NULL, token VARCHAR(255) NOT NULL, INDEX IDX_42C8495519EB6921 (client_id), INDEX IDX_42C849553243BB18 (hotel_id), INDEX IDX_42C8495568C9E5AF (voyage_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE transport (id INT AUTO_INCREMENT NOT NULL, voyage_id INT DEFAULT NULL, nom VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, matricule VARCHAR(255) NOT NULL, image VARCHAR(255) NOT NULL, prix INT NOT NULL, INDEX IDX_66AB212E68C9E5AF (voyage_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

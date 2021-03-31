@@ -297,11 +297,13 @@ class BackController extends AbstractController
     /**
      * @Route("/list", name="list")
      */
-    public function index12(HotelRepository $hotelRepository): Response
+    public function index12(HotelRepository $hotelRepository,ClientRepository $clientRepository): Response
     {
         $client= new Client();
+        $val = $clientRepository->find(1);
         $session=new Session();
-        $session->set('id',1);
+        $session->set('id',$val->getId());
+        $session->set('nom',$val->getNom());
         return $this->render('front/hotels-list.html.twig', [
             'hotels' => $hotelRepository->findAll(),
         ]);
@@ -338,7 +340,6 @@ class BackController extends AbstractController
         $chambre = new Chambre();
         $form = $this->createForm(ChambreType::class, $chambre);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $uploadedFile = $form['image']->getData();
             $filename = md5(uniqid()).'.'.$uploadedFile->guessExtension();

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ChambreRepository;
+use App\Repository\HotelRepository;
 use App\Repository\VoyageRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,10 +19,11 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(VoyageRepository $voyageRepository, MailerInterface $mailer,ChambreRepository $chambreRepository): Response
+    public function index(VoyageRepository $voyageRepository, MailerInterface $mailer,ChambreRepository $chambreRepository,HotelRepository $hotelRepository): Response
     {
 
         $authors = $chambreRepository
+
             ->showChambreExpire();
 
         if (count($authors)){
@@ -48,8 +50,12 @@ class HomeController extends AbstractController
 
         $arrvoy=$voyageRepository->Voyagelist();
 
+
         return $this->render('home/index.html.twig', [
-        'arrvoy'=>$arrvoy
+        'arrvoy'=>$arrvoy,
+            'hotels'=>$hotelRepository->findAll(),
         ]);
+
+
     }
 }

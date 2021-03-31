@@ -20,6 +20,7 @@ class TransportType extends AbstractType
             ->add('image',FileType::class,[
                 'mapped' => false
             ])
+            ->add('prix')
         ;
     }
 

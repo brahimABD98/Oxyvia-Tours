@@ -71,7 +71,10 @@ class Chambre
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
+
     public function getNumero(): ?int
     {
         return $this->numero;
