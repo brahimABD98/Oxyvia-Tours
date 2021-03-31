@@ -3,6 +3,15 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
+    <style>
+        .hero_single.version_2:before {
+            background: url(../img/mariya.jpg) center center no-repeat;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
     <section class="hero_single version_2">
         <div class="wrapper">
             <div class="container">
@@ -103,7 +112,7 @@
                 {% if value==0 %}
                     {% set value = value + 1 %}
                 <div class="col-xl-3 col-lg-6 col-md-6">
-                    <a href="hotel-detail.html" class="grid_item">
+                    <a href="{{ path('reservation_newhotel',{'hotel_id':1}) }}" class="grid_item">
                         <figure>
                             <div class="score"><strong></strong></div>
                             <img src="{{ asset('picture/' ~ hotel.image) }}" width="130" height="130">
@@ -251,107 +260,13 @@
                                 <strong>View all (157) <i class="arrow_carrot-right"></i></strong></a>        </section>
         <!-- /section -->
 
-        <div class="banner mb-0">
-            <div class="wrapper d-flex align-items-center opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.3)">
-                <div>
-                    <small>Adventure</small>
-                    <h3>Your Perfect<br>Advenure Experience</h3>
-                    <p>Activities and accommodations</p>
-                    <a href="adventure.html" class="btn_1">Read more</a>
-                </div>
-            </div>
-            <!-- /wrapper -->
-        </div>
         <!-- /banner -->
 
     </div>
     <!-- /container -->
 
-    <div class="bg_color_1">
-        <div class="container margin_80_55">
-            <div class="main_title_2">
-                <span><em></em></span>
-                <h3>News and Events</h3>
-                <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <a class="box_news" href="#0">
-                        <figure><img src="img/news_home_1.jpg" alt="">
-                            <figcaption><strong>28</strong>Dec</figcaption>
-                        </figure>
-                        <ul>
-                            <li>Mark Twain</li>
-                            <li>20.11.2017</li>
-                        </ul>
-                        <h4>Pri oportere scribentur eu</h4>
-                        <p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse ullum vidisse....</p>
-                    </a>
-                </div>
-                <!-- /box_news -->
-                <div class="col-lg-6">
-                    <a class="box_news" href="#0">
-                        <figure><img src="img/news_home_2.jpg" alt="">
-                            <figcaption><strong>28</strong>Dec</figcaption>
-                        </figure>
-                        <ul>
-                            <li>Jhon Doe</li>
-                            <li>20.11.2017</li>
-                        </ul>
-                        <h4>Duo eius postea suscipit ad</h4>
-                        <p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse ullum vidisse....</p>
-                    </a>
-                </div>
-                <!-- /box_news -->
-                <div class="col-lg-6">
-                    <a class="box_news" href="#0">
-                        <figure><img src="img/news_home_3.jpg" alt="">
-                            <figcaption><strong>28</strong>Dec</figcaption>
-                        </figure>
-                        <ul>
-                            <li>Luca Robinson</li>
-                            <li>20.11.2017</li>
-                        </ul>
-                        <h4>Elitr mandamus cu has</h4>
-                        <p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse ullum vidisse....</p>
-                    </a>
-                </div>
-                <!-- /box_news -->
-                <div class="col-lg-6">
-                    <a class="box_news" href="#0">
-                        <figure><img src="img/news_home_4.jpg" alt="">
-                            <figcaption><strong>28</strong>Dec</figcaption>
-                        </figure>
-                        <ul>
-                            <li>Paula Rodrigez</li>
-                            <li>20.11.2017</li>
-                        </ul>
-                        <h4>Id est adhuc ignota delenit</h4>
-                        <p>Cu eum alia elit, usu in eius appareat, deleniti sapientem honestatis eos ex. In ius esse ullum vidisse....</p>
-                    </a>
-                </div>
-                <!-- /box_news -->
-            </div>
-            <!-- /row -->
-            <p class="btn_home_align"><a href="blog.html" class="btn_1 rounded">View all news</a></p>
-        </div>
-        <!-- /container -->
-    </div>
     <!-- /bg_color_1 -->
 
-    <div class="call_section">
-        <div class="container clearfix">
-            <div class="col-lg-5 col-md-6 float-right wow" data-wow-offset="250">
-                <div class="block-reveal">
-                    <div class="block-vertical"></div>
-                    <div class="box_1">
-                        <h3>Enjoy a GREAT travel with us</h3>
-                        <p>Ius cu tamquam persequeris, eu veniam apeirian platonem qui, id aliquip voluptatibus pri. Ei mea primis ornatus disputationi. Menandri erroribus cu per, duo solet congue ut. </p>
-                        <a href="#0" class="btn_1 rounded">Read more</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!--/call_section-->
 {% endblock %}

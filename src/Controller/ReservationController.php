@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Repository\ChambreRepository;
 use App\Repository\PlaceRepository;
+use App\Repository\TransportRepository;
 use App\Repository\VoyageRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -52,7 +53,7 @@ class ReservationController extends AbstractController
     /**
      * @Route("/hotel/{hotel_id}", name="reservation_newhotel")
      */
-    public function new(Request $request, $hotel_id): Response
+    public function new(Request $request, $hotel_id,HotelRepository $hotelRepository): Response
     {
 
         $defaultData = ['message' => 'Type your message here'];
@@ -101,13 +102,121 @@ class ReservationController extends AbstractController
 
             ));
         }
+        $ho = $hotelRepository->find($hotel_id);
 
         return $this->render('reservation/new.html.twig', [
 
             'form' => $form->createView(),
+            'ho'=>$ho
 
         ]);
     }
+
+    ///reservation voyage
+
+
+    /**
+     * @Route("/transport/{transport_id}", name="reservation_newTransport")
+     */
+    public function newResTransport(MailerInterface $mailer,ClientRepository $clientRepository,Request $request, $transport_id,HotelRepository $hotelRepository,TransportRepository $transportRepository): Response
+    {
+
+        $transport=$transportRepository->find($transport_id);
+        $client=$clientRepository->find(1);
+
+        $defaultData = ['message' => 'Type your message here'];
+        $form = $this->createFormBuilder($defaultData)
+            ->add('date_debut', DateType::class, [
+                'widget' => 'single_text',
+                'attr' => ['class' => 'js-datepicker'],
+                'data' => new \DateTime(),
+            ])
+            ->add('date_fin', DateType::class, [
+                'widget' => 'single_text',
+                'attr' => ['class' => 'js-datepicker'],
+                'data' => new \DateTime(),
+            ])
+
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $date_debut = $form["date_debut"]->getData()->format('Y-m-d');
+            $date_fin = $form["date_fin"]->getData()->format('Y-m-d');
+
+            $name = $request->request->get("date_debut");
+            $reservation=new Reservation();
+
+            $reservation->setToken($this->generateToken());
+            $reservation->setConfirme("non confirme");
+            $reservation->setDateDebut(\DateTime::createFromFormat('Y-m-d', $date_debut));
+            $reservation->setDateFin(\DateTime::createFromFormat('Y-m-d', $date_fin));
+            $reservation->setNbAdulte(0);
+            $reservation->setNbEnfants(0);
+            $reservation->setHotel(null);
+            $reservation->setClient($client);
+            $reservation->setVoyage(null);
+            $reservation->setTransport($transport);
+            $reservation->setType("reservation transport");
+            $diff = date_diff(\DateTime::createFromFormat('Y-m-d', $date_debut), \DateTime::createFromFormat('Y-m-d', $date_fin));
+
+            if ($diff->d == 0) {
+                $reservation->setPrix(1 *$transport->getPrix() );
+
+            } else {
+                $reservation->setPrix($diff->d *$transport->getPrix() );
+
+            }
+
+            $reservation->setNbChambreSingleReserve(0);
+            $reservation->setNbChambreDoubleReserve(0);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+
+
+            $email = (new TemplatedEmail())
+                ->from('saieftaher1@gmail.com')
+                ->to('saieftaher1@gmail.com')
+                ->subject('confirmation de votre réservation!')
+                ->htmlTemplate('reservation/ConfirmationReservationVoyage.html.twig')
+                ->context([
+                    'client' => $reservation->getClient()->getNom(),
+                    'date_debut' => $reservation->getDateDebut(),
+                    'date_fin' => $reservation->getDateFin(),
+
+                    'total' => $reservation->getPrix(),
+                    'token' => $reservation->getToken(),
+
+                ]);
+            $mailer->send($email);
+
+
+
+        }
+
+        return $this->render('reservation/ReservationTransport.html.twig', [
+
+            'form' => $form->createView(),
+            'trans'=>$transport
+
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /////////RESERVATION VOYAGE////////////
@@ -198,6 +307,8 @@ class ReservationController extends AbstractController
                     $reservation->setHotel($hotel);
                     $reservation->setClient($client);
                     $reservation->setVoyage(null);
+                    $reservation->setTransport(null);
+
                     $reservation->setType("reservation hotel");
                     if ($diff->d == 0) {
                         $reservation->setPrix(1 * (($nbchambreDoubleDispo['0']['0']->getPrix() * $nbchambre2) + ($nbchambreSingleDispo['0']['0']->getPrix() * $nbchambre)));
@@ -273,6 +384,8 @@ class ReservationController extends AbstractController
                     $reservation->setHotel($hotel);
                     $reservation->setVoyage(null);
                     $reservation->setClient($client);
+                    $reservation->setTransport(null);
+
                     $reservation->setType("reservation hotel");
 
                     if ($diff->d == 0) {
@@ -335,6 +448,8 @@ class ReservationController extends AbstractController
                     $reservation->setHotel($hotel);
                     $reservation->setVoyage(null);
                     $reservation->setClient($client);
+                    $reservation->setTransport(null);
+
                     $reservation->setType("reservation hotel");
 
                     if ($diff->d == 0) {
@@ -489,7 +604,9 @@ class ReservationController extends AbstractController
         $reservation->setNbEnfants(0);
         $reservation->setHotel($voy->getHotel());
         $reservation->setClient($clientRepository->find(1));
-        $reservation->setVoyage($voy);
+            $reservation->setTransport(null);
+
+            $reservation->setVoyage($voy);
 
         $reservation->setType("reservation voyage");
         if ($diffJours == 0) {

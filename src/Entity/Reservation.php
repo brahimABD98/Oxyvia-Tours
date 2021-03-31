@@ -112,6 +112,11 @@ class Reservation
      */
     private $voyage;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Transport::class, inversedBy="reservations")
+     */
+    private $transport;
+
     public function __construct()
     {
         $this->chambres = new ArrayCollection();
@@ -317,6 +322,18 @@ class Reservation
     public function setVoyage(?Voyage $voyage): self
     {
         $this->voyage = $voyage;
+
+        return $this;
+    }
+
+    public function getTransport(): ?Transport
+    {
+        return $this->transport;
+    }
+
+    public function setTransport(?Transport $transport): self
+    {
+        $this->transport = $transport;
 
         return $this;
     }
