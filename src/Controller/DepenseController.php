@@ -445,7 +445,7 @@ public function sendMail(MailerInterface $mailer,Request $request)
     if($form->isSubmitted() && $form->isValid())
     { $contact1= $form->getData();
         /** @var UploadedFile $file */
-        //$file = $contact->getFichier();
+        //$file = $contadashboard/contact3ct->getFichier();
         $file = $form->get('fichier')->getData();
         $fileName = md5(uniqid()) . '.' . $file->guessExtension();
         try{
@@ -461,11 +461,9 @@ public function sendMail(MailerInterface $mailer,Request $request)
 
 
         $email = (new TemplatedEmail())
-            ->from('eyaallahthebti99@gmail.com')
-            ->to('eyaallahthebti99@gmail.com')
+            ->from('saieftaher1@gmail.com')
+            ->to('saieftaher1@gmail.com')
             ->subject('Paiement Notification')
-
-
             ->attachFromPath('img/logos/mypdf (2).pdf')
 
             ->htmlTemplate('emails/contact.html.twig')
@@ -475,12 +473,6 @@ public function sendMail(MailerInterface $mailer,Request $request)
 
 
             ]);
-
-
-
-
-
-
 
         $mailer->send($email);
         $this->addFlash('send','le message a bien été envoyé');
@@ -521,8 +513,8 @@ public function sendMail(MailerInterface $mailer,Request $request)
             $em->flush();
             //dd($contact);
             $email = (new TemplatedEmail())
-                ->from('eyaallahthebti99@gmail.com')
-                ->to('eyaallahthebti99@gmail.com')
+                ->from('saieftaher1@gmail.com')
+                ->to('saieftaher1@gmail.com')
                 ->subject('Paiement Notification')
                 ->attachFromPath('img/logos/mypdf (3).pdf')
                 ->htmlTemplate('emails/contact.html.twig')

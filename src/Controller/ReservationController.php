@@ -348,7 +348,7 @@ class ReservationController extends AbstractController
 
                     $email = (new TemplatedEmail())
                         ->from('saieftaher1@gmail.com')
-                        ->to('eyaallahthebti99@gmail.com')
+                        ->to('saieftaher1@gmail.com')
                         ->subject('confirmation de votre réservation!')
                         ->htmlTemplate('reservation/confirmReservationEmail.html.twig')
                         ->context([
@@ -416,7 +416,7 @@ class ReservationController extends AbstractController
 
                     $email = (new TemplatedEmail())
                         ->from('saieftaher1@gmail.com')
-                        ->to('eyaallahthebti99@gmail.com')
+                        ->to('saieftaher1@gmail.com')
                         ->subject('confirmation de votre réservation!')
                         ->htmlTemplate('reservation/confirmReservationEmail.html.twig')
                         ->context([
@@ -481,7 +481,7 @@ class ReservationController extends AbstractController
 
                     $email = (new TemplatedEmail())
                         ->from('saieftaher1@gmail.com')
-                        ->to('eyaallahthebti99@gmail.com')
+                        ->to('saieftaher1@gmail.com')
                         ->subject('confirmation de votre réservation!')
                         ->htmlTemplate('reservation/confirmReservationEmail.html.twig')
                         ->context([
@@ -529,10 +529,7 @@ class ReservationController extends AbstractController
      */
     public function confirmReservation(string $token, ReservationRepository $reservationRepository)
     {
-
         $res = $reservationRepository->findOneBy(["token" => $token]);
-       
-        
 
                 $res->setToken("");
                 $res->setConfirme('confirme');
@@ -543,10 +540,6 @@ class ReservationController extends AbstractController
             return $this->redirectToRoute("ajout", array('res' => $res->getPrix()));
 
 
-
-        
-        
-       
     }
 
 
@@ -626,7 +619,7 @@ class ReservationController extends AbstractController
 
             $email = (new TemplatedEmail())
                 ->from('saieftaher1@gmail.com')
-                ->to('eyaallahthebti99@gmail.com')
+                ->to('saieftaher1@gmail.com')
                 ->subject('confirmation de votre réservation!')
                 ->htmlTemplate('reservation/ConfirmationReservationVoyage.html.twig')
             ->context([

@@ -62,7 +62,6 @@
         <div class="main_title_2">
             <span><em></em></span>
             <h2>Our Popular Tours</h2>
-            <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
         </div>
         <div id="reccomended" class="owl-carousel owl-theme">
             {% for voy in arrvoy %}
@@ -112,7 +111,7 @@
                 {% if value==0 %}
                     {% set value = value + 1 %}
                 <div class="col-xl-3 col-lg-6 col-md-6">
-                    <a href="{{ path('reservation_newhotel',{'hotel_id':1}) }}" class="grid_item">
+                    <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}" class="grid_item">
                         <figure>
                             <div class="score"><strong></strong></div>
                             <img src="{{ asset('picture/' ~ hotel.image) }}" width="130" height="130">
@@ -120,7 +119,7 @@
                                 <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
 
 
-                                <a href="{{ path('reservation_newhotel',{'hotel_id':1}) }}">
+                                <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}">
                                     <h3>{{ hotel.name }}</h3>
                                 </a>
                             </div>
@@ -131,7 +130,7 @@
                     {% set value = value + 1 %}
                 <!-- /grid_item -->
                 <div class="col-xl-3 col-lg-6 col-md-6">
-                    <a href="hotel-detail.html" class="grid_item">
+                    <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}" class="grid_item">
                         <figure>
                             <div class="score"><strong></strong></div>
                             <img src="{{ asset('picture/' ~ hotel.image) }}" width="130" height="130">
@@ -139,7 +138,7 @@
                                 <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
 
 
-                                <a href="{{ path('reservation_newhotel',{'hotel_id':1}) }}">
+                                <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}">
                                     <h3>{{ hotel.name }}</h3>
                                 </a>
                             </div>
@@ -150,7 +149,7 @@
                     {% set value = value + 1 %}
                 <!-- /grid_item -->
                 <div class="col-xl-3 col-lg-6 col-md-6">
-                    <a href="hotel-detail.html" class="grid_item">
+                    <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}" class="grid_item">
                         <figure>
                             <div class="score"><strong></strong></div>
                             <img src="{{ asset('picture/' ~ hotel.image) }}" width="130" height="130">
@@ -158,7 +157,7 @@
                                 <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
 
 
-                                <a href="{{ path('reservation_newhotel',{'hotel_id':1}) }}">
+                                <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}">
                                     <h3>{{ hotel.name }}</h3>
                                 </a>
                             </div>
@@ -169,7 +168,7 @@
                     {% set value = value + 1 %}
                 <!-- /grid_item -->
                 <div class="col-xl-3 col-lg-6 col-md-6">
-                    <a href="hotel-detail.html" class="grid_item">
+                    <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}" class="grid_item">
                         <figure>
                             <div class="score"><strong></strong></div>
                             <img src="{{ asset('picture/' ~ hotel.image) }}" width="130" height="130">
@@ -177,7 +176,7 @@
                                 <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
 
 
-                                <a href="{{ path('reservation_newhotel',{'hotel_id':1}) }}">
+                                <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}">
                                     <h3>{{ hotel.name }}</h3>
                                 </a>
                             </div>
@@ -197,6 +196,8 @@
         </section>
         <!-- /section -->
 
+        <!-- /section -->
+
         <section class="add_bottom_45">
             <div class="main_title_3">
                 <span><em></em></span>
@@ -204,64 +205,158 @@
                 <p>Cum doctus civibus efficiantur in imperdiet deterruisset.</p>
             </div>
             <div class="row">
+                {% set value = 0 %}
+                {% for transport in transports %}
+
+                    {% if value==0 %}
+                        {% set value = value + 1 %}
+                        <div class="col-xl-3 col-lg-6 col-md-6">
+                            <a href="hotel-detail.html" class="grid_item">
+                                <figure>
+                                    <div class="score"><strong></strong></div>
+                                    <img src="{{ asset('picture/' ~ transport.image) }}" width="130" height="130">
+                                    <div class="info">
+                                        <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
+
+
+                                        <a href="{{ path('reservation_newTransport',{'transport_id':transport.id}) }}">
+                                            <h3>{{ transport.nom }}</h3>
+                                        </a>
+                                    </div>
+                                </figure>
+                            </a>
+                        </div>
+                    {% elseif value==1 %}
+                        {% set value = value + 1 %}
+                        <!-- /grid_item -->
+                        <div class="col-xl-3 col-lg-6 col-md-6">
+                            <a href="hotel-detail.html" class="grid_item">
+                                <figure>
+                                    <div class="score"><strong></strong></div>
+                                    <img src="{{ asset('picture/' ~ transport.image) }}" width="130" height="130">
+                                    <div class="info">
+                                        <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
+
+
+                                        <a href="{{ path('reservation_newTransport',{'transport_id':transport.id}) }}">
+
+                                            <h3>{{ transport.nom }}</h3>
+                                        </a>
+                                    </div>
+                                </figure>
+                            </a>
+                        </div>
+                    {% elseif value==2 %}
+                        {% set value = value + 1 %}
+                        <!-- /grid_item -->
+                        <div class="col-xl-3 col-lg-6 col-md-6">
+                            <a href="hotel-detail.html" class="grid_item">
+                                <figure>
+                                    <div class="score"><strong></strong></div>
+                                    <img src="{{ asset('picture/' ~ transport.image) }}" width="130" height="130">
+                                    <div class="info">
+                                        <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
+
+
+                                        <a href="{{ path('reservation_newTransport',{'transport_id':transport.id})}}">
+
+                                            <h3>{{ transport.nom }}</h3>
+                                        </a>
+                                    </div>
+                                </figure>
+                            </a>
+                        </div>
+                    {% elseif value==3 %}
+                        {% set value = value + 1 %}
+                        <!-- /grid_item -->
+                        <div class="col-xl-3 col-lg-6 col-md-6">
+                            <a href="hotel-detail.html" class="grid_item">
+                                <figure>
+                                    <div class="score"><strong></strong></div>
+                                    <img src="{{ asset('picture/' ~ hotel.image) }}" width="130" height="130">
+                                    <div class="info">
+                                        <div class="cat_star"><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i></div>
+
+
+                                        <a href="{{ path('reservation_newTransport',{'transort_id':transport.id}) }}">
+                                            /img/logo.png                     <h3>{{ transport.nom }}</h3>
+                                        </a>
+                                    </div>
+                                </figure>
+                            </a>
+                        </div>
+                    {% else %}
+                    {% endif %}
+                    <!-- /grid_item -->
+
+                {% endfor %}
+                <!-- /row --> <a href="{{ path('liste') }}">
+
+
+                    <strong>View all (157) <i class="arrow_carrot-right"></i></strong></a>
+            </div>
+        </section>
+        <!-- /section -->
+        <!-- /section -->
+
+        <!-- /banner -->
+        <section class="add_bottom_45">
+            <div class="main_title_3">
+                <span><em></em></span>
+                <h2>Evenements</h2>
+            </div>
+            <div class="row">
+                {% for ev in events %}
+
                 <div class="col-xl-3 col-lg-6 col-md-6">
-                    <a href="restaurant-detail.html" class="grid_item">
+                    <a href="" class="grid_item">
                         <figure>
                             <div class="score"><strong>8.5</strong></div>
                             <img src="img/restaurant_1.jpg" class="img-fluid" alt="">
                             <div class="info">
-                                <h3>Da Alfredo</h3>
+                                <h3>{{ ev.nom }}</h3>
                             </div>
                         </figure>
                     </a>
                 </div>
+
                 <!-- /grid_item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <a href="restaurant-detail.html" class="grid_item">
-                        <figure>
-                            <div class="score"><strong>7.9</strong></div>
-                            <img src="img/restaurant_2.jpg" class="img-fluid" alt="">
-                            <div class="info">
-                                <h3>Slow Food</h3>
-                            </div>
-                        </figure>
-                    </a>
-                </div>
-                <!-- /grid_item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <a href="restaurant-detail.html" class="grid_item">
-                        <figure>
-                            <div class="score"><strong>7.5</strong></div>
-                            <img src="img/restaurant_3.jpg" class="img-fluid" alt="">
-                            <div class="info">
-                                <h3>Bella Napoli</h3>
-                            </div>
-                        </figure>
-                    </a>
-                </div>
-                <!-- /grid_item -->
-                <div class="col-xl-3 col-lg-6 col-md-6">
-                    <a href="restaurant-detail.html" class="grid_item">
-                        <figure>
-                            <div class="score"><strong>9.0</strong></div>
-                            <img src="img/restaurant_4.jpg" class="img-fluid" alt="">
-                            <div class="info">
-                                <h3>Marcus</h3>
-                            </div>
-                        </figure>
-                    </a>
-                </div>
-                <!-- /grid_item -->
+                {% endfor %}
             </div>
             <!-- /row -->
-   <!-- /row --> <a href="{{ path('liste') }}">
+            <!-- /row --> <a href="{{ path('liste') }}">
 
 
-                                <strong>View all (157) <i class="arrow_carrot-right"></i></strong></a>        </section>
+                <strong>View all (157) <i class="arrow_carrot-right"></i></strong></a>        </section>
         <!-- /section -->
 
         <!-- /banner -->
+        <section class="add_bottom_45">
+            <div class="main_title_3">
+                <span><em></em></span>
+                <h2>offres</h2>
+            </div>
+            <div class="row">
+                {% for ev in offres %}
 
+                    <div class="col-xl-3 col-lg-6 col-md-6">
+                        <a href="" class="grid_item">
+                            <figure>
+                                <div class="score"><strong>8.5</strong></div>
+                                <img src="img/restaurant_1.jpg" class="img-fluid" alt="">
+                                <div class="info">
+                                    <h3>{{ ev.nom }}</h3>
+                                </div>
+                            </figure>
+                        </a>
+                    </div>
+
+                    <!-- /grid_item -->
+                {% endfor %}
+            </div>
+            <!-- /row -->
+            <!-- /row -->
+    <!-- /container -->
     </div>
     <!-- /container -->
 

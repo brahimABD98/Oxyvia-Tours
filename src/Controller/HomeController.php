@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\ChambreRepository;
+use App\Repository\EvenementsRepository;
 use App\Repository\HotelRepository;
+use App\Repository\OffresRepository;
+use App\Repository\TransportRepository;
 use App\Repository\VoyageRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +22,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(VoyageRepository $voyageRepository, MailerInterface $mailer,ChambreRepository $chambreRepository,HotelRepository $hotelRepository): Response
+    public function index(TransportRepository $transportRepository,OffresRepository $offresRepository,EvenementsRepository $evenementsRepository,VoyageRepository $voyageRepository, MailerInterface $mailer,ChambreRepository $chambreRepository,HotelRepository $hotelRepository): Response
     {
 
         $authors = $chambreRepository
@@ -49,15 +52,30 @@ class HomeController extends AbstractController
 
 
         $arrvoy=$voyageRepository->Voyagelist();
+         $event=$evenementsRepository->findAll();
 
-
+        $offres=$offresRepository->findAll();
         return $this->render('home/index.html.twig', [
         'arrvoy'=>$arrvoy,
+            'events' =>$event,
+            'offres'=>$offres,
+            'transports'=>$transportRepository->findAll(),
+
             'hotels'=>$hotelRepository->findAll(),
         ]);
 
 
     }
+
+
+
+
+
+
+
+
+
+
     /**
      * @Route("/showAdventures", name="showAdventures")
      */

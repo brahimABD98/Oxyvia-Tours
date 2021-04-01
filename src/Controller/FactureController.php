@@ -413,8 +413,8 @@ class FactureController extends AbstractController
               //dd($contact);
                   $email = (new TemplatedEmail())
 
-                      ->from('eyaallahthebti99@gmail.com')
-                      ->to('eyaallahthebti99@gmail.com')
+                      ->from('saieftaher1@gmail.com')
+                      ->to('saieftaher1@gmail.com')
                       ->subject('Paiement Notification')
 
                       ->attachFromPath('img/logos/mypdf.pdf')
@@ -466,8 +466,8 @@ class FactureController extends AbstractController
             $em->flush();
             //dd($contact);
             $email = (new TemplatedEmail())
-                ->from('eyaallahthebti99@gmail.com')
-                ->to('eyaallahthebti99@gmail.com')
+                ->from('saieftaher1@gmail.com')
+                ->to('saieftaher1@gmail.com')
                 ->subject('Paiement Notification')
                 ->attachFromPath('img/logos/mypdf (1).pdf')
 

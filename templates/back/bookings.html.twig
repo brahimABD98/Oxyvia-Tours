@@ -217,9 +217,8 @@
                             $('#t tbody#search').empty();
                             $.each(JSON.parse(retour), function(i, obj) {
                                 $('#t tbody#all').hide();
-                                $('#t tbody#search').append('<tr><td> '+obj.id+'  </td><td>    '+obj.name+'  </td><td>'
-                                    +obj.pays+' </td><td>    '+obj.adresse+'  </td><td>    '+obj.nbetoile+'</td><td>    '
-                                    +obj.num+'  </td><td> '+obj.email+'  </td><td><img src="picture/'  +obj.image+ '"  width="130" height="130"></td><td><form action="deletehotel/'+obj.id+'"><button class="btn">Delete</button></form></td><td><a href="hotel_edit/'+obj.id+'"  class="btn btn-dark" >edit</a></td></tr>');
+                                $('#t tbody#search').append('<tr><td> '+obj.id+'  </td><td> '+obj.name+'  </td><td> '+obj.pays+'  </td><td> '+obj.adresse+'  </td><td> '+obj.nbetoile+'  </td><td> '+obj.num+'  </td><td> '+obj.email+'  </td><td><a href="hotel_new_edit/'+obj.id+' ">show</a></td></tr>');
+
                             });
 
                         }

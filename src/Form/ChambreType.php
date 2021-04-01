@@ -21,12 +21,12 @@ class ChambreType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('numero')
-            ->add('type',ChoiceType::class,array('choices'=>array('Suite'=>'Suite','Chambre Single'=>'Chambre Single','Chambre Double'=>'Chambre Double','Chambre Triple'=>'Chambre Triple'),'expanded'=>true))
+            ->add('type',ChoiceType::class,array('choices'=>array('Chambre Single'=>'single room','Chambre Double'=>'double room'),'expanded'=>true))
             ->add('prix')
             ->add('image',FileType::class,[
                 'mapped' => false])
 
-            ->add('occupe',ChoiceType::class,array('choices'=>array('Occupé'=>'Occupé','Non Occupé'=>'Non Occupé'),'expanded'=>true))
+            ->add('occupe',ChoiceType::class,array('choices'=>array('Occupé'=>'occupe','Non Occupé'=>'non occupe'),'expanded'=>true))
         ;
     }
 
