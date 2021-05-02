@@ -16,3 +16,15 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+
+
+        dql:
+            datetime_functions:
+                addtime: DoctrineExtensions\Query\Mysql\AddTime
+                convert_tz: DoctrineExtensions\Query\Mysql\ConvertTz
+                date: DoctrineExtensions\Query\Mysql\Date
+                DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
+            string_functions:
+                MONTH: DoctrineExtensions\Query\Mysql\Month
+                YEAR: DoctrineExtensions\Query\Mysql\Year
+

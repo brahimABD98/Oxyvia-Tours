@@ -1,0 +1,40 @@
+{% extends 'backoffice.html.twig' %}
+
+{% block title %}EvenementsTable{% endblock %}
+
+{% block body %}
+    <h1>EvenementsTable</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ evenements_table.id }}</td>
+            </tr>
+
+            <tr>
+                <th>Nom</th>
+                <td>{{ evenements_table.nom }}</td>
+            </tr>
+            <tr>
+                <th>Date_debut</th>
+                <td>{{ evenements_table.dateDebut|date("m/d/Y") }}</td>
+            </tr>
+            <tr>
+                <th>Date_fin</th>
+                <td>{{ evenements_table.dateFin|date("m/d/Y") }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ evenements_table.prix }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('evenements_table_index') }}">back to list</a>
+
+    <a href="{{ path('editEvenement', {'id': evenements_table.id}) }}">edit</a>
+    <a href="{{ path('evenements_table_delete', {'id': evenements_table.id}) }}">Delete</a>
+
+
+{% endblock %}

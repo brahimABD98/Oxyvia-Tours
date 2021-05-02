@@ -1,0 +1,99 @@
+{% extends 'backoffice.html.twig' %}
+
+{% block title %} Ajout!{% endblock %}
+
+
+{% block body %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+
+<style>
+    .custom-file-input {
+        opacity: 1;
+    }
+    .modal-backdrop {
+        /* bug fix - no overlay */
+        display: none;
+        background-color: #000;
+    }
+</style>
+
+
+<!-- /Navigation-->
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Add listing</li>
+        </ol>
+
+
+
+
+        <div class="box_general padding_bottom" height="1500px">
+            <div class="header_box version_2" >
+                <h2><i class="fa fa-file"></i>Ajouter une compagnie de transport</h2>
+            </div>
+
+
+
+
+            {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+
+            <div class="form-group">
+                {{ form_label(form.nom) }}
+                {{ form_widget(form.nom) }}
+            </div>
+            <div class="form-group">
+
+                {{ form_label(form.type) }}
+                {{ form_widget(form.type) }}
+            </div>
+
+            <div class="form-group">
+
+                {{ form_label(form.matricule) }}
+                {{ form_widget(form.matricule) }}
+            </div>
+
+
+
+            <div class="form-group">
+
+                {{ form_label(form.prix) }}
+                {{ form_widget(form.prix) }}
+            </div>
+
+            <div class="form-group">
+
+                {{ form_label(form.image) }}
+                {{ form_widget(form.image) }}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            <!-- /box_general-->
+            <button type="submit" class="btn_1 medium" >Sauvegarder</button>
+            {{ form_end(form) }}
+            <a href="{{ path('bookings') }}">back to list</a>
+        </div>
+        <!-- /.container-fluid-->
+    </div>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    {% endblock %}

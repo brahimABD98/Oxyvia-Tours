@@ -1,0 +1,243 @@
+{% extends 'backoffice.html.twig' %}
+
+{% block title %}Bookings!{% endblock %}
+{% block body %}
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Tables</li>
+
+        </ol>
+        <!-- Example DataTables Card-->
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fa fa-table"></i> Hotel table</div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    {#<form class="navbar-form" method="post" action="{{ path('bookings') }}">
+                        {{ form_start(searchForm) }}
+                        <div class="input-group no-border">
+                            {{ form_widget(searchForm.name) }}
+                            <button class="btn btn-default btn-round btn-just-icon">
+                                {{ button_label|default('search') }}
+                            </button>
+                        </div>
+
+                    </form>
+
+                    {{ form_end(searchForm) }}#}
+                    <input type="text" id="search" class="form-control" placeholder="Search" style="width: 30%">
+                    <table class="table" id="t">
+                        <a class="btn btn-success" href="{{ path('listh') }}">Create pdf</a>
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Pays</th>
+                            <th>Adresse</th>
+                            <th>Nbetoile</th>
+                            <th>Num</th>
+                            <th>Email</th>
+                            <th>Image</th>
+                            <th>actions</th>
+
+                        </tr>
+                        </thead>
+                        <tbody id="all">
+                        {% set value = 0 %}
+                           {% for hotel in hotels %}
+                        {% set value = value + 1 %}
+                            <tr>
+                                <td>{{ hotel.id }}</td>
+                                <td>{{ hotel.name }}</td>
+                                <td>{{ hotel.pays }}</td>
+                                <td>{{ hotel.adresse }}</td>
+                                <td>{{ hotel.nbetoile }}</td>
+                                <td>{{ hotel.num }}</td>
+                                <td>{{ hotel.email }}</td>
+                                <td><img src="{{ asset('picture/' ~ hotel.image) }}"width="130" height="130"></td>
+                                <form action="{{ path('deletehotel',{'id':hotel.id}) }}">
+
+                                    <td><button class="btn">Delete</button></td>
+                                </form>
+
+                                <td>
+
+                                    <a href="{{ path('hotel_edit', {'id': hotel.id}) }}"  class="btn btn-dark">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="8"></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tbody id="search"></tbody>
+
+                    </table>
+                    {{ knp_pagination_render(hotels) }}
+                    <p class="text-warning"><u> Nombre du hotel : {{ value }}</u></p>
+                    <div><a href="{{ path('hotel_new') }}">Create new</a></div>
+
+
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <table class="table">
+                        <a class="btn btn-success" href="{{ path('listc') }}">Create pdf</a>
+                        <div class="card-header">
+                            <i class="fa fa-table"></i>Chambre table</div>
+
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Numero</th>
+                            <th>Type</th>
+                            <th>Prix</th>
+                            <th>Nom hotel</th>
+                            <th>Image</th>
+                            <th>Actions</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set value = 0 %}
+                        {% for chambre in chambres %}
+                            {% set value = value + 1 %}
+                            <tr>
+                                <td>{{ chambre.id }}</td>
+                                <td>{{ chambre.numero }}</td>
+                                <td>{{ chambre.type }}</td>
+                                <td>{{ chambre.prix }}</td>
+                                <td>{{ chambre.idhotel.name }}</td>
+                                <td><img src="{{ asset('picture/' ~ chambre.image) }}"width="130" height="130"></td>
+                                <form action="{{ path('deletechambre',{'id':chambre.id}) }}">
+
+                                    <td><button class="btn">Delete</button></td>
+                                </form>
+                                <td>
+                                    <a href="{{ path('chambre_edit', {'id': chambre.id}) }}"  class="btn btn-dark">edit</a>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="8">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                        {{ knp_pagination_render(chambres) }}
+                        <p class="text-warning"><u> Nombre du chambre : {{ value }}</u></p>
+                    <div><a href="{{ path('chambre_new') }}">Create new</a></div>
+
+
+
+
+                <table class="table">
+                    <a class="btn btn-success" href="{{ path('listt') }}">Create pdf</a>
+                    <div class="card-header">
+                        <i class="fa fa-table"></i>Transport table</div>
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Type</th>
+                        <th>Matricule</th>
+                        <th>Image</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set value=0 %}
+                    {% for transport in transports %}
+                        {% set value = value +1 %}
+                        <tr>
+                            <td>{{ transport.id }}</td>
+                            <td>{{ transport.nom }}</td>
+                            <td>{{ transport.type }}</td>
+                            <td>{{ transport.matricule }}</td>
+                            <td><img src="{{ asset('picture/' ~ transport.image) }}" width="130" height="130"></td>
+                            <form action="{{ path('deletetransport',{'id':transport.id}) }}">
+                                <td><button class="btn">Delete</button></td></form>
+
+                            <td>
+
+                                <a href="{{ path('transport_edit', {'id': transport.id}) }}"  class="btn btn-dark">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                        {{ knp_pagination_render(transports) }}
+                        <p class="text-warning"><u> Nombre du Transport : {{ value }}</u></p>
+                    <div><a href="{{ path('transport_new') }}">Create new</a></div>
+                </div>
+            </div>
+
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+        <!-- /tables-->
+    </div>
+    <!-- /container-fluid-->
+</div>
+
+
+</div>
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $( document ).ready(function() {
+            $("#search").keyup(function(e){
+                /* La variable value va prendre la valeur insérer dans le champ de texte afin d’effectuer la recherche */
+                var value = $(this).val();
+                /* Ajax est lancé lors du remplissage du champ texte dont l’id est « search » pour faire la recherche */
+                $.ajax({
+                    /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+                    url : "{{ path('searchHotel') }}",
+                    /* La méthode utilisée pour transférer les données est GET */
+                    type : 'GET',
+                    /*Ici search value va prendre la chaine entrée par un utilisateur dans la zone de recherche et sera placée après l’url */
+                    data: {
+                        'searchValue' : value
+
+                    },
+                    /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+                    success : function(retour){
+                        if(retour){
+                            $('#t tbody#search').empty();
+                            $.each(JSON.parse(retour), function(i, obj) {
+                                $('#t tbody#all').hide();
+                                $('#t tbody#search').append('<tr><td> '+obj.id+'  </td><td> '+obj.name+'  </td><td> '+obj.pays+'  </td><td> '+obj.adresse+'  </td><td> '+obj.nbetoile+'  </td><td> '+obj.num+'  </td><td> '+obj.email+'  </td><td><a href="hotel_new_edit/'+obj.id+' ">show</a></td></tr>');
+
+                            });
+
+                        }
+                        else
+                        {
+                            $('#t tbody#all').show();
+                            $('#t tbody#search').empty();
+                            $('#t tbody#search').fadeIn('fast');
+                        }
+                    },
+                });
+                return false;
+            });
+        });
+    </script>
+
+
+
+
+
+    <!-- /container-wrapper-->
+{% endblock %}

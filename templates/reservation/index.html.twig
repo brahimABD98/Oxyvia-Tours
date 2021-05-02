@@ -1,43 +1,145 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Reservation index{% endblock %}
+
+
+{% extends 'backoffice.html.twig' %}
+
+{% block title %}Liste Des Reservations pour CLient {% endblock %}
 
 {% block body %}
-    <h1>Reservation index</h1>
+{% set queryParams = app.request.query.all %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date_debut</th>
-                <th>Date_fin</th>
-                <th>Prix</th>
-                <th>Nb_personne</th>
-                <th>Type</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for reservation in reservations %}
-            <tr>
-                <td>{{ reservation.id }}</td>
-                <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</td>
-                <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ reservation.prix }}</td>
-                <td>{{ reservation.nbPersonne }}</td>
-                <td>{{ reservation.type }}</td>
-                <td>
-                    <a href="{{ path('reservation_show', {'id': reservation.id}) }}">show</a>
-                    <a href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Bookings list</li>
+            </ol>
+            <div class="box_general">
 
-    <a href="{{ path('reservation_new') }}">Create new</a>
+                <div class="header_box">
+                    {% for message in app.flashes('info') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <h2 class="d-inline-block">Liste des Reservation effecuté par vous </h2>
+                    <form id="filters">
+                        {% if queryParams is not empty and queryParams.hotel is defined %}
+                            {% set checked =  queryParams.hotel %}
+                        {% else %}
+                            {% set checked = "" %}
+                        {% endif %}
+                        <div class="col">
+
+                        <select name="type" id="type">
+                            <option value="" class="dropdown-item">--Sélectionner type de réservation--</option>
+                            <option value="reservation voyage">voyage</option>
+                            <option value="reservation hotel">hotel</option>
+
+                        </select>
+                        </div>
+                        <div class="col">
+
+                        <label>Rechercher Par Hotel :</label>
+                        <p><input type="text" id="hotel" name="hotel" value="{{ checked }}"></p>
+                        </div>
+                        <input type="hidden" name="page" value="{{page}}">
+                    </form>
+                </div>
+                <div id="content">
+                    {% include "reservation/contentResPerClient.html.twig" %}
+                </div>
+            <!-- /pagination-->
+        </div>
+        <!-- /container-fluid-->
+    </div>
+
+
+        <script>
+            window.onload = () => {
+                const FiltersForm = document.querySelector("#filters");
+
+                // On boucle sur les input
+                document.querySelectorAll("#filters input").forEach(input => {
+                    input.addEventListener("keyup", () =>
+                    {
+                        console.log("changeed")
+                        // Ici on intercepte les clics
+                        // On récupère les données du formulaire
+                        const Form = new FormData(FiltersForm);
+                        const Params = new URLSearchParams();
+
+                        Form.forEach((value, key) => {
+                            Params.append(key, value);
+                        });
+                        const Url = new URL(window.location.href);
+                        // On lance la requête ajax
+                        fetch(Url.pathname + "?" + Params.toString() + "&ajax=1", {
+                            headers: {
+                                "X-Requested-With": "XMLHttpRequest"
+                            }
+                        }).then(response =>
+                            response.json()
+
+                        ).then(data => {
+                            // On va chercher la zone de contenu
+                            const content = document.querySelector("#content");
+
+                            // On remplace le contenu
+                            content.innerHTML = data.content;
+
+                            // On met à jour l'url
+                            history.pushState({}, null, Url.pathname + "?" + Params.toString());
+                        }).catch(e => alert(e),
+                            console.log("tets")
+                        );
+
+                    });
+                });
+
+                document.querySelectorAll("#filters select").forEach(input => {
+                    input.addEventListener("change", () =>
+                    {
+                        console.log("changeed")
+                        // Ici on intercepte les clics
+                        // On récupère les données du formulaire
+                        const Form = new FormData(FiltersForm);
+                        const Params = new URLSearchParams();
+
+                        Form.forEach((value, key) => {
+                            Params.append(key, value);
+                        });
+                        const Url = new URL(window.location.href);
+                        // On lance la requête ajax
+                        fetch(Url.pathname + "?" + Params.toString() + "&ajax=1", {
+                            headers: {
+                                "X-Requested-With": "XMLHttpRequest"
+                            }
+                        }).then(response =>
+                            response.json()
+
+                        ).then(data => {
+                            // On va chercher la zone de contenu
+                            const content = document.querySelector("#content");
+
+                            // On remplace le contenu
+                            content.innerHTML = data.content;
+
+                            // On met à jour l'url
+                            history.pushState({}, null, Url.pathname + "?" + Params.toString());
+                        }).catch(e => alert(e),
+                            console.log("tets")
+                        );
+
+                    });
+                });
+
+
+            }
+
+
+        </script>
 {% endblock %}

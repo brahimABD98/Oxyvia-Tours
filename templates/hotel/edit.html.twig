@@ -1,0 +1,48 @@
+{% extends 'backoffice.html.twig' %}
+{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block title %} Ajout!{% endblock %}
+
+
+{% block body %}
+    <!-- /Navigation-->
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Add listing</li>
+            </ol>
+            <div class="box_general padding_bottom">
+                <div class="header_box version_2">
+                    <h2><i class="fa fa-file"></i>Modification d'un hotel</h2>
+                </div>
+
+                <div>
+                    <div class="form-group">
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+
+                    </div>
+                </div>
+                <!-- /row-->
+
+
+
+            </div>
+
+
+
+            <!-- /box_general-->
+            <button type="submit" class="btn_1 medium" >Sauvegarder</button>
+            {{ form_end(form) }}
+
+        </div>
+        <!-- /.container-fluid-->
+    </div>
+
+    <a href="{{ path('bookings') }}">back to list</a>
+{% endblock %}
+

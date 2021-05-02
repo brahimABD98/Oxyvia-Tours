@@ -1,0 +1,226 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vérification des chambres{% endblock %}
+
+{% block body %}
+
+
+
+    <main>
+        <div class="hero_in cart_section">
+            <div class="wrapper">
+                <div class="container">
+                    <div class="bs-wizard clearfix">
+                        <div class="bs-wizard-step">
+                            <div class="text-center bs-wizard-stepnum"> Terminer </div>
+                            <div class="progress">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <a href="cart-1.html" class="bs-wizard-dot"></a>
+                        </div>
+
+                        <div class="bs-wizard-step active">
+                            <div class="text-center bs-wizard-stepnum">Votre</div>
+                            <div class=R"progress">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <a href="#0" class="bs-wizard-dot"></a>
+                        </div>
+
+                        <div class="bs-wizard-step active">
+                            <div class="text-center bs-wizard-stepnum">Réservation</div>
+                            <div class=R"progress">
+                                <div class="progress-bar"></div>
+                            </div>
+                            <a href="#0" class="bs-wizard-dot"></a>
+                        </div>
+                    </div>
+                    <!-- End bs-wizard -->
+                </div>
+            </div>
+        </div>
+        <!--/hero_in-->
+
+        <div class="bg_color_1">
+            <div class="container margin_60_35">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="box_cart">
+
+
+                            <hr>
+                            <!--End step -->
+
+                            <div class="form_title">
+                                Reservation pour L'hotel
+                                <h3><strong>2</strong>Réservation des chambres</h3>
+
+                                <br>
+                            </div>
+                            <div class="room_type first">
+                                {% for message in app.flashes('info') %}
+                                    <div class="alert alert-info">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+
+                                {% for message in app.flashes('warning') %}
+                                    <div class="alert alert-danger">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="{{ asset('img/singleroom.jpg') }}" class="img-fluid" alt="">
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <h4>Single Room</h4>
+                                        <p>Sit an meis aliquam, cetero inermis vel ut. An sit illum euismod facilisis, tamquam vulputate pertinacia eum at.</p>
+                                        <ul class="hotel_facilities">
+                                            <li><img src="img/hotel_facilites_icon_2.svg" alt="">Single Bed</li>
+                                            <li><img src="img/hotel_facilites_icon_4.svg" alt="">Free Wifi</li>
+                                            <li><img src="img/hotel_facilites_icon_5.svg" alt="">Shower</li>
+                                            <li><img src="img/hotel_facilites_icon_7.svg" alt="">Air Condition</li>
+                                            <li><img src="img/hotel_facilites_icon_8.svg" alt="">Hairdryer</li>
+                                        </ul>
+                                        <li>Nombre de chambre disponible : {{nbchambreSingleDispo[0][1]}}</li>
+                                        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+
+                                        {% if nbchambreSingleDispo[0][0] is null  %}
+                                        <li>  pas de chambre disponible</li>
+                                       {% else %}
+                                        <li>Prix : {{nbchambreSingleDispo[0][0].prix}}</li>
+                                        {% endif %}>
+
+                                        {% if nbchambreSingleDispo[0][0] is null  %}
+
+                                        <div class="form-group">
+                                            <label>Nombre de chambre single à réserver</label>
+                                            {{ form_widget(form.NbChambreSingleReserve,{ 'attr':{'disabled':'disabled'} }) }}
+                                            {{ form_errors(form.NbChambreSingleReserve) }}
+                                        </div>
+                                        {% else %}
+                                        <div class="form-group">
+                                            <label>Nombre de chambre single à réserver</label>
+                                            {{ form_widget(form.NbChambreSingleReserve) }}
+                                            {{ form_errors(form.NbChambreSingleReserve) }}
+                                        </div>
+                                        {% endif %}>
+
+                                    </div>
+                                </div>
+                                <!-- /row -->
+                            </div>
+                            <!-- /rom_type -->
+                            <div class="room_type gray">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="{{ asset('img/doubleroom.jpg') }}" class="img-fluid" alt="">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h4>Double Room</h4>
+                                        <p>Sit an meis aliquam, cetero inermis vel ut. An sit illum euismod facilisis, tamquam vulputate pertinacia eum at.</p>
+                                        <ul class="hotel_facilities">
+                                            <li><img src="img/hotel_facilites_icon_3.svg" alt="">Double Bed</li>
+                                            <li><img src="img/hotel_facilites_icon_4.svg" alt="">Free Wifi</li>
+                                            <li><img src="img/hotel_facilites_icon_6.svg" alt="">Bathtub</li>
+                                            <li><img src="img/hotel_facilites_icon_7.svg" alt="">Air Condition</li>
+                                            <li><img src="img/hotel_facilites_icon_8.svg" alt="">Hairdryer</li>
+                                        </ul>
+                                        <li>Nombre de chambre disponible : {{nbchambreDoubleDispo[0][1]}}</li>
+
+
+                                        {% if nbchambreDoubleDispo [0][0] is null  %}
+                                        pas de chambre disponible
+                                        {% else %}
+                                        <li>Prix : {{nbchambreDoubleDispo[0][0].prix}}</li>
+                                        {% endif %}>
+
+
+
+                                        {% if nbchambreDoubleDispo[0][0] is null  %}
+
+                                        <div class="form-group">
+                                            <label>Nombre de chambre single à réserver</label>
+                                            {{ form_widget(form.nbChambreDoubleReserve,{ 'attr':{'disabled':'disabled'} }) }}
+                                            {{ form_errors(form.nbChambreDoubleReserve) }}
+                                        </div>
+                                    {% else %}
+                                        <div class="form-group">
+                                            <label>Nombre de chambre double à réserver</label>
+                                            {{ form_widget(form.nbChambreDoubleReserve) }}
+                                            {{ form_errors(form.nbChambreDoubleReserve) }}
+                                        </div>
+                                        {% endif %}>
+
+
+                                        <button type="submit" class=" add_top_30 btn_1 full-width purchase" >Réserver</button>
+
+                                        {{ form_end(form) }}
+
+                                    </div>
+                                </div>
+                                <!-- /row -->
+                            </div>
+                            <!-- /rom_type -->
+                            <div class="room_type last">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="img/gallery/hotel_list_3.jpg" class="img-fluid" alt="">
+                                    </div>
+
+                                </div>
+                                <!-- /row -->
+                            </div>
+                            <hr>
+                            <!--End step -->
+
+
+                            <hr>
+                            <!--End step -->
+
+                        </div>
+                    </div>
+                    <!-- /col -->
+
+                    <aside class="col-lg-4" id="sidebar">
+                        <div class="box_detail">
+
+
+                            <ul class="cart_details">
+                               <li>From<span>{{ date_debut }}</span></li>
+                                <li>To<span>{{ date_fin }}</span></li>
+                                <li>Nombre Adultes<span>{{ nbadultes }}</span></li>
+                                <li>Nombre Enfants<span>{{ nbenfants }}</span></li>
+
+
+
+
+
+                            </ul>
+                            <div class="text-center"><small>No money charged in this step</small></div>
+                        </div>
+                    </aside>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /bg_color_1 -->
+    </main>
+    <!--/main-->
+    <script>
+        window.onload = function() {
+
+            document.getElementById('date_debut').setAttribute('value', localStorage.getItem("date_debut"));
+            document.getElementById('date_fin').setAttribute('value', localStorage.getItem("date_fin"));
+            document.getElementById('nb_personne').setAttribute('value', localStorage.getItem("nb_personne"));
+
+
+        };
+
+    </script>
+{% endblock %}
+

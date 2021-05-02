@@ -5,21 +5,20 @@
 {% block body %}
 
 
-
     <main>
         <div class="hero_in cart_section">
             <div class="wrapper">
                 <div class="container">
                     <div class="bs-wizard clearfix">
-                        <div class="bs-wizard-step">
+                        <div class="bs-wizard-step active">
                             <div class="text-center bs-wizard-stepnum">Your cart</div>
                             <div class="progress">
                                 <div class="progress-bar"></div>
                             </div>
-                            <a href="cart-1.html" class="bs-wizard-dot"></a>
+                            <a href="#0" class="bs-wizard-dot"></a>
                         </div>
 
-                        <div class="bs-wizard-step active">
+                        <div class="bs-wizard-step disabled">
                             <div class="text-center bs-wizard-stepnum">Payment</div>
                             <div class="progress">
                                 <div class="progress-bar"></div>
@@ -42,83 +41,91 @@
         <!--/hero_in-->
 
         <div class="bg_color_1">
+
+
             <div class="container margin_60_35">
                 <div class="row">
+                    {% for message in app.flashes('info') %}
+                        <div class="alert alert-info">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     <div class="col-lg-8">
                         <div class="box_cart">
+                            <table class="table table-striped cart-list">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Item
+                                    </th>
+                                    <th>
+                                        Discount
+                                    </th>
+                                    <th>
+                                        Price
+                                    </th>
 
-
-                            <hr>
-                            <!--End step -->
-
-                            <div class="form_title">
-                                Reservation pour L'hotel
-                                <h3><strong>2</strong>Payment Information</h3>
-                                <p>
-                                    Mussum ipsum cacilds, vidis litro abertis.
-                                </p>
-                            </div>
-                            <div class="step">
-                                <div class="form-group">
-                                    <label>Name on card</label>
-                                    <input type="text" class="form-control" id="name_card_bookign" name="name_card_bookign">
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Card number</label>
-                                            <input type="text" id="card_number" name="card_number" class="form-control">
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="thumb_cart">
+                                            <img src="http://via.placeholder.com/150x150/ccc/fff/thumb_cart_1.jpg" alt="Image">
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-12">
-                                        <img src="img/cards_all.svg" alt="Cards" class="cards-payment">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Expiration date</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input type="text" id="expire_month" name="expire_month" class="form-control" placeholder="MM">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input type="text" id="expire_year" name="expire_year" class="form-control" placeholder="Year">
-                                                </div>
-                                            </div>
+                                        <span class="item_cart">Hotel : {{ voy.hotel.name }}
+                                        <br>
+                                            Prix du chambre :
+
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        0%
+                                    </td>
+                                    <td>
+                                        <strong>{{ getChambreSinglePrixPerHotel.prix }} DT * {{ diff }} nuit(s)</strong>
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="thumb_cart">
+                                            <img src="http://via.placeholder.com/150x150/ccc/fff/thumb_cart_2.jpg" alt="Image">
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Security code</label>
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <div class="form-group">
-                                                        <input type="text" id="ccv" name="ccv" class="form-control" placeholder="CCV">
-                                                    </div>
-                                                </div>
-                                                <div class="col-8">
-                                                    <img src="img/icon_ccv.gif" width="50" height="29" alt="ccv"><small>Last 3 digits</small>
-                                                </div>
-                                            </div>
+                                        <span class="item_cart">Prix Transport </span>
+                                    </td>
+                                    <td>
+                                        0%
+                                    </td>
+                                    <td>
+                                        <strong>{{ transport[0].prix }} DT</strong>
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="thumb_cart">
+                                            <img src="http://via.placeholder.com/150x150/ccc/fff/thumb_cart_3.jpg" alt="Image">
                                         </div>
-                                    </div>
-                                </div>
-                                <!--End row -->
-
-                                <hr>
-
-
-                            </div>
-                            <hr>
-                            <!--End step -->
+                                        <span class="item_cart">Prix d'inscription au voyage Par Personne</span>
+                                    </td>
+                                    <td>
+                                        0%
+                                    </td>
+                                    <td>
+                                        <strong>{{ voy.prix_personne }} * {{ nb }}</strong>
+                                    </td>
 
 
-                            <hr>
-                            <!--End step -->
+                                </tr>
 
+                                </tbody>
+                            </table>
+
+                            <!-- /cart-options -->
                         </div>
                     </div>
                     <!-- /col -->
@@ -126,18 +133,18 @@
                     <aside class="col-lg-4" id="sidebar">
                         <div class="box_detail">
                             <div id="total_cart">
-                                Total <span class="float-right">69.00$</span>
+                                Total <span class="float-right">{{ total }} DT</span>
                             </div>
                             <ul class="cart_details">
-
-                                    <li>From <input type="text" name="date_debut"  id="date_debut"></input></li>
-                                    <li>To <input type="text" readonly id="date_fin"></input></li>
-                                    <li>Nombre Personne <input type="text" readonly id="nb_personne"></input></li>
-
-
+                                <li>Date debut <span>{{ voy.date_debut|date('Y-m-d') }}</span></li>
+                                <li>Date fin <span>{{ voy.date_fin|date('Y-m-d') }}</span></li>
+                                <li>Nombre de personne <span>{{ nb }}</span></li>
 
                             </ul>
-                            <a href="cart-3.html" class="btn_1 full-width purchase">Purchase</a>
+
+                            {{ form_start(form) }}
+                            <button type="submit"  class="btn_1 full-width purchase">Réserver</button>
+                            {{ form_end(form) }}
                             <div class="text-center"><small>No money charged in this step</small></div>
                         </div>
                     </aside>
@@ -149,16 +156,7 @@
         <!-- /bg_color_1 -->
     </main>
     <!--/main-->
-    <script>
-        window.onload = function() {
-
-            document.getElementById('date_debut').setAttribute('value', localStorage.getItem("date_debut"));
-            document.getElementById('date_fin').setAttribute('value', localStorage.getItem("date_fin"));
-            document.getElementById('nb_personne').setAttribute('value', localStorage.getItem("nb_personne"));
 
 
-        };
-
-    </script>
 {% endblock %}
 

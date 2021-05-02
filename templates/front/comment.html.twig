@@ -1,0 +1,140 @@
+{% extends 'header.html.twig' %}
+{% block body %}
+    <section class="hero_in hotels">
+        <div class="wrapper">
+            <div class="container">
+                <h1 class="fadeInUp"><span></span>Paris hotels list</h1>
+            </div>
+        </div>
+    </section>
+    <!--/hero_in-->
+
+    <div class="filters_listing sticky_horizontal">
+        <div class="container">
+            <ul class="clearfix">
+                <li>
+                    <div class="switch-field">
+                        <input type="radio" id="all" name="listing_filter" value="all">
+                        <label for="all">All</label>
+                        <input type="radio" id="popular" name="listing_filter" value="popular">
+                        <label for="popular">Popular</label>
+                        <input type="radio" id="latest" name="listing_filter" value="latest">
+                        <label for="latest">Latest</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="layout_view">
+                        <a href="../../../panagea_v.1.5/html/hotels-grid-isotope.html"><i class="icon-th"></i></a>
+                        <a href="#0" class="active"><i class="icon-th-list"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap" data-text-swap="Hide map" data-text-original="View on map">View on map</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /filters -->
+
+    <div class="collapse" id="collapseMap">
+        <div id="map" class="map"></div>
+    </div>
+    <!-- End Map -->
+    {% for hotel in hotels %}
+        <div class="container margin_60_35">
+            <div class="box_list">
+                <div class="row no-gutters">
+                    <div class="col-lg-5">
+                        <figure>
+                            <small>{{ hotel.name }}</small>
+                            <a href="{{ path('type',{'type': hotel.id}) }}" ></a>
+                            <a href="{{ path('type',{'type':hotel.id}) }}" ><img src="{{ asset('picture/' ~ hotel.image) }}"width="800" height="533">
+                        </figure>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="wrapper">
+                            <a href="#0" class="wish_bt"></a>
+                            <div class="cat_star">
+                                {% if(hotel.nbetoile == 1)%}
+                                    <i class="icon_star"></i>
+                                {% endif %}
+                                {% if(hotel.nbetoile == 2)%}
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                {% endif %}
+                                {% if(hotel.nbetoile  == 3)%}
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                {% endif %}
+                                {% if(hotel.nbetoile  == 4)%}
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                {% endif %}
+                                {% if(hotel.nbetoile  == 5)%}
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                    <i class="icon_star"></i>
+                                {% endif %}
+                                <small>{{ hotel.pays}}</small>
+                                <small>{{ hotel.adresse }}</small>
+
+                            </div>
+                            <center>
+                            <h3><a href="{{ path('type',{'type': hotel.id}) }}"> {{ hotel.name }} </a></h3>
+                            <form action="{{ path('typeh',{'typeh': hotel.id}) }}" method="post" >
+                                <div class="col-xs-12" id="post_content">
+                                    <div class="textarea_wrap">
+                                        {{ form_start(form) }}
+                                        {{ form_widget(form.content,{'attr':{'placeholder':'Leave Comment','class':'form-control','rows':'5'}}) }}
+                                        {{ form_widget(form) }}
+                                        <div class="col-xs-5">
+                                            <button class="btn btn-primary btn-block">{{ button_label|default('Post') }}</button>
+                                        </div>
+                                        {{ form_end(form) }}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div></center>
+            <!-- /box_list -->
+        </div>
+    {% endfor %}
+    {% for comment in comments %}
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong>{{ comment.idclient.nom }}</strong> <span class="text-muted">commented At {{ comment.createdAt | date('d/m/y') }}</span>
+                        {% if app.session.get('id')== comment.idclient.id %}
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+                            <form method="post" action="{{ path('deletecom', {'id': comment.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                                {{ comment.content }}
+                                <button   class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-remove"></span> Remove
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                    <div class="panel-body">
+
+                    </div><!-- /panel-body -->
+                </div><!-- /panel panel-default -->
+            </div><!-- /col-sm-5 -->
+        </div><!-- /row -->
+
+    {% endfor %}
+    <!-- /bg_color_1 -->
+    </main>
+    <!--/main-->
+{% endblock %}

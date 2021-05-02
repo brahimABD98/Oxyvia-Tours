@@ -1,0 +1,16 @@
+{% extends 'backoffice.html.twig' %}
+{% form_theme f 'bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block title %}Edit EvenementsTable{% endblock %}
+
+{% block body %}
+    <div style="margin-left:25%;margin-top: 5%">
+    <h1>Modifier les coordonnées d'un évenement</h1>
+
+    {{ form_start(f) }}
+
+    {{ form_end(f) }}
+
+    <a href="{{ path('evenements_table_index') }}">back to list</a>
+    </div>
+{% endblock %}

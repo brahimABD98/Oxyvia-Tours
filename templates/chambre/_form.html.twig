@@ -1,0 +1,31 @@
+{{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+<center>
+<div class="form">
+    <label>  Saisir le numero : </label>
+    {{ form_widget(form.numero,{'attr':{'class':'form-control'}}) }}
+    <div class="alert alert-info">
+        {{ form_errors(form.numero) }}
+    </div>
+
+</div>
+<div class="form">
+    <label>Saisir le type : </label>
+    {{ form_widget(form.type,{'attr':{'class':'form-control'}}) }}
+    <div class="alert alert-info">
+        {{ form_errors(form.type) }}
+    </div>
+</div>
+</div>
+<div class="form">
+    <label>Saisir le prix : </label>
+    {{ form_widget(form.prix,{'attr':{'class':'form-control'}}) }}
+    <div class="alert alert-info">
+        {{ form_errors(form.prix) }}
+    </div>
+</div>
+
+
+{{ form_widget(form) }}
+<button class="btn btn-primary btn-block">{{ button_label|default('Submit Form') }}</button>
+{{ form_end(form) }}
+</center>

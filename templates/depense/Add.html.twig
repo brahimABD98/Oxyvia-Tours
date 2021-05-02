@@ -1,0 +1,204 @@
+{% extends 'backoffice.html.twig' %}
+{% block title %} $ Renumeration Form {% endblock %}
+
+{% block body %}
+
+
+
+
+
+
+
+
+<body class="fixed-nav sticky-footer" id="page-top">
+  <!-- Navigation-->
+
+  <!-- /Navigation-->
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Add new depense </li>
+      </ol>
+		<div class="box_general padding_bottom">
+			<div class="header_box version_2">
+				<h2><i class="fa fa-user"></i> Plateform de rénumération des $alariés</h2>
+			</div>
+			{{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label>Your photo</label>
+						<div class="pictures">
+						{{ form_widget(form.picture) }}
+						<div class="alert-warning">
+							{{ form_errors(form.picture) }}
+						</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8 add_top_30">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>ID : </label>
+								{{ form_widget(form.id_personnel) }}
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Occupation : </label>
+								{{ form_widget(form.occupation) }}
+								<div class="alert-primary">
+									{{ form_errors(form.occupation) }}
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /row-->
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label> Prenom : </label>
+								{{ form_widget(form.prenom) }}
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label> Nom : </label>
+								{{ form_widget(form.nom) }}
+							</div>
+						</div>
+					</div>
+					<!-- /row-->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+
+								<label>Salaire annuel</label>
+								{{ form_widget(form.salaire) }}
+								<div class="alert-danger">
+									{{ form_errors(form.salaire) }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			<!-- /row-->
+		</div>
+			</div>
+		</div>
+		<!-- /box_general-->
+
+		<div class="row">
+
+
+
+			<div class="col-md-6">
+				<div class="box_general padding_bottom">
+					<div class="header_box version_2">
+						<h2><i class="fa fa-lock"></i>e-notorité & e- réputation de l'employer : </h2>
+					</div>
+					<div class="form-group">
+						<label>Taux d'horaire réguliére</label>
+                        {{ form_widget(form.horaire_reguliere) }}
+					</div>
+					<div class="form-group">
+						<label>Taux d'horaire supplémentaire :</label>
+                        {{ form_widget(form.horaire_sup) }}
+					</div>
+
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="box_general padding_bottom">
+					<div class="header_box version_2">
+						<h2><i class="fa fa-envelope"></i> FeedBacks </h2>
+					</div>
+					<div class="form-group">
+						<label>Exempté d'heure supplémentaire </label>
+                        {{ form_widget(form.exempte) }}
+					</div>
+					<div class="form-group">
+						<label>Date de dépense : </label>
+                        {{ form_widget(form.date_depense) }}
+                        {{ form_errors(form.date_depense) }}
+					</div>
+					<div class="form-group">
+						<label>Salary done ?! : </label>
+						{{ form_widget(form.enabled) }}
+						{{ form_widget(form.color)  }}
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- /row-->
+
+        <div class="text-center"><input type="submit" value="Sauvgarder" class="btn_1 full-width"></div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+	  </div>
+       <div class="icon_trash" ></div>
+      <div class="ls-bottom-slidebuttons"></div>
+
+	  <!-- /.container-fluid-->
+   	</div>
+    <!-- /.container-wrapper-->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+
+              <span aria-hidden="true">Ã—</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+	<script src="vendor/jquery.selectbox-0.2.js"></script>
+	<script src="vendor/retina-replace.min.js"></script>
+	<script src="vendor/jquery.magnific-popup.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/admin.js"></script>
+	<!-- Custom scripts for this page-->
+	<script src="vendor/dropzone.min.js"></script>
+
+</body>
+
+
+
+
+{% endblock %}
+
+
+
+

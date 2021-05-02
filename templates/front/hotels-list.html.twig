@@ -1,0 +1,104 @@
+{% extends 'header.html.twig' %}
+{% block body %}
+<section class="hero_in hotels">
+    <div class="wrapper">
+        <div class="container">
+            <h1 class="fadeInUp"><span></span>Paris hotels list</h1>
+        </div>
+    </div>
+</section>
+<!--/hero_in-->
+
+<div class="filters_listing sticky_horizontal">
+    <div class="container">
+        <ul class="clearfix">
+            <li>
+                <div class="switch-field">
+                    <input type="radio" id="all" name="listing_filter" value="all">
+                    <label for="all">All</label>
+                    <input type="radio" id="popular" name="listing_filter" value="popular">
+                    <label for="popular">Popular</label>
+                    <input type="radio" id="latest" name="listing_filter" value="latest">
+                    <label for="latest">Latest</label>
+                </div>
+            </li>
+            <li>
+                <div class="layout_view">
+                    <a href="../../../panagea_v.1.5/html/hotels-grid-isotope.html"><i class="icon-th"></i></a>
+                    <a href="#0" class="active"><i class="icon-th-list"></i></a>
+                </div>
+            </li>
+            <li>
+                <a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap" data-text-swap="Hide map" data-text-original="View on map">View on map</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /container -->
+</div>
+<!-- /filters -->
+
+<div class="collapse" id="collapseMap">
+    <div id="map" class="map"></div>
+</div>
+<!-- End Map -->
+    {% for hotel in hotels %}
+<div class="container margin_60_35">
+    <div class="box_list">
+        <div class="row no-gutters">
+            <div class="col-lg-5">
+                <figure>
+                    <small>{{ hotel.name }}</small>
+                        <a href="{{ path('type',{'type': hotel.id}) }}" ></a>
+          <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}">    <img src="{{ asset('picture/' ~ hotel.image) }}"width="800" height="533">
+                      
+                </figure>
+            </div>
+            <div class="col-lg-7">
+                <div class="wrapper">
+                    <a href="#0" class="wish_bt"></a>
+                    <div class="cat_star">
+                        {% if(hotel.nbetoile == 1)%}
+                                <i class="icon_star"></i>
+                        {% endif %}
+                        {% if(hotel.nbetoile == 2)%}
+                            <i class="icon_star"></i>
+                            <i class="icon_star"></i>
+                        {% endif %}
+                        {% if(hotel.nbetoile  == 3)%}
+                            <i class="icon_star"></i>
+                            <i class="icon_star"></i>
+                            <i class="icon_star"></i>
+                        {% endif %}
+                        {% if(hotel.nbetoile  == 4)%}
+                            <i class="icon_star"></i>
+                            <i class="icon_star"></i>
+                            <i class="icon_star"></i>
+                            <i class="icon_star"></i>
+                        {% endif %}
+                        {% if(hotel.nbetoile  == 5)%}
+                            <i class="icon_star"></i>
+                            <i class="icon_star"></i>
+                            <i class="icon_star"></i>
+                            <i class="icon_star"></i>
+                            <i class="icon_star"></i>
+                        {% endif %}
+                        <small>{{ hotel.pays}}</small>
+                        <small>{{ hotel.adresse }}</small>
+
+                        </div>
+                    <h3><a href="{{ path('type',{'type': hotel.id}) }}"> {{ hotel.name }} </a></h3>
+                    <a href="{{ path('map',{'id': hotel.id}) }}" class="btn btn-primary align-items-center" style="margin-bottom: 50px">Map:Location</a>
+                    <a href="{{ path('typeh',{'typeh': hotel.id}) }}" class="btn btn-primary align-items-center" style="margin-bottom: 50px">ajouter comentaire</a>
+                    <a href="{{ path('reservation_newhotel',{'hotel_id':hotel.id}) }}" class="btn btn-primary align-items-center" style="margin-bottom: 50px">Réserver</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /box_list -->
+</div>
+    {% endfor %}
+<!-- /bg_color_1 -->
+</main>
+<!--/main-->
+{% endblock %}

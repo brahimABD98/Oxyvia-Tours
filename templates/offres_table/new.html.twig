@@ -1,0 +1,14 @@
+{% extends 'backoffice.html.twig' %}
+{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block title %}New OffresTable{% endblock %}
+
+{% block body %}
+    <div style="margin-left: 25%;margin-right: 5%">
+    <h1>ajouter un nouveau offre</h1>
+
+    {{ include('offres_table/_form.html.twig') }}
+
+    <a href="{{ path('offres_table_index') }}">back to list</a>
+    </div>
+{% endblock %}
