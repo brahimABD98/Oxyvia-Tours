@@ -6,8 +6,11 @@ use App\Entity\Place;
 use App\Entity\Voyage;
 use App\Form\VoyageType;
 use App\Repository\HotelRepository;
+use App\Repository\ReservationRepository;
 use App\Repository\TransportRepository;
 use App\Repository\VoyageRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,6 +21,10 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("dashboard/gestion/voyage")
@@ -123,7 +130,7 @@ class VoyageController extends AbstractController
                 $filename
             );
             $voyage->setImage($filename);
-           
+
             $voyage->setHotel($hotel);
 
             $arr=[$placeobj,
@@ -253,6 +260,89 @@ class VoyageController extends AbstractController
 
     }
 
+
+  
+    
+
+
+/**
+ * @Route("/api/liste/voy", name="liste", methods={"GET"})
+ */
+public function liste(VoyageRepository $articlesRepo,SerializerInterface $serializer)
+{
+     // On récupère la liste des articles
+     $articles = $articlesRepo->apiFindAll();
+
+     // On spécifie qu'on utilise l'encodeur JSON
+     $encoders = [new JsonEncoder()];
+ 
+     // On instancie le "normaliseur" pour convertir la collection en tableau
+     $normalizers = [new ObjectNormalizer()];
+ 
+     // On instancie le convertisseur
+     $serializer = new Serializer($normalizers, $encoders);
+ 
+     // On convertit en json
+     $jsonContent = $serializer->serialize($articles, 'json', [
+         'circular_reference_handler' => function ($object) {
+             return $object->getId();
+         }
+     ]);
+ 
+     // On instancie la réponse
+     $response = new Response($jsonContent);
+ 
+     // On ajoute l'entête HTTP
+     $response->headers->set('Content-Type', 'application/json');
+ 
+     // On envoie la réponse
+     return $response;
+
+}
+
+
+
+    /**
+     * @Route("/api/ajout", name="ajouttt", methods={"POST"})
+     */
+    public function addArticle(HotelRepository $hotelRepository,Request $request)
+    {
+
+        $voyage=new Voyage();
+        $description=$request->query->get('description');
+        $nom=$request->query->get('nom');
+$voyage->setNom($nom);
+$voyage->setDescription($description);
+$em=$this->getDoctrine()->getManager();
+$em->persist($voyage);
+$em->flush();
+$serializer=new Serializer([new ObjectNormalizer()]);
+$formated=$serializer->normalize($voyage);
+return new JsonResponse($formated);
+
+     /*   
+      $jsonRecu=$request->getContent();
+        $post=$serializer->deserialize($jsonRecu,Voyage::class,'json');
+
+        $hotel=$hotelRepository->find("2");
+        $post->setHotel($hotel);
+        $em->persist($post);
+        $em->flush();
+        return $this->json($post,201,[],['groups'=>'post:read']);
+        */
+    }
+
+    /**
+     * @Route("/api/supprimer/{id}", name="supprime", methods={"DELETE"})
+     */
+    public function removeArticle(Voyage $article)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($article);
+        $entityManager->flush();
+        return new Response('ok');
+    }
+
     /**
      * @return string
      * @throws \Exception
@@ -261,4 +351,194 @@ class VoyageController extends AbstractController
     {
         return rtrim(strtr(base64_encode(random_bytes(5)), '+/', '-_'), '=');
     }
+
+
+    /******************Ajouter voyage*****************************************/
+    /**
+     * @Route("/api/addvoyage", name="ajoutvoyageapi", methods={"POST"})
+     */
+
+
+    public function ajoutvoyageapi(SerializerInterface $serializer,Request $request,HotelRepository $hotelRepository)
+    {
+        $voyage = new Voyage();
+        $nom = $request->query->get("nom");
+        $ville = $request->query->get("ville");
+
+        $description = $request->query->get("description");
+        $date_debut = $request->query->get("date_debut");
+        $date_fin = $request->query->get("date_fin");
+
+        $prix_personne = $request->query->get("prix_personne");
+        $nb_personne = $request->query->get("nb_personne");
+
+        $hotel_id = $request->query->get("hotel_id");
+        $hotel=$hotelRepository->find($hotel_id);
+
+        $place = $request->query->get("place");
+        $longtitude = $request->query->get("longtitude");
+        $alt = $request->query->get("alt");
+
+        $placeobj=new Place();
+        $placeobj->setNom($place);
+        $placeobj->setAltitude($alt);
+        $placeobj->setLongitude($longtitude);
+
+        $voyage->getPlace()->add($placeobj);
+        $placeobj->addVoyage($voyage);
+
+
+
+        $em = $this->getDoctrine()->getManager();
+
+
+
+        $voyage->setNom($nom);
+        $voyage->setVille($ville);
+        $voyage->setDescription($description);
+        $voyage->setDateDebut(new \DateTime($date_debut));
+        $voyage->setDateFin(new \DateTime($date_fin));
+        $voyage->setPrixPersonne($prix_personne);
+        $voyage->setNbPersonne($nb_personne);
+        $voyage->setImage("");
+        $voyage->setHotel($hotel);
+
+
+        $em->persist($voyage);
+        $em->flush();
+      //  $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($voyage);
+
+
+        $json = $serializer->serialize($voyage, 'json', ['groups' => ['post:read']]);
+
+        return new JsonResponse($formatted);
+
+    }
+
+
+
+
+
+
+    /**
+     * @Route("/api/delvoyage", name="deletevoyageapi",methods={"DELETE"})
+     */
+
+    public function suppvoyageapiee(Request $request) {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = $em->getRepository(Voyage::class)->find($id);
+        if($reclamation!=null ) {
+            $em->remove($reclamation);
+            $em->flush();
+
+            $serialize = new Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("Reclamation a ete supprimee avec success.");
+            return new JsonResponse($formatted);
+
+        }
+        return new JsonResponse("id reclamation invalide.");
+
+
+    }
+
+
+
+    /**
+     * @Route("/api/voyagefilter", name="voufilter", methods={"GET"})
+     */
+    public function liste5(Request $request,VoyageRepository $articlesRepo,SerializerInterface $serializer)
+    {   $id = $request->get("id");
+        // On récupère la liste des articles
+        $articles = $articlesRepo->apiFindAllfilter($id);
+
+        // On spécifie qu'on utilise l'encodeur JSON
+        $encoders = [new JsonEncoder()];
+
+        // On instancie le "normaliseur" pour convertir la collection en tableau
+        $normalizers = [new ObjectNormalizer()];
+
+        // On instancie le convertisseur
+        $serializer = new \Symfony\Component\Serializer\Serializer($normalizers, $encoders);
+
+        // On convertit en json
+        $jsonContent = $serializer->serialize($articles, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+
+        // On instancie la réponse
+        $response = new Response($jsonContent);
+
+        // On ajoute l'entête HTTP
+        $response->headers->set('Content-Type', 'application/json');
+
+        // On envoie la réponse
+        return $response;
+
+    }
+
+
+
+    /**
+     * @Route("/api/detailvoyage", name="detail_voyage",methods={"GET"})
+     */
+    //Detail Reclamation
+    public function detailReclamationAction(Request $request,VoyageRepository $voyageRepository)
+    {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+       // $voyage = $this->getDoctrine()->getManager()->getRepository(Voyage::class)->find($id);
+        $voyage =$voyageRepository->voyagedetail($id);
+
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $formatted = $serializer->normalize($voyage);
+        return new JsonResponse($formatted);
+    }
+
+
+    /**
+     * @Route("/api/liste/hotels", name="lsthotels", methods={"GET"})
+     */
+    public function listehotels(HotelRepository $articlesRepo,SerializerInterface $serializer)
+    {
+        // On récupère la liste des articles
+        $articles = $articlesRepo->apifindallHotels();
+
+        // On spécifie qu'on utilise l'encodeur JSON
+        $encoders = [new JsonEncoder()];
+
+        // On instancie le "normaliseur" pour convertir la collection en tableau
+        $normalizers = [new ObjectNormalizer()];
+
+        // On instancie le convertisseur
+        $serializer = new Serializer($normalizers, $encoders);
+
+        // On convertit en json
+        $jsonContent = $serializer->serialize($articles, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+
+        // On instancie la réponse
+        $response = new Response($jsonContent);
+
+        // On ajoute l'entête HTTP
+        $response->headers->set('Content-Type', 'application/json');
+
+        // On envoie la réponse
+        return $response;
+
+    }
+
 }

@@ -143,9 +143,6 @@ class GestionReservationController extends AbstractController
             array_push($prixtotal, $totperMois[$i]['prix']);
 
         }
-
-
-
         $lstRes=$hotelRepository->findAll();
         $hotelNom=[];
         $resCount=[];
@@ -154,7 +151,6 @@ class GestionReservationController extends AbstractController
             $hotelNom[]=$res->getName();
             $resCount[]=count($res->getReservation());
         }
-
         return $this->render('reservation/MostResHotelStats.html.twig', [
             'hotelNom' => json_encode($hotelNom),
             'resCount' =>json_encode($resCount),

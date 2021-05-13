@@ -1,16 +1,19 @@
 <?php
 
 namespace App\Entity;
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
 
 use App\Repository\VoyageRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Entity(repositoryClass=VoyageRepository::class)
+ *@ApiResource()
  */
 class Voyage
 {
@@ -18,24 +21,29 @@ class Voyage
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * Groups("post:read")
      */
     private $id;
+
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="veuillez remplir le nom")
+     * Groups("post:read")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="veuillez remplir la ville")
+     * Groups("post:read")
      */
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="veuillez remplir la description")
+     *Groups("post:read")
      */
     private $description;
 
@@ -43,6 +51,7 @@ class Voyage
      * @ORM\Column(type="date",nullable=true)
 
      * @Assert\NotBlank (message="eerr")
+     * Groups("post:read")
      *
 
      */
@@ -51,6 +60,7 @@ class Voyage
     /**
      * @ORM\Column(type="date",nullable=true)
      * @Assert\NotBlank (message="eerr")
+     * Groups("post:read")
 
      *  @Assert\Expression(
      *     "this.getDateFin() >= this.getDateDebut()",
@@ -64,20 +74,21 @@ class Voyage
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="veuillez remplir prix d'un personne")
-
+*Groups("post:read")
      */
     public $prix_personne;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="veuillez remplir le nombre de personne ")
-     *
+     *Groups("post:read")
      *
      */
     public $nb_personne;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * Groups("post:read")
      */
     private $image;
 

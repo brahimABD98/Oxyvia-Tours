@@ -28,16 +28,46 @@ class VoyageRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
             ->where('u.nb_personne <> :val')
-            ->setParameter('val','0')
+            ->setParameter('val', '0')
             ->getQuery()
             ->getResult();
     }
+
+    public function apiFindAllfilter($id): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.id', 'a.nom', 'a.ville', 'a.prix_personne', "date_format(a.date_debut, '%Y-%m-%d')  as date_debut", "date_format(a.date_fin, '%Y-%m-%d') as date_fin")
+            ->Where('a.ville like :cats')
+            ->setParameter('cats','%'.$id.'%');
+
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
+
+    /**
+     * @return Articles[] Returns an array of Articles objects
+     */
+    public function apiFindAll(): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.id', 'a.nom', 'a.ville', 'a.prix_personne', "date_format(a.date_debut, '%Y-%m-%d')  as date_debut", "date_format(a.date_fin, '%Y-%m-%d') as date_fin");
+
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
+
 
 
     public function dateDebutGroupedBy()
     {
         return $this->createQueryBuilder('u')
-            ->select("date_format(u.date_debut, '%Y-%m-%d') as wiw" )
+            ->select("date_format(u.date_debut, '%Y-%m-%d') as wiw")
             ->groupBy('wiw')
             ->getQuery()
             ->getResult();
@@ -46,7 +76,7 @@ class VoyageRepository extends ServiceEntityRepository
     public function datefinGroupedBy()
     {
         return $this->createQueryBuilder('u')
-            ->select("date_format(u.date_fin, '%Y-%m-%d') as wiw" )
+            ->select("date_format(u.date_fin, '%Y-%m-%d') as wiw")
             ->groupBy('wiw')
             ->getQuery()
             ->getResult();
@@ -55,75 +85,59 @@ class VoyageRepository extends ServiceEntityRepository
     public function VilleGroupedBy()
     {
         return $this->createQueryBuilder('u')
-
             ->groupBy('u.ville')
             ->getQuery()
             ->getResult();
     }
-    public function getPaginatedvoyage($page, $limit,$filterville=null,$filtersdb=null,$filtersdf=null){
+
+    public function getPaginatedvoyage($page, $limit, $filterville = null, $filtersdb = null, $filtersdf = null)
+    {
         $query = $this->createQueryBuilder('c');
 
-        if($filtersdb != null&&$filtersdf != null&&$filterville != null){
+        if ($filtersdb != null && $filtersdf != null && $filterville != null) {
             $query->andWhere('c.date_debut like :ville')
                 ->andWhere('c.date_fin like :db')
                 ->andWhere('c.ville like :v')
-                ->setParameter('ville','%'.$filtersdb.'%')
-                ->setParameter('db','%'.$filtersdf.'%')
-                  ->setParameter('v','%'.$filterville.'%');
+                ->setParameter('ville', '%' . $filtersdb . '%')
+                ->setParameter('db', '%' . $filtersdf . '%')
+                ->setParameter('v', '%' . $filterville . '%');
 
-        }
-
-
-       else if($filterville != null&&$filtersdb != null){
+        } else if ($filterville != null && $filtersdb != null) {
             $query->andWhere('c.ville like :ville')
                 ->andWhere('c.date_debut like :db')
-                ->setParameter('ville','%'.$filterville.'%')
-                ->setParameter('db','%'.$filtersdb.'%');
+                ->setParameter('ville', '%' . $filterville . '%')
+                ->setParameter('db', '%' . $filtersdb . '%');
 
-        }
-
-       else if($filterville != null&&$filtersdf != null){
+        } else if ($filterville != null && $filtersdf != null) {
             $query->andWhere('c.ville like :ville')
                 ->andWhere('c.date_fin like :db')
-                ->setParameter('ville','%'.$filterville.'%')
-                ->setParameter('db','%'.$filtersdf.'%');
+                ->setParameter('ville', '%' . $filterville . '%')
+                ->setParameter('db', '%' . $filtersdf . '%');
 
-        }
-
-       else if($filtersdb != null&&$filtersdf != null){
+        } else if ($filtersdb != null && $filtersdf != null) {
             $query->andWhere('c.date_debut like :ville')
                 ->andWhere('c.date_fin like :db')
-                ->setParameter('ville','%'.$filtersdb.'%')
-                ->setParameter('db','%'.$filtersdf.'%');
+                ->setParameter('ville', '%' . $filtersdb . '%')
+                ->setParameter('db', '%' . $filtersdf . '%');
 
-        }
-       else if($filterville != null){
+        } else if ($filterville != null) {
             $query->andWhere('c.ville like :ville')
-                ->setParameter('ville','%'.$filterville.'%');
-        }
-       else  if($filtersdb != null){
+                ->setParameter('ville', '%' . $filterville . '%');
+        } else if ($filtersdb != null) {
             $query->andWhere('c.date_debut like :db')
-                ->setParameter('db','%'.$filtersdb.'%');
-        }
-       else  if($filtersdf != null){
+                ->setParameter('db', '%' . $filtersdb . '%');
+        } else if ($filtersdf != null) {
             $query->andWhere('c.date_fin like :df')
-                ->setParameter('df','%'.$filtersdf.'%');
+                ->setParameter('df', '%' . $filtersdf . '%');
         }
 
 
-
-        $query ->setFirstResult(($page * $limit) - $limit)
-            ->setMaxResults($limit)
-        ;
+        $query->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit);
         return $query->getQuery()->getResult();
     }
 
-
-    /**
-     * Returns number of Annonces
-     * @return void
-     */
-    public function getTotalVoy($filterville=null,$filtersdb=null,$filtersdf=null)
+    public function getTotalVoy($filterville = null, $filtersdb = null, $filtersdf = null)
     {
         $query = $this->createQueryBuilder('c');
 
@@ -165,6 +179,22 @@ class VoyageRepository extends ServiceEntityRepository
         };
         return $query->getQuery()->getResult();
     }
+
+
+    public function voyagedetail($id)
+    {
+        $query = $this->createQueryBuilder('a');
+        $query ->select('a.id', 'a.nom', 'a.ville', 'a.prix_personne', "date_format(a.date_debut, '%Y-%m-%d')  as date_debut", "date_format(a.date_fin, '%Y-%m-%d') as date_fin","a.description","a.nb_personne");
+
+        $query->andWhere('a.id like :id')
+
+            ->setParameter('id', $id);
+
+
+        return $query->getQuery()->getResult();
+    }
+
+
 
     // /**
     //  * @return Voyage[] Returns an array of Voyage objects

@@ -19,6 +19,56 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
+    public function apiFindAll(): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.id', 'a.type', 'a.prix', "date_format(a.date_debut, '%Y-%m-%d')  as date_debut", "date_format(a.date_fin, '%Y-%m-%d') as date_fin");
+
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+    public function apiFindAllfilter($id): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.id', 'a.type', 'a.prix', "date_format(a.date_debut, '%Y-%m-%d')  as date_debut", "date_format(a.date_fin, '%Y-%m-%d') as date_fin ")
+                  ->Where('a.type like :cats')
+        ->setParameter('cats','%'.$id.'%');
+
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
+    public function apiHotelsstats(): array
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery(
+'select count(r) as nbres,h.name as nomHotel from App\Entity\Reservation r,App\Entity\Hotel h where r.hotel=h.id group by r.hotel '
+        );
+
+
+        return $query->getResult();
+    }
+
+
+
+    public function resdetail($id)
+    {
+        $query = $this->createQueryBuilder('a')
+        ->select('a.nb_adulte','a.nb_enfants','a.NbChambreSingleReserve','a.nbChambreDoubleReserve','a.id', 'a.type', 'a.prix', "date_format(a.date_debut, '%Y-%m-%d')  as date_debut", "date_format(a.date_fin, '%Y-%m-%d') as date_fin");
+
+        $query->andWhere('a.id like :id')
+
+            ->setParameter('id', $id);
+
+
+        return $query->getQuery()->getResult();
+    }
+
+
     public function TotalPrixPerMonth(){
    //     return $this->createQueryBuilder('s')
 

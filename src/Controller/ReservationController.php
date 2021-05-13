@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Voyage;
 use App\Repository\ChambreRepository;
 use App\Repository\PlaceRepository;
 use App\Repository\TransportRepository;
@@ -8,10 +9,13 @@ use App\Repository\VoyageRepository;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use http\Message;
+
 use MercurySeries\FlashyBundle\FlashyNotifier;
+use phpDocumentor\Reflection\DocBlock\Serializer;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
@@ -22,6 +26,8 @@ use App\Form\ReservationType0;
 use App\Repository\ClassroomRepository;
 use App\Repository\ClientRepository;
 use App\Repository\HotelRepository;
+use Symfony\Component\Validator\Constraints\DateTime;
+
 use App\Repository\ReservationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,9 +35,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Email;
+
+
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/reservation")
@@ -767,4 +778,310 @@ class ReservationController extends AbstractController
     {
         return rtrim(strtr(base64_encode(random_bytes(5)), '+/', '-_'), '=');
     }
+
+
+
+    /**
+     * @Route("/wiw/addresapi", name="AjoutReservationVoyageapi")
+     */
+    public function AjoutReservationVoyageapi(SerializerInterface $serializer,VoyageRepository $voyageRepository,ReservationRepository $reservationRepository, HotelRepository $hotelRepository, ClientRepository $clientRepository, Request $request, ChambreRepository $chambreRepository): Response
+    {
+
+
+        $date_debut = $request->query->get("date_debut");
+        $date_fin = $request->query->get("date_fin");
+
+        $nbadultes = $request->query->get("nbadultes");
+        $nbenfants = $request->query->get("nbenfants");
+        $nbsingle = $request->query->get("nbsingle");
+        $nbdouble = $request->query->get("nbdouble");
+        $voyage_id = $request->query->get("voyage_id");
+
+        $nb=$nbadultes+$nbenfants;
+
+       // $voyage = new Voyage();
+
+       // $nbchambreDoubleDispo = $chambreRepository->NbChambreDoubleDispo($hotel_id);
+        $reservation = new Reservation();
+        $client = $clientRepository->find(1);
+        $voyage = $voyageRepository->find($voyage_id);
+
+        $nbchambreSingleDispo = $chambreRepository->NbChambreSingleDispo(  $voyage->getHotel()->getId());
+
+        $diff = date_diff(new \DateTime($date_debut), new \DateTime($date_fin));
+        $getChambreSinglePrixPerHotel=$chambreRepository->getChambreSinglePrixPerHotel( $voyage->getHotel()->getId());
+
+
+
+        $reservation->setToken("");
+        $reservation->setConfirme("confirme");
+        $reservation->setDateDebut(new \DateTime($date_debut));
+        $reservation->setDateFin(new \DateTime($date_fin));
+        $reservation->setNbAdulte($nbadultes);
+        $reservation->setNbEnfants($nbenfants);
+        $reservation->setHotel(null);
+        $reservation->setClient($client);
+        $reservation->setVoyage($voyage);
+        $reservation->setTransport(null);
+
+        $reservation->setPrix($getChambreSinglePrixPerHotel[0]['prix']*$diff->days+$voyage->getPrixPersonne()*$nb);
+
+        $reservation->setType("reservation voyage");
+        $reservation->setNbChambreSingleReserve($nbsingle);
+        $reservation->setNbChambreDoubleReserve($nbdouble);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($reservation);
+        $entityManager->flush();
+
+       /* $chambreAaffecteRes = $chambreRepository->getChambresDoubleWithLimit($hotel_id, $nbchambre2);
+        foreach ($chambreAaffecteRes as $res) {
+            $room = $chambreRepository->find($res->getId());
+            $room->setReservation($reservation);
+            $room->setOccupe('occupe');
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($room);
+            $entityManager->flush();
+        }
+
+        $chambreAaffecteRes = $chambreRepository->getChambresSingleWithLimit($hotel_id, $nbchambre);
+        foreach ($chambreAaffecteRes as $res) {
+            $room = $chambreRepository->find($res->getId());
+            $room->setReservation($reservation);
+            $room->setOccupe('occupe');
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($room);
+            $entityManager->flush();
+        }
+
+*/
+
+        $formatted = $serializer->normalize($reservation);
+
+
+        $json = $serializer->serialize($reservation, 'json');
+
+        return new JsonResponse($formatted);
+    }
+
+
+
+    /**
+     * @Route("/wiw/resapi/hotel", name="AjoutReservationhotelapi")
+     */
+    public function AjoutReservationHotelapi(SerializerInterface $serializer,VoyageRepository $voyageRepository,ReservationRepository $reservationRepository, HotelRepository $hotelRepository, ClientRepository $clientRepository, Request $request, ChambreRepository $chambreRepository): Response
+    {
+
+
+        $date_debut = $request->query->get("date_debut");
+        $date_fin = $request->query->get("date_fin");
+
+        $nbadultes = $request->query->get("nbadultes");
+        $nbenfants = $request->query->get("nbenfants");
+        $nbsingle = $request->query->get("nbsingle");
+        $nbdouble = $request->query->get("nbdouble");
+        $hotel_id = $request->query->get("hotel_id");
+
+        $nb=$nbadultes+$nbenfants;
+
+        // $voyage = new Voyage();
+
+        $nbchambreDoubleDispo = $chambreRepository->NbChambreDoubleDispo($hotel_id);
+        $reservation = new Reservation();
+        $client = $clientRepository->find(1);
+        $hotel = $hotelRepository->find($hotel_id);
+
+        $nbchambreSingleDispo = $chambreRepository->NbChambreSingleDispo(  $hotel_id);
+
+
+        $diff = date_diff(new \DateTime($date_debut), new \DateTime($date_fin));
+
+
+
+        $getChambreSinglePrixPerHotel=$chambreRepository->getChambreSinglePrixPerHotel( $hotel_id);
+
+        $reservation->setToken("");
+        $reservation->setConfirme("confirmé");
+        $reservation->setDateDebut(new \DateTime($date_debut));
+        $reservation->setDateFin(new \DateTime($date_fin));
+        $reservation->setNbAdulte($nbadultes);
+        $reservation->setNbEnfants($nbenfants);
+        $reservation->setHotel($hotel);
+        $reservation->setClient($client);
+        $reservation->setVoyage(null);
+        $reservation->setTransport(null);
+        if ($diff->d == 0) {
+            $reservation->setPrix(1 * (($nbchambreDoubleDispo['0']['0']->getPrix() * $nbdouble) + ($nbchambreSingleDispo['0']['0']->getPrix() * $nbsingle)));
+
+        } else {
+            $reservation->setPrix($diff->d * (($nbchambreDoubleDispo['0']['0']->getPrix() * $nbdouble) + ($nbchambreSingleDispo['0']['0']->getPrix() * $nbsingle)));
+
+        }
+        $reservation->setType("reservation hotel");
+        $reservation->setNbChambreSingleReserve($nbsingle);
+        $reservation->setNbChambreDoubleReserve($nbdouble);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($reservation);
+        $entityManager->flush();
+
+        /* $chambreAaffecteRes = $chambreRepository->getChambresDoubleWithLimit($hotel_id, $nbchambre2);
+         foreach ($chambreAaffecteRes as $res) {
+             $room = $chambreRepository->find($res->getId());
+             $room->setReservation($reservation);
+             $room->setOccupe('occupe');
+             $entityManager = $this->getDoctrine()->getManager();
+             $entityManager->persist($room);
+             $entityManager->flush();
+         }
+
+         $chambreAaffecteRes = $chambreRepository->getChambresSingleWithLimit($hotel_id, $nbchambre);
+         foreach ($chambreAaffecteRes as $res) {
+             $room = $chambreRepository->find($res->getId());
+             $room->setReservation($reservation);
+             $room->setOccupe('occupe');
+             $entityManager = $this->getDoctrine()->getManager();
+             $entityManager->persist($room);
+             $entityManager->flush();
+         }
+
+ */
+
+        $formatted = $serializer->normalize($reservation);
+
+
+        $json = $serializer->serialize($reservation, 'json');
+
+        return new JsonResponse($formatted);
+    }
+
+
+    /**
+     * @Route("/wiw/api/listewiwapi", name="listeres", methods={"GET"})
+     */
+    public function liste(ReservationRepository $reservationRepository,VoyageRepository $articlesRepo,SerializerInterface $serializer)
+    {
+        // On récupère la liste des articles
+        $articles = $reservationRepository->apiFindAll();
+
+        // On spécifie qu'on utilise l'encodeur JSON
+        $encoders = [new JsonEncoder()];
+
+        // On instancie le "normaliseur" pour convertir la collection en tableau
+        $normalizers = [new ObjectNormalizer()];
+
+        // On instancie le convertisseur
+        $serializer = new \Symfony\Component\Serializer\Serializer($normalizers, $encoders);
+
+        // On convertit en json
+        $jsonContent = $serializer->serialize($articles, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+
+        // On instancie la réponse
+        $response = new Response($jsonContent);
+
+        // On ajoute l'entête HTTP
+        $response->headers->set('Content-Type', 'application/json');
+
+        // On envoie la réponse
+        return $response;
+
+    }
+
+
+
+    /**
+     * @Route("/wiw/api/listewiwapifilter", name="erer", methods={"GET"})
+     */
+    public function liste5(Request $request,ReservationRepository $reservationRepository,VoyageRepository $articlesRepo,SerializerInterface $serializer)
+    {   $id = $request->get("id");
+        // On récupère la liste des articles
+        $articles = $reservationRepository->apiFindAllfilter($id);
+
+        // On spécifie qu'on utilise l'encodeur JSON
+        $encoders = [new JsonEncoder()];
+
+        // On instancie le "normaliseur" pour convertir la collection en tableau
+        $normalizers = [new ObjectNormalizer()];
+
+        // On instancie le convertisseur
+        $serializer = new \Symfony\Component\Serializer\Serializer($normalizers, $encoders);
+
+        // On convertit en json
+        $jsonContent = $serializer->serialize($articles, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getId();
+            }
+        ]);
+
+        // On instancie la réponse
+        $response = new Response($jsonContent);
+
+        // On ajoute l'entête HTTP
+        $response->headers->set('Content-Type', 'application/json');
+
+        // On envoie la réponse
+        return $response;
+
+    }
+    /**
+     * @Route("/wiw/api/detailresapi", name="listeresdetail", methods={"GET"})
+     */
+    //Detail Reclamation
+    public function detailReclamationAction(Request $request,ReservationRepository $voyageRepository)
+    {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        // $voyage = $this->getDoctrine()->getManager()->getRepository(Voyage::class)->find($id);
+        $voyage =$voyageRepository->resdetail($id);
+
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $serializer = new \Symfony\Component\Serializer\Serializer([$normalizer], [$encoder]);
+        $formatted = $serializer->normalize($voyage);
+        return new JsonResponse($formatted);
+    }
+
+    /**
+     * @Route("/wiw/api/delres", name="delteresapi",methods={"DELETE"})
+     */
+
+    public function suppresapiee(Request $request) {
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $reclamation = $em->getRepository(Reservation::class)->find($id);
+        if($reclamation!=null ) {
+            $em->remove($reclamation);
+            $em->flush();
+
+            $serialize = new \Symfony\Component\Serializer\Serializer([new ObjectNormalizer()]);
+            $formatted = $serialize->normalize("Reclamation a ete supprimee avec success.");
+            return new JsonResponse($formatted);
+
+        }
+        return new JsonResponse("id reclamation invalide.");
+
+
+    }
+
+    /**
+     * @Route("/wiw/api/stats", name="lststatsapi", methods={"GET"})
+     */
+    public function stats(ReservationRepository $reservationRepository,VoyageRepository $articlesRepo,SerializerInterface $serializer)
+    {
+        $reclamation = $this->getDoctrine()->getManager()->getRepository(Reservation::class)->apiHotelsstats();
+        $serialize = new \Symfony\Component\Serializer\Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($reclamation);
+
+        return new JsonResponse($formatted);
+
+    }
+
+
 }
