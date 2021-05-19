@@ -1,0 +1,272 @@
+{% extends 'backoffice.html.twig' %}
+{% block title %}Paiement  étape 1{% endblock %}
+
+{% block body %}
+
+
+
+
+
+
+
+    <body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation-->
+
+    <!-- /Navigation-->
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Plateforme de Mise à jour </li>
+            </ol>
+            <!-- Example DataTables Card-->
+            <div class="bg_color_1">
+                <div class="container margin_60_35">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="box_cart">
+                                <div class="message">
+                                    {{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+                                    <p>Plateforme de Mise à jour <a href="#0"> Paiement Enline </a></p>
+                                </div>
+                                <div class="form_title">
+                                    <h3><strong>Step 1 : </strong> Your Identity & Your Payment informations</h3>
+                                    <p>
+                                        payez vos facture en ligne & profitez d'un paiement sécurisé
+                                    </p>
+                                </div>
+                                <div class="step">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>ID-N'Passeport :</label>
+                                                {{ form_widget(form.identifiant)}}
+                                                {{ form_errors(form.identifiant) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Montant de facture à payer :</label>
+                                                {{ form_widget(form.montant) }}
+                                                {{ form_errors(form.montant) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Date de paiement :</label>
+                                                {{ form_widget(form.date_paiement) }}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>votre Pays :</label>
+                                                {{ form_widget(form.pays) }}
+                                                <div class="alert-secondary">
+                                                    {{ form_errors(form.pays) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Devise relatif à votre pays :</label>
+                                                {{ form_widget(form.devise) }}
+                                                {{ form_errors(form.devise) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Moyen de paiement :</label>
+                                                {{ form_widget(form.moyen_paiement) }}
+                                                {{ form_errors(form.moyen_paiement) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Mode de paiement :</label>
+                                                {{ form_widget(form.mode_paiement) }}
+                                                {{ form_errors(form.mode_paiement) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <!--End step -->
+
+                                <div class="form_title">
+                                  {# <h3><strong>Step 2 : </strong> Card Bank Informations</h3>
+                                    <p>
+                                        Relatif au Choix de paiement On-ligne.
+                                    </p>  #}
+                                </div>
+                                <div class="step">
+                                    <div class="form-group">
+                                      {#  <label>Numéro de Carte Bancaire</label>
+                                        {{ form_widget(form.Ncb) }} #}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                              {#   <label>Type de Carte Bancaire</label>
+                                                {{ form_widget(form.typeCB)}} #}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+
+                                            <img src="{{ asset('img/cards_all.svg') }}"alt="Cards" class="cards-payment">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                           {# <label>Date d'expiration :</label>
+                                            {{ form_widget(form.date_expiration) }}  #}
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                          {#  <label>Code de securite :</label> #}
+
+                                            <div class="col-4">
+
+                                           {#     {{ form_widget(form.code_securite) }} <p> </p> <img src="{{ asset('img/icon_ccv.gif') }}" width="50" height="29" alt="ccv"><small>Last 3 digits</small> #}
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--End row -->
+
+                        <hr>
+
+
+                        <p>
+
+                        </p>
+                        <p>
+
+                            <a href="#0"><img src="{{ asset('img/paypal_bt.png') }}" alt="Image"></a>
+                        </p>
+                    </div>
+                    <hr>
+                    <!--End step -->
+
+                    <div class="form_title">
+                        <h3><strong>Step 3 : </strong> Oxyvia Tours Address</h3>
+                        <p>
+                            Relatif au Choix de paiement hors-ligne.
+                        </p>
+                    </div>
+                    <div class="step">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Location de OxyviaTours agency :</label>
+                                    <div class="custom-select-form">
+                                       {#  {{ form_widget(form.location) }} #}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Cette facture a était payée?!  :</label>
+                                    <div class="custom-select-form">
+                                        {{ form_widget(form.enabled) }}
+                                        {{ form_widget(form.color)  }}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br></br>
+                    <div class="text-center"><input type="submit" value="Update & sauvegard" class="btn_1 full-width"></div>
+                    {{ form_rest(form) }}
+                    {{ form_end(form) }}
+                    <!--End row -->
+                </div>
+                <hr>
+
+                <!--End step -->
+
+            </div>
+            <!-- /tables-->
+        </div>
+        <!-- /container-fluid-->
+    </div>
+    <!-- /container-wrapper-->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">Ã—</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="vendor/jquery.selectbox-0.2.js"></script>
+    <script src="vendor/retina-replace.min.js"></script>
+    <script src="vendor/jquery.magnific-popup.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/admin.js"></script>
+    <!-- Custom scripts for this page-->
+    <script src="js/admin-datatables.js"></script>
+
+    </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

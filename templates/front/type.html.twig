@@ -1,0 +1,55 @@
+{% extends 'header.html.twig' %}
+{% block title %}Hotel{% endblock %}
+{% block body %}
+    {% for chambre in chambres %}
+        <div class="room_type first">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ asset('ftp upload/' ~ chambre.image) }}" class="img-fluid" alt="">
+                </div>
+                <div class="col-md-8">
+                    <h4>{{ chambre.type }}</h4>
+                    {% if chambre.type=="Chambre Single" %}
+                    <ul class="hotel_facilities">
+                        <li><img src="img/hotel_facilites_icon_2.svg" alt="">Single Bed</li>
+                        <li><img src="img/hotel_facilites_icon_4.svg" alt="">Free Wifi</li>
+                        <li><img src="img/hotel_facilites_icon_5.svg" alt="">Shower</li>
+                        <li><img src="img/hotel_facilites_icon_7.svg" alt="">Air Condition</li>
+                        <li><img src="img/hotel_facilites_icon_8.svg" alt="">Hairdryer</li>
+                    </ul>
+                    {% elseif chambre.type=="Chambre Double" %}
+                        <ul class="hotel_facilities">
+                            <li><img src="img/hotel_facilites_icon_3.svg" alt="">Double Bed</li>
+                            <li><img src="img/hotel_facilites_icon_4.svg" alt="">Free Wifi</li>
+                            <li><img src="img/hotel_facilites_icon_6.svg" alt="">Bathtub</li>
+                            <li><img src="img/hotel_facilites_icon_7.svg" alt="">Air Condition</li>
+                            <li><img src="img/hotel_facilites_icon_8.svg" alt="">Hairdryer</li>
+                        </ul>
+                        {% elseif chambre.type=="Chambre Triple"  %}
+                            <ul class="hotel_facilities">
+                                <li><img src="img/hotel_facilites_icon_2.svg" alt="">Single Bed</li>
+                                <li><img src="img/hotel_facilites_icon_3.svg" alt="">Double Bed</li>
+                                <li><img src="img/hotel_facilites_icon_4.svg" alt="">Free Wifi</li>
+                                <li><img src="img/hotel_facilites_icon_6.svg" alt="">Bathtub</li>
+                                <li><img src="img/hotel_facilites_icon_7.svg" alt="">Air Condition</li>
+                                <li><img src="img/hotel_facilites_icon_8.svg" alt="">Hairdryer</li>
+                            </ul>
+                            {% else %}
+                                <ul class="hotel_facilities">
+                                    <li><img src="img/hotel_facilites_icon_3.svg" alt="">King size Bed</li>
+                                    <li><img src="img/hotel_facilites_icon_4.svg" alt="">Free Wifi</li>
+                                    <li><img src="img/hotel_facilites_icon_6.svg" alt="">Bathtub</li>
+                                    <li><img src="img/hotel_facilites_icon_7.svg" alt="">Air Condition</li>
+                                    <li><img src="img/hotel_facilites_icon_9.svg" alt="">Swimming pool</li>
+                                    <li><img src="img/hotel_facilites_icon_3.svg" alt="">Hairdryer</li>
+                                </ul>
+                                {% endif %}
+                    <a href="" class="btn btn-primary align-items-center" style="margin-bottom: 50px">Réserver</a>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /rom_type -->
+    {% endfor %}
+
+{% endblock %}

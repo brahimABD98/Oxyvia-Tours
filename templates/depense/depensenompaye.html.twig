@@ -1,0 +1,175 @@
+{% extends 'backoffice.html.twig' %}
+{% block title %}Dépense  étape 1{% endblock %}
+
+{% block body %}
+
+
+    <body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation-->
+
+    <!-- /Navigation-->
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active"><icon class="checked" >paid Salary list</li>
+            </ol>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <div class="box_general">
+                    <div class="row">
+
+
+                        <div class="col-sm-6">
+                            <div class="box_general">
+                                <div class="header_box">
+                                    <h2 class="d-inline-block">Paid $alary list</h2>
+                                    <div class="filter">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <form method="post" action="{{ path('Search_Listpayee') }}">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label><i class="fa fa-search"></i> Search </label>
+                                        <input class="form-control" type="text" name="recherche" placeholder="Any info...">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label> </label>
+                                        <input type="submit" value="Search" class="btn-danger">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <li><a href="{{ path('showDepense') }}" class="btn_1 gray delete"><i class="fa fa-fw fa-times-circle-o"></i> Return</a></li>
+                        </ul>
+
+                    </div>
+                    {% for message in app.flashes('send') %}
+                        <div class="alert-info" role="alert" style="font-size:150%;"  >
+                            <svg class="glyph stroked checkmark"><use xlink:href="#stroked-checkmark"></use></svg>
+                            {{message}} <a href="#" class ="mr-5" style="font-size:50%;"><span class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    {% endfor %}
+
+                    <div class="list_general">
+                        {% for d in depense %}
+                        <ul>
+
+                            <li>
+
+
+                                <h4>paid Depense <i class="approved"><i class="fa fa-fw fa-check-circle-o"></i>done</i></h4>
+                                <ul class="booking_list">
+
+                                    <li><strong> Image : </strong>  <img src ="{{ asset('uploads/images/'~d.getPicture() ) }}" height="100px" width="100px"></li>          </li>
+                                    <li><strong>Depense N: </strong> {{ d.getId() }}</li>
+                                    <li><strong>ID Employeer:</strong> {{ d.getIdPersonnel().getIdPersonnel()}} </li>
+                                    <li><strong>Nom:</strong> {{ d.getNom() }}</li>
+                                    <li><strong>Prenom:</strong> {{ d.getPrenom() }}</li>
+                                    <li><strong>Occupation:</strong> {{ d.getOccupation()}} </li>
+                                    <li><strong>Salaire annuel:</strong> {{ d.getSalaire()}} </li>
+                                    <li><strong>Taux horaire réguliére:</strong> {{ d.getHoraireReguliere() }}</li>
+                                    <li><strong>Taux horaire d'heure suplimentaire :</strong> {{ d.getHoraireSup() }}</li>
+                                    <li><strong>Exempté d'heure suplimentaire :</strong> {{ d.getExempte() }}</li>
+                                    <li><strong>Date de dépense:</strong> {{ d.getDateDepense() }}</li>
+
+                                </ul>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <a href="{{ path('contact2') }}" class="btn_1 gray"><i class="fa fa-fw fa-envelope"></i> Send Message</a>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <a href="{{ path('pdf',{'id':d.id}) }}" class="btn_1 gray delete"><i class="fa fa-fw fa-print"></i> Imprimer</a>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+
+
+
+
+
+
+                                <ul class="buttons">
+
+                                </ul>
+                            </li>
+                            {% endfor %}
+
+
+                        </ul>
+                    </div>
+                </div>
+            </table>
+            <!-- /box_general-->
+
+            <!-- /pagination-->
+        </div>
+        <!-- /container-fluid-->
+    </div>
+    <!-- /container-wrapper-->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="vendor/jquery.selectbox-0.2.js"></script>
+    <script src="vendor/retina-replace.min.js"></script>
+    <script src="vendor/jquery.magnific-popup.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/admin.js"></script>
+
+    </body>
+
+
+
+{% endblock %}

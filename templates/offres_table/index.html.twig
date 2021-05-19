@@ -1,0 +1,98 @@
+ {% extends 'backoffice.html.twig' %}
+
+{% block title %}OffresTable index{% endblock %}
+
+{% block body %}
+
+    <h1 style="margin-left: 50%">offres</h1>
+    <input type="text" id="search" class="form-control" placeholder="Search"style="width: 30%;margin-left: 25%">
+
+    <form action=""> <input type="submit"value="send"></form>
+    <table class="table" id="t" style="margin-left: 20%;width: 80%">
+        <thead>
+
+        <div style="margin-left:25%;margin-top: 5%">
+
+        </div>
+            <tr>
+                <th>Id</th>
+                <th>IdOffres</th>
+                <th>Nom</th>
+                <th>Date_debut</th>
+                <th>Date_fin</th>
+                <th>Sujet</th>
+                <th>Prix</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody id="all">
+        {% for offres_table in offres_tables %}
+            <tr>
+                <td>{{ offres_table.id }}</td>
+                <td>{{ offres_table.IdOffres }}</td>
+                <td>{{ offres_table.nom }}</td>
+                <td>{{ offres_table.date_debut|date("m/d/Y") }}</td>
+                <td>{{ offres_table.date_fin |date("m/d/Y")}}</td>
+                <td>{{ offres_table.sujet }}</td>
+                <td>{{ offres_table.prix }}</td>
+                <td>
+                    <a href="{{ path('offres_table_show', {'id': offres_table.id}) }}">show</a>
+                    <a href="{{ path('offres_table_edit', {'id': offres_table.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tbody id="search">
+
+        </tbody>
+    </table>
+    <div style="margin-left: 25%">{{ knp_pagination_render(offres_tables) }}</div>
+ <div style="margin-left:25%;margin-top: 5%">
+    <a href="{{ path('offres_table_new') }}">Create new</a>
+ </div>
+{% endblock %}
+
+ {% block js %}
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+     </script>
+     <script>
+         $( document ).ready(function() {
+             $("#search").keyup(function(o){
+                 /* La variable value va prendre la valeur insérer dans le champ de texte afin d’effectuer la recherche */
+                 var value = $(this).val();
+                 /* Ajax est lancé lors du remplissage du champ texte dont l’id est « search » pour faire la recherche */
+                 $.ajax({
+                     /* l’url est une chaine de caractères contenant l’adresse où la requête est envoyée */
+                     url : "{{ path('searchOffre') }}",
+                     /* La méthode utilisée pour transférer les données est GET */
+                     type : 'GET',
+                     /*Ici search value va prendre la chaine entrée par un utilisateur dans la zone de recherche et sera placée après l’url */
+                     data: {
+                         'searchValue' : value
+                     },
+                     /*Cette fonction permet de vider le contenu du tableau pour recevoir le nouveau contenu*/
+                     success : function(retour){
+                         if(retour){
+                             $('#t tbody#search').empty();
+                             $.each(JSON.parse(retour), function(i, obj) {
+                                 $('#t tbody#all').hide();
+                                 $('#t tbody#search').append('<tr><td> '+obj.id+'  </td><td> '+obj.IdOffres+'  </td><td> '+obj.nom+'  </td><td>    '+new Date(obj.date_debut).getFullYear()+'-'+new Date(obj.date_debut).getMonth()+'-'+new Date(obj.date_debut).getDate()+' </td><td>    '+new Date(obj.date_fin).getFullYear()+'-'+new Date(obj.date_fin).getMonth()+'-'+new Date(obj.date_fin).getDate()+' </td><td> '+obj.sujet+'  </td><td> '+obj.prix+'  </td><td><a href="offres_table_show/'+obj.id+' ">show</a></td><td><a href="offres_table_edit/'+obj.id+'/edit">edit</a></td></tr>');
+                             });
+                         }
+                         else
+                         {
+                             $('#t tbody#all').show();
+                             $('#t tbody#search').empty();
+                             $('#t tbody#search').fadeIn('fast');
+                         }
+                     },
+                 });
+                 return false;
+             });
+         });
+     </script>
+ {%  endblock %}

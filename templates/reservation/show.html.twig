@@ -1,42 +1,60 @@
-{% extends 'base.html.twig' %}
+
+
+
+
+{% extends 'backoffice.html.twig' %}
 
 {% block title %}Reservation{% endblock %}
 
 {% block body %}
-    <h1>Reservation</h1>
+    <h1>Voyage</h1>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Liste des reservations</li>
+            </ol>
+            <div class="box_general">
+                <div class="header_box">
+                    <h2 class="d-inline-block">Supression d'une reservations</h2>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ reservation.id }}</td>
-            </tr>
-            <tr>
-                <th>Date_debut</th>
-                <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date_fin</th>
-                <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ reservation.prix }}</td>
-            </tr>
-            <tr>
-                <th>Nb_personne</th>
-                <td>{{ reservation.nbPersonne }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ reservation.type }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('reservation_index') }}">back to list</a>
+                </div>
+                <div class="list_general">
+                    <ul>
+                        <li>
+                            <figure><img src="img/item_1.jpg" alt=""></figure>
+                            <ul class="booking_list">
+                                <li><strong>Hotel</strong> {{ reservation.hotel.name}}</li>
+                                <li><strong>Date debut</strong> {{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</li>
+                                <li><strong>Date fin</strong> {{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</li>
+                                <li><strong>Prix</strong>{{ reservation.prix }}</li>
+                                <li><strong>Nombre d'adultes </strong>{{ reservation.nbadulte}}</li>
+                                <li><strong>Nombre d'enfants </strong>{{ reservation.nbenfants}}</li>
+                                {% if reservation.type=='reservation voyage'  %}
+                                    <li><strong>Nom du voyage</strong> {{ reservation.voyage.ville}}</li>
+                                    <li><strong>ville</strong> {{ reservation.voyage.nom}}</li>
 
-    <a href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
+                                {% endif %}
 
-    {{ include('reservation/_delete_form.html.twig') }}
+                            </ul>
+
+                            {{ include('reservation/_delete_form.html.twig') }}
+
+
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <!-- /box_general-->
+        </div>
+        <!-- /container-fluid-->
+    </div>
+
+
+
 {% endblock %}

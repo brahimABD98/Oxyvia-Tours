@@ -1,50 +1,52 @@
-{% extends 'base.html.twig' %}
+{% extends 'backoffice.html.twig' %}
 
 {% block title %}Voyage{% endblock %}
 
 {% block body %}
     <h1>Voyage</h1>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Liste des voyages</li>
+            </ol>
+            <div class="box_general">
+                <div class="header_box">
+                    <h2 class="d-inline-block">Supression d'un voyage</h2>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ voyage.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ voyage.nom }}</td>
-            </tr>
-            <tr>
-                <th>Ville</th>
-                <td>{{ voyage.ville }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ voyage.description }}</td>
-            </tr>
-            <tr>
-                <th>Date_debut</th>
-                <td>{{ voyage.dateDebut ? voyage.dateDebut|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date_fin</th>
-                <td>{{ voyage.dateFin }}</td>
-            </tr>
-            <tr>
-                <th>PrixPersonne</th>
-                <td>{{ voyage.prixPersonne }}</td>
-            </tr>
-            <tr>
-                <th>Nb_personne</th>
-                <td>{{ voyage.nbPersonne }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('voyage_index') }}">back to list</a>
+                </div>
+                <div class="list_general">
+                    <ul>
+                        <li>
+                            <figure><img src="img/item_1.jpg" alt=""></figure>
+                            <ul class="booking_list">
+                                <li><strong>ID</strong> {{ voyage.id }}</li>
+                                <li><strong>Nom</strong> {{ voyage.nom }}</li>
+                                <li><strong>Ville</strong> {{ voyage.ville }}</li>
+                                <li><strong>description</strong>{{ voyage.description }}</li>
+                                <li><strong>Date debut</strong>{{  voyage.dateDebut ? voyage.dateDebut|date('Y-m-d') : '' }}</li>
+                                <li><strong>Date fin</strong> {{ voyage.dateFin |date('Y-m-d')}}</li>
+                                <li><strong>prix Personne</strong>{{ voyage.prixPersonne }}</li>
+                                <li><strong>nombre de Personne</strong> {{ voyage.nbPersonne }}</li>
+                            </ul>
 
-    <a href="{{ path('voyage_edit', {'id': voyage.id}) }}">edit</a>
+                            {{ include('voyage/_delete_form.html.twig') }}
 
-    {{ include('voyage/_delete_form.html.twig') }}
+
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <!-- /box_general-->
+        </div>
+        <!-- /container-fluid-->
+    </div>
+
+
+
 {% endblock %}

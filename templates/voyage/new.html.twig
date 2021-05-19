@@ -1,193 +1,25 @@
 {% extends 'backoffice.html.twig' %}
+
 {% block title %} Ajout!{% endblock %}
 
 
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top" id="mainNav">
-        <a class="navbar-brand" href="index.html"><img src="img/logo.png" data-retina="true" alt="" width="150" height="36"></a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-                    <a class="nav-link" href="index.html">
-                        <i class="fa fa-fw fa-dashboard"></i>
-                        <span class="nav-link-text">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Messages">
-                    <a class="nav-link" href="messages.html">
-                        <i class="fa fa-fw fa-envelope-open"></i>
-                        <span class="nav-link-text">Messages</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="" data-original-title="Bookings">
-                    <a class="nav-link" href="bookings.html">
-                        <i class="fa fa-fw fa-calendar-check-o"></i>
-                        <span class="nav-link-text">Bookings <span class="badge badge-pill badge-primary">6 New</span></span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My listings">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMylistings" data-parent="#mylistings">
-                        <i class="fa fa-fw fa-list"></i>
-                        <span class="nav-link-text">My listings</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseMylistings">
-                        <li>
-                            <a href="listings.html">Pending <span class="badge badge-pill badge-primary">6</span></a>
-                        </li>
-                        <li>
-                            <a href="listings.html">Active <span class="badge badge-pill badge-success">6</span></a>
-                        </li>
-                        <li>
-                            <a href="listings.html">Expired <span class="badge badge-pill badge-danger">6</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Reviews">
-                    <a class="nav-link" href="reviews.html">
-                        <i class="fa fa-fw fa-star"></i>
-                        <span class="nav-link-text">Reviews</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Bookmarks">
-                    <a class="nav-link" href="bookmarks.html">
-                        <i class="fa fa-fw fa-heart"></i>
-                        <span class="nav-link-text">Bookmarks</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Add listing">
-                    <a class="nav-link" href="add-listing.html">
-                        <i class="fa fa-fw fa-plus-circle"></i>
-                        <span class="nav-link-text">Add listing</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="My profile">
-                    <a class="nav-link" href="user-profile.html">
-                        <i class="fa fa-fw fa-user"></i>
-                        <span class="nav-link-text">My Profile</span>
-                    </a>
-                </li>
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#Components">
-                        <i class="fa fa-fw fa-gear"></i>
-                        <span class="nav-link-text">Components</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseComponents">
-                        <li>
-                            <a href="charts.html">Charts</a>
-                        </li>
-                        <li>
-                            <a href="tables.html">Tables</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="navbar-nav sidenav-toggler">
-                <li class="nav-item">
-                    <a class="nav-link text-center" id="sidenavToggler">
-                        <i class="fa fa-fw fa-angle-left"></i>
-                    </a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-fw fa-envelope"></i>
-                        <span class="d-lg-none">Messages
-              <span class="badge badge-pill badge-primary">12 New</span>
-            </span>
-                        <span class="indicator text-primary d-none d-lg-block">
-              <i class="fa fa-fw fa-circle"></i>
-            </span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="messagesDropdown">
-                        <h6 class="dropdown-header">New Messages:</h6>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                            <strong>David Miller</strong>
-                            <span class="small float-right text-muted">11:21 AM</span>
-                            <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!</div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                            <strong>Jane Smith</strong>
-                            <span class="small float-right text-muted">11:21 AM</span>
-                            <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!</div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                            <strong>John Doe</strong>
-                            <span class="small float-right text-muted">11:21 AM</span>
-                            <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item small" href="#">View all messages</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-fw fa-bell"></i>
-                        <span class="d-lg-none">Alerts
-              <span class="badge badge-pill badge-warning">6 New</span>
-            </span>
-                        <span class="indicator text-warning d-none d-lg-block">
-              <i class="fa fa-fw fa-circle"></i>
-            </span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="alertsDropdown">
-                        <h6 class="dropdown-header">New Alerts:</h6>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-              <span class="text-success">
-                <strong>
-                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
-              </span>
-                            <span class="small float-right text-muted">11:21 AM</span>
-                            <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-              <span class="text-danger">
-                <strong>
-                  <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
-              </span>
-                            <span class="small float-right text-muted">11:21 AM</span>
-                            <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-              <span class="text-success">
-                <strong>
-                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
-              </span>
-                            <span class="small float-right text-muted">11:21 AM</span>
-                            <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item small" href="#">View all alerts</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <form class="form-inline my-2 my-lg-0 mr-lg-2">
-                        <div class="input-group">
-                            <input class="form-control search-top" type="text" placeholder="Search for...">
-                            <span class="input-group-btn">
-                <button class="btn btn-primary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
-                        </div>
-                    </form>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-                        <i class="fa fa-fw fa-sign-out"></i>Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+
+    <style>
+        .custom-file-input {
+            opacity: 1;
+        }
+        .modal-backdrop {
+            /* bug fix - no overlay */
+            display: none;
+            background-color: #000;
+        }
+    </style>
+
+
     <!-- /Navigation-->
     <div class="content-wrapper">
         <div class="container-fluid">
@@ -198,496 +30,140 @@
                 </li>
                 <li class="breadcrumb-item active">Add listing</li>
             </ol>
-            <div class="box_general padding_bottom">
-                <div class="header_box version_2">
-                    <h2><i class="fa fa-file"></i>Basic info</h2>
+
+
+
+
+            <div class="box_general padding_bottom" height="1500px">
+                <div class="header_box version_2" >
+                    <h2><i class="fa fa-file"></i>Ajouter un voyage</h2>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Listing Title</label>
-                            <input type="text" class="form-control" placeholder="Hotel Mariott">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Category</label>
-                            <div class="styled-select">
-                                <select>
-                                    <option>Tour</option>
-                                    <option>Hotel</option>
-                                    <option>Restaurant</option>
-                                    <option>Bar</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+
+
+
+
+                {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+
+                <div class="form-group">
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom) }}
                 </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Keywords</label>
-                            <input type="text" class="form-control" placeholder="Keywords should be separated by commas">
-                        </div>
-                    </div>
+                <div class="form-group">
+
+                    {{ form_label(form.ville) }}
+                    {{ form_widget(form.ville) }}
                 </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Description</label>
-                            <div class="editor"></div>
-                        </div>
-                    </div>
+
+    <div class="form-group">
+
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description) }}
+    </div>
+
+
+
+    <div class="form-group">
+
+                    {{ form_label(form.date_debut) }}
+                    {{ form_widget(form.date_debut) }}
+    </div>
+
+    <div class="form-group">
+
+                    {{ form_label(form.date_fin) }}
+                    {{ form_widget(form.date_fin) }}
+    </div>
+
+    <div class="form-group">
+
+                    {{ form_label(form.prixPersonne) }}
+                    {{ form_widget(form.prixPersonne) }}
+    </div>
+
+    <div class="form-group">
+
+                    {{ form_label(form.nb_personne) }}
+                    {{ form_widget(form.nb_personne) }}
+    </div>
+
+                <div class="form-group">
+
+                    {{ form_label(form.image) }}
+                    {{ form_widget(form.image) }}
                 </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Phone (Optional)</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Web site (Optional)</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Email (Optional)</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
+
+                <div class="form-group">
+
+                    {{ form_label(form.hotel) }}
+                    {{ form_widget(form.hotel) }}
                 </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Facebook link (Optional)</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Twitter link (Optional)</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Google + (Optional)</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
+
+                <div class="form-group">
+
+                    {{ form_label(form.transport) }}
+                    {{ form_widget(form.transport) }}
+
+
                 </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Photos</label>
-                            <form action="/file-upload" class="dropzone"></form>
+
+
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm ">
+                            <label>  Place 1</label>
+                            <input type="text" id="place1" name="place1">
+
+                            <label>  atitude</label>
+                            <input type="text" id="att1" name="att1">
+
+                            <label>  longitude</label>
+                            <input type="text" id="long1" name="long1">
                         </div>
+
                     </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <label>  Place 2</label>
+                            <input type="text" id="place2" name="place2">
+                            <label>  atitude</label>
+
+                            <input type="text" id="att2" name="att2">
+                            <label>  longitude</label>
+
+                            <input type="text" id="long2" name="long2">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <label>  Place 3</label>
+                            <input type="text" id="place3" name="place3">
+                            <label>  atitude</label>
+
+                            <input type="text" id="att3" name="att3">
+                            <label>  longitude</label>
+
+                            <input type="text" id="long3" name="long3">
+                        </div>
+
+                    </div>
+
                 </div>
-                <!-- /row-->
             </div>
+
+
+
+
             <!-- /box_general-->
+            <button type="submit" class="btn_1 medium" >Sauvegarder</button>
+            {{ form_end(form) }}
 
-            <div class="box_general padding_bottom">
-                <div class="header_box version_2">
-                    <h2><i class="fa fa-map-marker"></i>Location</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Select City</label>
-                            <div class="styled-select">
-                                <select>
-                                    <option>Miami</option>
-                                    <option>New York</option>
-                                    <option>Los Angeles</option>
-                                    <option>San Francisco</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Address</label>
-                            <input type="text" class="form-control" placeholder="ex. 250, Fifth Avenue...">
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>State</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Zip Code</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-            </div>
-            <!-- /box_general-->
-
-            <div class="box_general padding_bottom">
-                <div class="header_box version_2">
-                    <h2><i class="fa fa-clock-o"></i>Opening</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <label class="fix_spacing">Monday</label>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <div class="styled-select">
-                                <select>
-                                    <option>Opening Time</option>
-                                    <option>Closed</option>
-                                    <option>1 AM</option>
-                                    <option>2 AM</option>
-                                    <option>3 AM</option>
-                                    <option>4 AM</option>
-                                    <option>5 AM</option>
-                                    <option>6 AM</option>
-                                    <option>7 AM</option>
-                                    <option>8 AM</option>
-                                    <option>9 AM</option>
-                                    <option>10 AM</option>
-                                    <option>11 AM</option>
-                                    <option>12 AM</option>
-                                    <option>1 PM</option>
-                                    <option>2 PM</option>
-                                    <option>3 PM</option>
-                                    <option>4 PM</option>
-                                    <option>5 PM</option>
-                                    <option>6 PM</option>
-                                    <option>7 PM</option>
-                                    <option>8 PM</option>
-                                    <option>9 PM</option>
-                                    <option>10 PM</option>
-                                    <option>11 PM</option>
-                                    <option>12 PM</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <div class="styled-select">
-                                <select>
-                                    <option>Closing Time</option>
-                                    <option>Closed</option>
-                                    <option>1 AM</option>
-                                    <option>2 AM</option>
-                                    <option>3 AM</option>
-                                    <option>4 AM</option>
-                                    <option>5 AM</option>
-                                    <option>6 AM</option>
-                                    <option>7 AM</option>
-                                    <option>8 AM</option>
-                                    <option>9 AM</option>
-                                    <option>10 AM</option>
-                                    <option>11 AM</option>
-                                    <option>12 AM</option>
-                                    <option>1 PM</option>
-                                    <option>2 PM</option>
-                                    <option>3 PM</option>
-                                    <option>4 PM</option>
-                                    <option>5 PM</option>
-                                    <option>6 PM</option>
-                                    <option>7 PM</option>
-                                    <option>8 PM</option>
-                                    <option>9 PM</option>
-                                    <option>10 PM</option>
-                                    <option>11 PM</option>
-                                    <option>12 PM</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-2">
-                        <label class="fix_spacing">Tuesday</label>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <div class="styled-select">
-                                <select>
-                                    <option>Opening Time</option>
-                                    <option>Closed</option>
-                                    <option>1 AM</option>
-                                    <option>2 AM</option>
-                                    <option>3 AM</option>
-                                    <option>4 AM</option>
-                                    <option>5 AM</option>
-                                    <option>6 AM</option>
-                                    <option>7 AM</option>
-                                    <option>8 AM</option>
-                                    <option>9 AM</option>
-                                    <option>10 AM</option>
-                                    <option>11 AM</option>
-                                    <option>12 AM</option>
-                                    <option>1 PM</option>
-                                    <option>2 PM</option>
-                                    <option>3 PM</option>
-                                    <option>4 PM</option>
-                                    <option>5 PM</option>
-                                    <option>6 PM</option>
-                                    <option>7 PM</option>
-                                    <option>8 PM</option>
-                                    <option>9 PM</option>
-                                    <option>10 PM</option>
-                                    <option>11 PM</option>
-                                    <option>12 PM</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <div class="styled-select">
-                                <select>
-                                    <option>Closing Time</option>
-                                    <option>Closed</option>
-                                    <option>1 AM</option>
-                                    <option>2 AM</option>
-                                    <option>3 AM</option>
-                                    <option>4 AM</option>
-                                    <option>5 AM</option>
-                                    <option>6 AM</option>
-                                    <option>7 AM</option>
-                                    <option>8 AM</option>
-                                    <option>9 AM</option>
-                                    <option>10 AM</option>
-                                    <option>11 AM</option>
-                                    <option>12 AM</option>
-                                    <option>1 PM</option>
-                                    <option>2 PM</option>
-                                    <option>3 PM</option>
-                                    <option>4 PM</option>
-                                    <option>5 PM</option>
-                                    <option>6 PM</option>
-                                    <option>7 PM</option>
-                                    <option>8 PM</option>
-                                    <option>9 PM</option>
-                                    <option>10 PM</option>
-                                    <option>11 PM</option>
-                                    <option>12 PM</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-2">
-                        <label class="fix_spacing">Wednesday</label>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <div class="styled-select">
-                                <select>
-                                    <option>Opening Time</option>
-                                    <option>Closed</option>
-                                    <option>1 AM</option>
-                                    <option>2 AM</option>
-                                    <option>3 AM</option>
-                                    <option>4 AM</option>
-                                    <option>5 AM</option>
-                                    <option>6 AM</option>
-                                    <option>7 AM</option>
-                                    <option>8 AM</option>
-                                    <option>9 AM</option>
-                                    <option>10 AM</option>
-                                    <option>11 AM</option>
-                                    <option>12 AM</option>
-                                    <option>1 PM</option>
-                                    <option>2 PM</option>
-                                    <option>3 PM</option>
-                                    <option>4 PM</option>
-                                    <option>5 PM</option>
-                                    <option>6 PM</option>
-                                    <option>7 PM</option>
-                                    <option>8 PM</option>
-                                    <option>9 PM</option>
-                                    <option>10 PM</option>
-                                    <option>11 PM</option>
-                                    <option>12 PM</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <div class="styled-select">
-                                <select>
-                                    <option>Closing Time</option>
-                                    <option>Closed</option>
-                                    <option>1 AM</option>
-                                    <option>2 AM</option>
-                                    <option>3 AM</option>
-                                    <option>4 AM</option>
-                                    <option>5 AM</option>
-                                    <option>6 AM</option>
-                                    <option>7 AM</option>
-                                    <option>8 AM</option>
-                                    <option>9 AM</option>
-                                    <option>10 AM</option>
-                                    <option>11 AM</option>
-                                    <option>12 AM</option>
-                                    <option>1 PM</option>
-                                    <option>2 PM</option>
-                                    <option>3 PM</option>
-                                    <option>4 PM</option>
-                                    <option>5 PM</option>
-                                    <option>6 PM</option>
-                                    <option>7 PM</option>
-                                    <option>8 PM</option>
-                                    <option>9 PM</option>
-                                    <option>10 PM</option>
-                                    <option>11 PM</option>
-                                    <option>12 PM</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-                <div class="row">
-                    <div class="col-md-2">
-                        <label class="fix_spacing">Thursday</label>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <div class="styled-select">
-                                <select>
-                                    <option>Opening Time</option>
-                                    <option>Closed</option>
-                                    <option>1 AM</option>
-                                    <option>2 AM</option>
-                                    <option>3 AM</option>
-                                    <option>4 AM</option>
-                                    <option>5 AM</option>
-                                    <option>6 AM</option>
-                                    <option>7 AM</option>
-                                    <option>8 AM</option>
-                                    <option>9 AM</option>
-                                    <option>10 AM</option>
-                                    <option>11 AM</option>
-                                    <option>12 AM</option>
-                                    <option>1 PM</option>
-                                    <option>2 PM</option>
-                                    <option>3 PM</option>
-                                    <option>4 PM</option>
-                                    <option>5 PM</option>
-                                    <option>6 PM</option>
-                                    <option>7 PM</option>
-                                    <option>8 PM</option>
-                                    <option>9 PM</option>
-                                    <option>10 PM</option>
-                                    <option>11 PM</option>
-                                    <option>12 PM</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <div class="styled-select">
-                                <select>
-                                    <option>Closing Time</option>
-                                    <option>Closed</option>
-                                    <option>1 AM</option>
-                                    <option>2 AM</option>
-                                    <option>3 AM</option>
-                                    <option>4 AM</option>
-                                    <option>5 AM</option>
-                                    <option>6 AM</option>
-                                    <option>7 AM</option>
-                                    <option>8 AM</option>
-                                    <option>9 AM</option>
-                                    <option>10 AM</option>
-                                    <option>11 AM</option>
-                                    <option>12 AM</option>
-                                    <option>1 PM</option>
-                                    <option>2 PM</option>
-                                    <option>3 PM</option>
-                                    <option>4 PM</option>
-                                    <option>5 PM</option>
-                                    <option>6 PM</option>
-                                    <option>7 PM</option>
-                                    <option>8 PM</option>
-                                    <option>9 PM</option>
-                                    <option>10 PM</option>
-                                    <option>11 PM</option>
-                                    <option>12 PM</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /row-->
-
-
-            </div>
-            <!-- /box_general-->
-
-            <div class="box_general padding_bottom">
-                <div class="header_box version_2">
-                    <h2><i class="fa fa-dollar"></i>Pricing</h2>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h6>Item</h6>
-                        <table id="pricing-list-container" style="width:100%;">
-                            <tr class="pricing-list-item">
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Title">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Description">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control"  placeholder="Price">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <a class="delete" href="#"><i class="fa fa-fw fa-remove"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <a href="#0" class="btn_1 gray add-pricing-list-item"><i class="fa fa-fw fa-plus-circle"></i>Add Item</a>
-                    </div>
-                </div>
-                <!-- /row-->
-            </div>
-            <!-- /box_general-->
-            <p><a href="#0" class="btn_1 medium">Save</a></p>
         </div>
         <!-- /.container-fluid-->
     </div>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock %}

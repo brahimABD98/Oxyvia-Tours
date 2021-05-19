@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+
+<center>
+    <div class="form">
+
+        <label>Saisir le nom : </label>
+        {{ form_row(form.nom,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    <div class="form">
+        <label>Saisir le type : </label>
+        {{ form_row(form.type,{'attr':{'class':'form-control'}}) }}
+
+    </div>
+    <div class="form">
+        <label>Saisir le matricule : </label>
+        {{ form_row(form.matricule,{'attr':{'class':'form-control'}}) }}</div>
+
+    <div class="form">
+        <label>Saisir l'image : </label>
+        {{ form_row(form.image,{'attr':{'class':'form-control'}}) }}</div>
+
+    {{ form_widget(form) }}
+        <button class="btn btn-primary btn-block">{{ button_label|default('Submit Form') }}</button>
+
+{{ form_end(form) }}
+</center>

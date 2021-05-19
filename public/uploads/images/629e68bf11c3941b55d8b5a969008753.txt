@@ -1,0 +1,21 @@
+// $file stores the uploaded jpeg file
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $form->get('picture')->getData();
+            if ($file !== null) {
+                $user->setPicture(
+                    new File($this->getParameter('upload_directory') . '/' . $user->getPicture())
+                );
+                $fileName = $this->generateUniqueFileName() . '.' . $file->guessExtension();
+                $fileName = $user->getFileName();
+                //Déplace le fichier dans le dossier upload
+                try {
+                    $file->move(
+                        $this->getParameter('upload_directory'),
+                        $fileName
+                    );
+                } catch (FileException $e) { }
+
+                $user->setPicture($fileName);
+            } else {
+                $user->setPicture($picture);
+            }
